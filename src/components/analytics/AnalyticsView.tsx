@@ -39,7 +39,7 @@ export const AnalyticsView: React.FC = () => {
 
   const handleSimulateImport = () => {
     const importedSample: HistoricalBenchmark = {
-      id: `hb-${Date.now().toString().slice(-3)}`,
+      id: `hb-${crypto.randomUUID().slice(0, 8)}`,
       projectName: 'Booth Pameran Expo Medika (Proyek Lama)',
       category: 'Dekorasi Event',
       projectValue: 52000000,

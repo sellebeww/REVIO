@@ -34,6 +34,8 @@ import WorkshopLiveBoard from './components/workshop/WorkshopLiveBoard';
 import EvidencePackageModal from './components/dispute/EvidencePackageModal';
 import { playLockClick, playSuccessChime, setSoundEnabled } from './lib/soundEffects';
 
+const newId = (prefix: string) => `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
+
 export default function App() {
   const [projects, setProjects] = useState<Project[]>(SEED_PROJECTS);
   const [vendors, setVendors] = useState<VendorProfile[]>(SEED_VENDORS);
@@ -52,7 +54,9 @@ export default function App() {
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
   const [showAuditModal, setShowAuditModal] = useState(false);
   const [showEvidenceModal, setShowEvidenceModal] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
   const [soundActive, setSoundActive] = useState(true);
 
   // Toggle sound
@@ -67,10 +71,17 @@ export default function App() {
   const currentVendor = vendors.find((v) => v.slug === selectedVendorSlug) || vendors[0];
 
   // Helper to add audit log
-  const logAudit = (action: string, actor: string, actorRole: string, details: string, type: AuditLogItem['type']) => {
+  const logAudit = (
+    action: string,
+    actor: string,
+    actorRole: string,
+    details: string,
+    type: AuditLogItem['type'],
+    projectId: string = selectedProjectId
+  ) => {
     const newLog: AuditLogItem = {
-      id: `log-${Date.now().toString().slice(-4)}`,
-      projectId: selectedProjectId,
+      id: newId('log'),
+      projectId,
       action,
       actor,
       actorRole,
@@ -151,21 +162,20 @@ export default function App() {
 
   // Submit Change Order
   const handleSubmitChangeOrder = (newOrderData: Partial<ChangeOrder>) => {
-    const newId = `co-${Date.now().toString().slice(-3)}`;
     const completeOrder: ChangeOrder = {
-      id: newId,
+      id: newId('co'),
       projectId: selectedProjectId,
       decisionId: newOrderData.decisionId || 'dec-1',
       decisionTitle: newOrderData.decisionTitle || 'Keputusan',
       fromOption: newOrderData.fromOption || '',
       toOption: newOrderData.toOption || '',
-      affectedWorkHours: newOrderData.affectedWorkHours || 4,
-      affectedWorkCost: newOrderData.affectedWorkCost || 340000,
-      wastedMaterialValue: newOrderData.wastedMaterialValue || 200000,
-      reuseDeduction: newOrderData.reuseDeduction || 70000,
-      rescheduleFee: newOrderData.rescheduleFee || 200000,
-      totalCost: newOrderData.totalCost || 670000,
-      scheduleImpactDays: newOrderData.scheduleImpactDays || 2,
+      affectedWorkHours: newOrderData.affectedWorkHours ?? 0,
+      affectedWorkCost: newOrderData.affectedWorkCost ?? 0,
+      wastedMaterialValue: newOrderData.wastedMaterialValue ?? 0,
+      reuseDeduction: newOrderData.reuseDeduction ?? 0,
+      rescheduleFee: newOrderData.rescheduleFee ?? 0,
+      totalCost: newOrderData.totalCost ?? 0,
+      scheduleImpactDays: newOrderData.scheduleImpactDays ?? 0,
       status: 'disetujui',
       requestedAt: new Date().toLocaleString('id-ID'),
       approvedAt: new Date().toLocaleString('id-ID'),
@@ -204,6 +214,7 @@ export default function App() {
 
   // Advance Stage in Vendor dashboard
   const handleAdvanceStage = (projectId: string, notes: string) => {
+    const target = projects.find((p) => p.id === projectId) ?? currentProject;
     setProjects((prev) =>
       prev.map((proj) => {
         if (proj.id !== projectId) return proj;
@@ -247,21 +258,23 @@ export default function App() {
       'Tahap Produksi Dimajukan',
       'Mandor Bengkel',
       'Staf Produksi',
-      `Memajukan proyek "${currentProject.title}" ke tahap selanjutnya`,
-      'stage'
+      `Memajukan proyek "${target.title}" ke tahap selanjutnya`,
+      'stage',
+      projectId
     );
   };
 
   // Add Work Log
   const handleAddWorkLog = (projectId: string, log: Partial<WorkLog>) => {
+    const target = projects.find((p) => p.id === projectId) ?? currentProject;
     const newLogItem: WorkLog = {
-      id: `wl-${Date.now().toString().slice(-4)}`,
+      id: newId('wl'),
       projectId,
-      stageId: log.stageId || currentProject.currentStageId,
-      stageName: log.stageName || currentProject.currentStageName,
-      decisionId: log.decisionId || currentProject.decisions[0]?.id || 'dec-1',
-      hours: log.hours || 2,
-      rate: log.rate || 85000,
+      stageId: log.stageId || target.currentStageId,
+      stageName: log.stageName || target.currentStageName,
+      decisionId: log.decisionId || target.decisions[0]?.id || '',
+      hours: log.hours ?? 0,
+      rate: log.rate ?? 0,
       description: log.description || 'Pekerjaan bengkel nyata',
       loggedBy: log.loggedBy || 'Tukang Produksi',
       loggedAt: new Date().toLocaleString('id-ID'),
@@ -291,21 +304,23 @@ export default function App() {
       newLogItem.loggedBy,
       'Staf Produksi',
       `${newLogItem.hours} jam kerja (${newLogItem.description}) dicatatkan pada keputusan terkait`,
-      'cost'
+      'cost',
+      projectId
     );
   };
 
   // Add Material Log
   const handleAddMaterialLog = (projectId: string, log: Partial<MaterialLog>) => {
+    const target = projects.find((p) => p.id === projectId) ?? currentProject;
     const newMatItem: MaterialLog = {
-      id: `ml-${Date.now().toString().slice(-4)}`,
+      id: newId('ml'),
       projectId,
-      decisionId: log.decisionId || currentProject.decisions[0]?.id || 'dec-1',
+      decisionId: log.decisionId || target.decisions[0]?.id || '',
       material: log.material || 'Material Tambahan',
-      quantity: log.quantity || 1,
+      quantity: log.quantity ?? 0,
       unit: log.unit || 'pcs',
-      unitPrice: log.unitPrice || 150000,
-      reusablePct: log.reusablePct || 0,
+      unitPrice: log.unitPrice ?? 0,
+      reusablePct: Math.min(100, Math.max(0, log.reusablePct ?? 0)),
       loggedAt: new Date().toLocaleString('id-ID'),
     };
 
@@ -333,7 +348,8 @@ export default function App() {
       'Mandor Bengkel',
       'Staf Produksi',
       `${newMatItem.quantity} ${newMatItem.unit} ${newMatItem.material} dicatat terhubung ke keputusan`,
-      'cost'
+      'cost',
+      projectId
     );
   };
 
@@ -345,7 +361,7 @@ export default function App() {
         return {
           ...p,
           review: {
-            id: `rev-${Date.now().toString().slice(-3)}`,
+            id: newId('rev'),
             projectId: p.id,
             customerName: p.customerName,
             rating,
@@ -389,12 +405,14 @@ export default function App() {
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E7E2D9] px-4 sm:px-8 py-3.5 transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
           {/* Zone 1: Brand Wordmark */}
-          <div
+          <button
+            type="button"
             onClick={() => setCurrentView('marketing')}
+            aria-label="Revio, kembali ke beranda"
             className="cursor-pointer shrink-0 flex items-center"
           >
             <RevioLogo size="sm" layout="horizontal" showTagline={false} />
-          </div>
+          </button>
 
           {/* Zone 2: Navigation Links */}
           {currentView === 'marketing' ? (
@@ -554,6 +572,23 @@ export default function App() {
             )}
           </div>
         </div>
+        {currentView !== 'marketing' && (
+          <div className="md:hidden max-w-7xl mx-auto mt-2.5">
+            <select
+              aria-label="Pindah halaman"
+              value={currentView}
+              onChange={(e) => setCurrentView(e.target.value as typeof currentView)}
+              className="w-full bg-slate-100 rounded-lg px-3 py-2 text-xs font-semibold text-slate-800"
+            >
+              <option value="customer_space">Ruang Pelanggan</option>
+              <option value="vendor_dashboard">Dasbor Vendor</option>
+              <option value="workshop_live">Papan Bengkel Live</option>
+              <option value="formula_explorer">Kalkulator Rumus</option>
+              <option value="analytics">Validasi Dampak</option>
+              <option value="vendor_public_profile">Profil Bengkel</option>
+            </select>
+          </div>
+        )}
       </header>
 
       {/* Main Content Area with AnimatePresence Transitions */}
@@ -652,17 +687,22 @@ export default function App() {
 
       {/* Audit Log Modal */}
       {showAuditModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[85vh] flex flex-col">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs"
+          onKeyDown={(e) => e.key === 'Escape' && setShowAuditModal(false)}
+        >
+          <div role="dialog" aria-modal="true" aria-labelledby="audit-title" className="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[85vh] flex flex-col">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <History size={18} className="text-[#0E9F8E]" />
-                <h3 className="font-display font-bold text-base text-slate-900">
+                <h3 id="audit-title" className="font-display font-bold text-base text-slate-900">
                   Log Audit & Stempel Waktu Permanen
                 </h3>
               </div>
               <button
                 onClick={() => setShowAuditModal(false)}
+                aria-label="Tutup log audit"
+                autoFocus
                 className="text-slate-400 hover:text-slate-700 text-sm font-bold"
               >
                 ✕

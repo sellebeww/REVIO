@@ -72,7 +72,8 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
 
   const handleSaveLog = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedLogProject) return;
+    // Catatan kerja harus tertaut ke keputusan nyata.
+    if (!selectedLogProject || selectedLogProject.decisions.length === 0) return;
 
     const firstDecision = selectedLogProject.decisions[0];
 
@@ -80,20 +81,20 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
       onAddWorkLog(selectedLogProject.id, {
         stageId: selectedLogProject.currentStageId,
         stageName: selectedLogProject.currentStageName,
-        decisionId: firstDecision?.id || 'dec-1',
-        hours: Number(workHours) || 1,
-        rate: firstDecision?.hourlyRate || 85000,
+        decisionId: firstDecision.id,
+        hours: Number(workHours),
+        rate: firstDecision.hourlyRate,
         description: workDesc || 'Pengerjaan penyesuaian tahap produksi',
         loggedBy: 'Mandor Produksi',
         loggedAt: new Date().toLocaleString('id-ID'),
       });
     } else {
       onAddMaterialLog(selectedLogProject.id, {
-        decisionId: firstDecision?.id || 'dec-1',
-        material: materialName || 'Material Produksi Tambahan',
-        quantity: Number(materialQty) || 1,
+        decisionId: firstDecision.id,
+        material: materialName,
+        quantity: Number(materialQty),
         unit: 'satuan',
-        unitPrice: Number(materialPrice) || 100000,
+        unitPrice: Number(materialPrice),
         reusablePct: Number(reusablePct) || 0,
         loggedAt: new Date().toLocaleString('id-ID'),
       });
@@ -428,6 +429,8 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     </label>
                     <input
                       type="number"
+                      min="0.5"
+                      step="0.5"
                       value={workHours}
                       onChange={(e) => setWorkHours(e.target.value)}
                       className="w-full border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-[#0E9F8E] focus:outline-none"
@@ -455,6 +458,8 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                       <label className="font-semibold text-slate-700 block mb-1">Jumlah</label>
                       <input
                         type="number"
+                        min="0.01"
+                        step="any"
                         value={materialQty}
                         onChange={(e) => setMaterialQty(e.target.value)}
                         className="w-full border border-slate-200 rounded-lg p-2"
@@ -465,6 +470,8 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                       <label className="font-semibold text-slate-700 block mb-1">Harga Satuan (Rp)</label>
                       <input
                         type="number"
+                        min="1"
+                        step="1"
                         value={materialPrice}
                         onChange={(e) => setMaterialPrice(e.target.value)}
                         className="w-full border border-slate-200 rounded-lg p-2"
@@ -478,6 +485,8 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     </label>
                     <input
                       type="number"
+                      min="0"
+                      max="100"
                       value={reusablePct}
                       onChange={(e) => setReusablePct(e.target.value)}
                       placeholder="0 - 100%"

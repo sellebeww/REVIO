@@ -28,14 +28,14 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newId = `proj-${Date.now().toString().slice(-4)}`;
+    const newId = `proj-${crypto.randomUUID().slice(0, 8)}`;
 
     const newProject: Project = {
       id: newId,
       vendorId: 'v-bkn',
       vendorName: 'Bengkel Kayu Nusantara',
       vendorSlug: 'bengkel-kayu-nusantara',
-      customerId: `cust-${Date.now().toString().slice(-3)}`,
+      customerId: `cust-${crypto.randomUUID().slice(0, 8)}`,
       customerName: customerName || 'Klien Baru',
       customerPhone: customerPhone || '08123456789',
       customerEmail: 'klien@example.com',

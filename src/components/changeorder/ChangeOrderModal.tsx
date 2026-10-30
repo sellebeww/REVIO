@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { X, FileText, AlertTriangle, Check, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Decision, ChangeOrder, WorkLog, MaterialLog } from '../../types/revio';
@@ -12,43 +12,50 @@ interface ChangeOrderModalProps {
   onSubmitChangeOrder: (newOrder: Partial<ChangeOrder>) => void;
 }
 
-export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
+export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({ decision, isOpen, ...rest }) => {
+  // Hooks hidup di ChangeOrderForm agar tidak dipanggil setelah early return.
+  if (!isOpen || !decision) return null;
+  return <ChangeOrderForm key={decision.id} decision={decision} isOpen={isOpen} {...rest} />;
+};
+
+const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> = ({
   decision,
   workLogs,
   materialLogs,
-  isOpen,
   onClose,
   onSubmitChangeOrder,
 }) => {
-  if (!isOpen || !decision) return null;
-
   const [selectedOptionId, setSelectedOptionId] = useState<string>(
     decision.options.find((o) => o.id !== decision.chosenOption)?.id || decision.options[0].id
   );
   const [customerNotes, setCustomerNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
   const selectedOptionObj = decision.options.find((o) => o.id === selectedOptionId);
   const currentOptionObj = decision.options.find((o) => o.id === decision.chosenOption);
 
-  // Calculate affected work and wasted materials based on real logs
+  // Biaya hanya berasal dari catatan kerja/bahan nyata (aturan integritas DECISIONS.md #2).
   const relevantWork = workLogs.filter((w) => w.decisionId === decision.id);
   const relevantMaterials = materialLogs.filter((m) => m.decisionId === decision.id);
+  const hasEvidence = relevantWork.length > 0 || relevantMaterials.length > 0;
 
-  const affectedWorkHours = relevantWork.reduce((acc, curr) => acc + curr.hours, 0) || 6;
+  const affectedWorkHours = relevantWork.reduce((acc, curr) => acc + curr.hours, 0);
   const affectedWorkCost = affectedWorkHours * decision.hourlyRate;
 
-  const rawMaterialValue = relevantMaterials.reduce(
-    (acc, curr) => acc + curr.quantity * curr.unitPrice,
-    0
-  ) || 450000;
-
-  // Reusable salvage deduction (avg 35%)
-  const reuseDeduction = Math.round(rawMaterialValue * 0.35);
-  const wastedMaterialValue = rawMaterialValue - reuseDeduction;
-  const rescheduleFee = decision.rescheduleFee || 250000;
+  const rawMaterialValue = relevantMaterials.reduce((acc, m) => acc + m.quantity * m.unitPrice, 0);
+  const wastedMaterialValue = Math.round(
+    relevantMaterials.reduce((acc, m) => acc + (m.quantity * m.unitPrice * (100 - m.reusablePct)) / 100, 0)
+  );
+  const reuseDeduction = rawMaterialValue - wastedMaterialValue;
+  const rescheduleFee = hasEvidence ? decision.rescheduleFee : 0;
   const totalCost = affectedWorkCost + wastedMaterialValue + rescheduleFee;
-  const scheduleImpactDays = 3;
+  const scheduleImpactDays = Math.ceil(affectedWorkHours / 8);
 
   const formatIDR = (num: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -89,6 +96,9 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
       <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="co-title"
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
@@ -101,7 +111,7 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
               <FileText size={20} />
             </div>
             <div>
-              <h3 className="font-display font-bold text-slate-900 text-base">
+              <h3 id="co-title" className="font-display font-bold text-slate-900 text-base">
                 Formulir Perubahan (Change Order)
               </h3>
               <p className="text-xs text-slate-500">{decision.title}</p>
@@ -109,6 +119,7 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="Tutup formulir"
             className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-200/50 transition-colors"
           >
             <X size={18} />
@@ -133,6 +144,7 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
                 Ganti Menjadi
               </span>
               <select
+                aria-label="Ganti menjadi"
                 value={selectedOptionId}
                 onChange={(e) => setSelectedOptionId(e.target.value)}
                 className="w-full mt-1 bg-white border border-teal-300 rounded-lg p-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0E9F8E]"
@@ -168,7 +180,7 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
               </div>
 
               <div className="flex justify-between items-center text-emerald-700 font-medium">
-                <span>Deduksi nilai bahan yang bisa dipakai ulang (35%):</span>
+                <span>Deduksi nilai bahan yang bisa dipakai ulang:</span>
                 <span className="font-mono tabular-nums">-{formatIDR(reuseDeduction)}</span>
               </div>
 
@@ -185,6 +197,12 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
               </div>
             </div>
 
+            {!hasEvidence && (
+              <p role="alert" className="p-2.5 rounded-lg bg-slate-100 text-slate-700 text-[11px]">
+                Belum ada catatan jam kerja atau bahan untuk keputusan ini, sehingga belum ada dasar biaya perubahan.
+                Change order baru bisa diterbitkan setelah vendor mencatat pekerjaan nyata.
+              </p>
+            )}
             <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200/60 text-amber-900 text-[11px] flex items-center gap-2">
               <AlertTriangle size={14} className="shrink-0 text-amber-700" />
               <span>
@@ -195,10 +213,11 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
 
           {/* Customer Note */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-700">
+            <label htmlFor="co-notes" className="text-xs font-semibold text-slate-700">
               Catatan Pelanggan (Opsional)
             </label>
             <textarea
+              id="co-notes"
               rows={2}
               value={customerNotes}
               onChange={(e) => setCustomerNotes(e.target.value)}
@@ -220,9 +239,9 @@ export const ChangeOrderModal: React.FC<ChangeOrderModalProps> = ({
 
           <button
             type="button"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !hasEvidence}
             onClick={handleConfirm}
-            className="px-5 py-2.5 text-xs font-semibold rounded-xl bg-[#0E9F8E] hover:bg-[#0A7A6D] text-white flex items-center gap-2 shadow-sm transition-colors"
+            className="px-5 py-2.5 text-xs font-semibold rounded-xl bg-[#0E9F8E] hover:bg-[#0A7A6D] text-white flex items-center gap-2 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Check size={15} />
             <span>Setujui Perubahan & Terbitkan Change Order</span>
