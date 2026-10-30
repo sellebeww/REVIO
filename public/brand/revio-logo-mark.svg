@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Navy R body -->
+  <path d="M72 38H115C136 38 150 50 150 72C150 88 139 100 122 104L156 160H124L94 108H72V160H46V38H72ZM72 86H112C122 86 128 80 128 72C128 64 122 58 112 58H72V86Z" fill="#112A46"/>
+  <!-- Folded Green Leaf / Ribbon curve on left -->
+  <path d="M46 68C46 50 56 38 74 38C90 38 106 48 106 68C106 88 88 104 68 114C52 122 46 136 46 156C46 126 58 102 78 86C60 86 46 78 46 68Z" fill="url(#tealGrad)" opacity="0.95"/>
+  <!-- Refresh Loop Arrows -->
+  <g transform="translate(138, 126) scale(0.65)">
+    <path d="M24 4C13 4 4 13 4 24C4 28 5.2 31.8 7.3 35L1 35L10 44L19 35L12.5 35C10.9 31.8 10 28.1 10 24C10 16.3 16.3 10 24 10C28.2 10 32 11.9 34.6 14.8L39 10.4C35.2 6.5 30 4 24 4Z" fill="#4EBA97"/>
+    <path d="M24 44C35 44 44 35 44 24C44 20 42.8 16.2 40.7 13L47 13L38 4L29 13L35.5 13C37.1 16.2 38 19.9 38 24C38 31.7 31.7 38 24 38C19.8 38 16 36.1 13.4 33.2L9 37.6C12.8 41.5 18 44 24 44Z" fill="#4EBA97"/>
+  </g>
+  <defs>
+    <linearGradient id="tealGrad" x1="46" y1="38" x2="106" y2="156" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#55C9A4"/>
+      <stop offset="1" stop-color="#2E8B71"/>
+    </linearGradient>
+  </defs>
+</svg>

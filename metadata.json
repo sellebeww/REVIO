@@ -1,0 +1,6 @@
+{
+  "name": "Revio — Platform Hak Revisi & Biaya Produksi Pesanan",
+  "description": "Platform transparansi revisi pesanan kustom: menghubungkan keputusan penting dengan titik kunci produksi, kalkulator biaya tunda, pita fleksibilitas, dan jejak pekerjaan nyata.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
