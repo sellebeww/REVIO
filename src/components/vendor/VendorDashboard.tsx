@@ -245,7 +245,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => onSelectProject(project.id)}
-                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors flex items-center gap-1"
+                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gradient-to-b from-[#12508F] to-[#0B3A66] text-white shadow-md shadow-[#0B3A66]/25 hover:brightness-110 transition-colors flex items-center gap-1"
                     >
                       <span>Buka Ruang</span>
                       <ChevronRight size={13} />

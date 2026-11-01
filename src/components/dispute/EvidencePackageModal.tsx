@@ -183,7 +183,7 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
           </button>
           <button
             onClick={handlePrint}
-            className="px-5 py-2.5 text-xs font-bold rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-colors flex items-center gap-1.5"
+            className="px-5 py-2.5 text-xs font-bold rounded-xl bg-gradient-to-b from-[#12508F] to-[#0B3A66] text-white shadow-md shadow-[#0B3A66]/25 hover:brightness-110 transition-colors flex items-center gap-1.5"
           >
             <Printer size={14} />
             <span>Cetak / Ekspor Paket Bukti PDF</span>

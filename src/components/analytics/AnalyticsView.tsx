@@ -93,7 +93,7 @@ export const AnalyticsView: React.FC = () => {
           </button>
           <button
             onClick={handleExportCSV}
-            className="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-colors flex items-center gap-1.5"
+            className="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-b from-[#12508F] to-[#0B3A66] text-white shadow-md shadow-[#0B3A66]/25 hover:brightness-110 transition-colors flex items-center gap-1.5"
           >
             <Download size={14} />
             <span>Ekspor Laporan CSV</span>

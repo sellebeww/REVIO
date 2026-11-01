@@ -523,7 +523,7 @@ export default function App() {
               duration: reducedMotion ? 0.01 : 0.22,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="w-full"
+            className={`w-full ${currentView !== "marketing" ? "view-stagger" : ""}`}
           >
             <Suspense fallback={<div className="h-64 rounded-3xl bg-slate-100 animate-pulse" aria-busy="true" />}>
             {/* View 1: Marketing / Revio Company Profile */}
@@ -642,7 +642,7 @@ export default function App() {
             <div className="pt-3 border-t border-slate-100 flex justify-end">
               <button
                 onClick={() => setShowAuditModal(false)}
-                className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold"
+                className="px-4 py-2 bg-gradient-to-b from-[#12508F] to-[#0B3A66] text-white shadow-md shadow-[#0B3A66]/25 rounded-xl text-xs font-semibold"
               >
                 Tutup Log
               </button>

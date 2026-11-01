@@ -217,3 +217,24 @@ main :is(.rounded-xl, .rounded-2xl, .rounded-3xl).bg-white {
 main :is(.rounded-xl, .rounded-2xl, .rounded-3xl).bg-white:where(.border) {
   border-width: 1px;
 }
+
+/* Gerak halus untuk landing; dimatikan oleh aturan reduced-motion di bawah */
+@keyframes float-y { 0%, 100% { translate: 0 0; } 50% { translate: 0 -9px; } }
+@keyframes pulse-soft { 0%, 100% { scale: 1; box-shadow: 0 0 0 0 rgb(37 99 235 / 0.35); } 50% { scale: 1.12; box-shadow: 0 0 0 7px rgb(37 99 235 / 0); } }
+@keyframes gradient-pan { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.animate-float { animation: float-y 5.5s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 2.6s ease-in-out infinite; }
+.animate-gradient { animation: gradient-pan 9s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-float, .animate-pulse-soft, .animate-gradient { animation: none; }
+}
+
+/* Halaman demo masuk berurutan, satu bahasa gerak dengan landing */
+@media (prefers-reduced-motion: no-preference) {
+  .view-stagger > * > * { animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .view-stagger > * > *:nth-child(2) { animation-delay: 0.07s; }
+  .view-stagger > * > *:nth-child(3) { animation-delay: 0.14s; }
+  .view-stagger > * > *:nth-child(4) { animation-delay: 0.21s; }
+  .view-stagger > * > *:nth-child(5) { animation-delay: 0.28s; }
+  .view-stagger > * > *:nth-child(n+6) { animation-delay: 0.35s; }
+}

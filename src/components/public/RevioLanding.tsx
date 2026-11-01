@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { motion, animate, useInView } from 'framer-motion';
 import {
   ArrowRight, Play, ShieldCheck, CheckCircle2, BarChart3, Lock, Clock, RefreshCw,
   Box, Wrench, Star, ChevronDown, Download, Printer, ArrowUpRight, User, Briefcase, Settings, Shield,
@@ -12,6 +13,8 @@ import ChangeOrderModal from '../changeorder/ChangeOrderModal';
 import ChangeOrderDocument from '../changeorder/ChangeOrderDocument';
 import { SEED_PROJECTS } from '../../data/mockSeedData';
 import { printDocument } from '../../lib/printDocument';
+import HeroArt from './landing/HeroArt';
+import ProblemArt from './landing/ProblemArt';
 
 export type DemoView =
   | 'customer_space' | 'vendor_dashboard' | 'workshop_live' | 'analytics'
@@ -33,6 +36,22 @@ const Pill = ({ children }: { children: React.ReactNode }) => (
     {children}
   </span>
 );
+
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.11, delayChildren: 0.1 } } };
+const rise = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const } } };
+
+// Angka yang menghitung naik saat masuk layar (bukan saat halaman dimuat).
+function CountUp({ to, suffix = '' }: { to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const seen = useInView(ref, { once: true, margin: '-40px' });
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    if (!seen) return;
+    const c = animate(0, to, { duration: 1.4, ease: 'easeOut', onUpdate: (x) => setV(Math.round(x)) });
+    return () => c.stop();
+  }, [seen, to]);
+  return <span ref={ref}>{v}{suffix}</span>;
+}
 
 const FEATURES = [
   { Icon: Box, t: 'Tugas Dasar', d: 'Kerjakan tugas awal.' },
@@ -215,40 +234,43 @@ export default function RevioLanding({ onOpenView }: Props) {
       {/* Hero */}
       <section className="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-10 grid md:grid-cols-2 gap-6 items-center">
         <img
-          src={`${A}/workshop-bg.png`}
+          src={`${A}/hero-workshop.jpg`}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 h-full object-cover object-right opacity-40 [mask-image:linear-gradient(to_left,black,transparent_65%)]"
+          fetchPriority="high"
+          className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 h-full object-cover object-[50%_30%] opacity-45 no-outline [mask-image:linear-gradient(to_left,black_15%,transparent_70%),linear-gradient(to_bottom,transparent,black_22%,black_62%,transparent)] [mask-composite:intersect]"
         />
-        <div className="relative z-10">
-          <p className="font-display text-6xl sm:text-7xl font-extrabold tracking-tight leading-none text-[#0B3A66]" aria-hidden="true"><span className="bg-gradient-to-br from-[#0B3A66] via-[#0E9F8E] to-[#16A34A] bg-clip-text text-transparent">R</span>evio</p>
-          <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold leading-[1.05]">
+        <motion.div className="relative z-10" variants={stagger} initial="hidden" animate="show">
+          <motion.p variants={rise} className="font-display text-6xl sm:text-7xl font-extrabold tracking-tight leading-none text-[#0B3A66]" aria-hidden="true"><span className="bg-gradient-to-br from-[#0B3A66] via-[#0E9F8E] to-[#16A34A] bg-clip-text text-transparent">R</span>evio</motion.p>
+          <motion.h1 variants={rise} className="mt-2 text-4xl sm:text-5xl font-extrabold leading-[1.05]">
             Hak Revisi Jelas,
             <br />
             Biaya <span className="text-[#10A36B]">Transparan</span>
-          </h1>
-          <p className="mt-4 text-sm leading-relaxed max-w-sm">
+          </motion.h1>
+          <motion.p variants={rise} className="mt-4 text-sm leading-relaxed max-w-sm">
             Platform untuk membuat hak revisi pelanggan dan biaya perubahan pesanan custom jadi transparan. Pesanan
             aman, komunikasi jelas, tanpa sengketa.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          </motion.p>
+          <motion.div variants={rise} className="mt-6 flex flex-wrap gap-3">
             <button type="button" onClick={() => open('start')} className="px-6 py-2.5 rounded-full bg-[#0B3A66] text-white text-xs font-bold inline-flex items-center gap-2 shadow-lg shadow-[#0B3A66]/25 hover:bg-[#12508F]">
               Mulai Sekarang <ArrowRight size={14} />
             </button>
             <a href="#demo" className="px-6 py-2.5 rounded-full border border-[#12203A]/30 bg-white/70 text-xs font-bold inline-flex items-center gap-2 hover:bg-white">
               <Play size={12} fill="currentColor" /> Lihat Demo
             </a>
-          </div>
-          <ul className="mt-6 flex flex-wrap gap-6 text-[11px] font-bold">
+          </motion.div>
+          <motion.ul variants={rise} className="mt-6 flex flex-wrap gap-6 text-[11px] font-bold">
             <li className="flex items-center gap-2"><ShieldCheck className="text-[#16A34A]" size={22} />Transparansi<br />Penuh</li>
             <li className="flex items-center gap-2"><CheckCircle2 className="text-[#16A34A]" size={22} />Keputusan<br />Tercatat</li>
             <li className="flex items-center gap-2"><BarChart3 className="text-[#16A34A]" size={22} />Hemat Biaya<br />Produksi</li>
-          </ul>
-        </div>
+          </motion.ul>
+        </motion.div>
 
         <div className="relative z-10 min-h-[300px]">
-          <img src={`${A}/hero-3d.png`} alt="Ilustrasi dokumen revisi berlogo R dengan perisai terverifikasi" className="no-outline w-full max-w-md mx-auto [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_78%)]" />
-          <div className={`${glass} absolute top-0 right-0 w-44 rounded-2xl p-3 rotate-[-6deg]`}>
+          <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
+            <HeroArt className="w-full max-w-md mx-auto" />
+          </motion.div>
+          <div className={`${glass} absolute top-0 right-0 w-44 rounded-2xl p-3 rotate-[-6deg] animate-float`}>
             <p className="text-xs font-extrabold mb-1.5">Peta Keputusan</p>
             {[
               ['Fleksibel', '#16A34A'],
@@ -261,7 +283,7 @@ export default function RevioLanding({ onOpenView }: Props) {
               </p>
             ))}
           </div>
-          <div className={`${glass} absolute bottom-2 right-0 rounded-2xl px-3 py-2.5 rotate-[-5deg] flex items-center gap-2`}>
+          <div className={`${glass} absolute bottom-2 right-0 rounded-2xl px-3 py-2.5 rotate-[-5deg] flex items-center gap-2 animate-float [animation-delay:-2.2s]`}>
             <CheckCircle2 className="text-white bg-[#16A34A] rounded-full p-0.5" size={30} />
             <p className="text-xs font-extrabold leading-tight">Change Order<br />Disetujui</p>
           </div>
@@ -278,7 +300,7 @@ export default function RevioLanding({ onOpenView }: Props) {
               Perubahan desain setelah produksi berjalan sering menyebabkan bahan terbuang dan biaya tambahan yang tidak terduga.
             </p>
           </div>
-          <img src={`${A}/man-thinking.png`} alt="Pemilik usaha bingung memikirkan biaya revisi" className="w-32 shrink-0 rounded-2xl self-end object-cover" />
+          <ProblemArt className="w-36 shrink-0 self-end" />
         </div>
         <div className={`${glass} rounded-3xl p-5 flex items-center justify-between gap-3`}>
           <div>
@@ -292,11 +314,11 @@ export default function RevioLanding({ onOpenView }: Props) {
             <div className="flex items-center justify-between relative mb-3 px-1">
               <span className="absolute inset-x-3 top-1/2 h-px bg-[#B8C7E6]" />
               <span className="relative size-3 rounded-full border-2 border-[#2563EB] bg-white" />
-              <Lock size={22} className="relative text-white bg-[#2563EB] rounded-full p-1" />
-              <Lock size={22} className="relative text-white bg-[#0B3A66] rounded-full p-1" />
+              <Lock size={22} className="relative text-white bg-[#2563EB] rounded-full p-1 animate-pulse-soft" />
+              <Lock size={22} className="relative text-white bg-[#0B3A66] rounded-full p-1 animate-pulse-soft [animation-delay:-1s]" />
               <span className="relative size-3 rounded-full border-2 border-[#B8C7E6] bg-white" />
             </div>
-            <div className="bg-white rounded-xl shadow-md px-3 py-2 flex items-center gap-2">
+            <div className="bg-white rounded-xl shadow-md px-3 py-2 flex items-center gap-2 animate-float">
               <span className="size-6 rounded-full bg-[#F5A623] text-white text-xs font-black grid place-items-center">!</span>
               <p className="text-[11px] font-extrabold leading-tight">Mendekati Kunci<br />+ Rp250.000</p>
             </div>
@@ -311,14 +333,14 @@ export default function RevioLanding({ onOpenView }: Props) {
         <p className="text-xs mt-1">Pahami risiko, hitung biaya, dan kelola revisi dengan mudah.</p>
         <ol className="mt-5 grid grid-cols-2 md:grid-cols-6 gap-3">
           {FEATURES.map(({ Icon, t, d }, i) => (
-            <li key={t} className={`${glass} rounded-2xl p-3 relative text-center`}>
+            <motion.li key={t} initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }} whileHover={{ y: -6 }} className={`${glass} rounded-2xl p-3 relative text-center`}>
               <span className="absolute -top-2 left-1/2 -translate-x-1/2 size-5 rounded-full bg-[#2563EB] text-white text-[10px] font-bold grid place-items-center">
                 {i + 1}
               </span>
               <Icon className="mx-auto mt-2 text-[#0B3A66]" size={20} />
               <p className="mt-1.5 text-[11px] font-extrabold leading-tight">{t}</p>
               <p className="mt-1 text-[10px] text-[#5E6678] leading-snug">{d}</p>
-            </li>
+            </motion.li>
           ))}
         </ol>
       </section>
@@ -387,7 +409,7 @@ export default function RevioLanding({ onOpenView }: Props) {
           <div className="mt-1 flex items-start justify-between gap-2">
             <p className="text-[11px] leading-snug max-w-[9rem]">Lihat dampak revisi dan ukur penghematan.</p>
             <div className="bg-[#E3F6EA] rounded-lg px-2.5 py-1 text-center">
-              <p className="text-xl font-extrabold text-[#16A34A] inline-flex items-center gap-1">-68%<TrendingDown size={14} /></p>
+              <p className="text-xl font-extrabold text-[#16A34A] inline-flex items-center gap-1">-<CountUp to={68} suffix="%" /><TrendingDown size={14} /></p>
               <p className="text-[9px] text-[#5E6678]">Kerugian Revisi</p>
             </div>
           </div>
@@ -397,8 +419,8 @@ export default function RevioLanding({ onOpenView }: Props) {
           </p>
           <svg viewBox="0 0 200 100" className="w-full mt-1" role="img" aria-label="Grafik kerugian revisi menurun setelah memakai Revio">
             <path d="M5 62 L55 52 L105 38 L155 36 L195 28 L195 80 L5 80Z" fill="#16A34A" opacity=".12" />
-            <polyline points="5,62 55,52 105,38 155,36 195,28" fill="none" stroke="#16A34A" strokeWidth="2" />
-            <polyline points="5,72 55,64 105,56 155,60 195,52" fill="none" stroke="#7C8AA5" strokeWidth="2" />
+            <motion.polyline points="5,62 55,52 105,38 155,36 195,28" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.6, ease: 'easeOut' }} />
+            <motion.polyline points="5,72 55,64 105,56 155,60 195,52" fill="none" stroke="#7C8AA5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.6, delay: 0.2, ease: 'easeOut' }} />
             {[[5, 62], [55, 52], [105, 38], [155, 36], [195, 28]].map(([x, y]) => <circle key={x} cx={x} cy={y} r="2.5" fill="#16A34A" />)}
             {MONTHS.map((m, i) => (
               <text key={m} x={i === 0 ? 5 : i === 4 ? 195 : 5 + i * 47.5} y="95" fontSize="7" textAnchor={i === 0 ? 'start' : i === 4 ? 'end' : 'middle'} fill="#5E6678">{m}</text>
@@ -428,9 +450,9 @@ export default function RevioLanding({ onOpenView }: Props) {
             ))}
           </ul>
         </div>
-        <div className="relative rounded-3xl overflow-hidden min-h-[170px]">
-          <img src={`${A}/carpenter.png`} alt="Tukang kayu memotong papan dengan gergaji" className="absolute inset-0 size-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-white" />
+        <div className="group relative rounded-3xl overflow-hidden min-h-[220px]">
+          <img src={`${A}/carpenter.jpg`} alt="Tukang kayu memotong papan dengan gergaji miter" loading="lazy" className="absolute inset-0 size-full object-cover object-[35%_12%] transition-transform duration-700 ease-out group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/55 to-white/95" />
           <p className="relative ml-auto w-1/2 h-full flex items-center pr-10 text-sm font-extrabold leading-snug">
             Bersama Revio, proses produksi lebih terencana.
           </p>
@@ -488,7 +510,7 @@ export default function RevioLanding({ onOpenView }: Props) {
 
       {/* CTA */}
       <section className="max-w-6xl mx-auto px-4 sm:px-8 pt-10">
-        <div className="rounded-[2rem] bg-gradient-to-r from-[#0A2A4D] via-[#0B3F6B] to-[#0E9F6E] px-6 sm:px-10 py-7 flex flex-wrap items-center gap-6">
+        <div className="rounded-[2rem] bg-gradient-to-r from-[#0A2A4D] via-[#0B3F6B] to-[#0E9F6E] bg-[length:200%_100%] animate-gradient shadow-[0_24px_60px_-24px_rgba(11,58,102,0.6)] px-6 sm:px-10 py-7 flex flex-wrap items-center gap-6">
           <RevioLogo size="md" variant="white" layout="horizontal" />
           <span className="hidden sm:block h-12 w-px bg-white/40" />
           <div className="flex-1 min-w-[200px] text-white">
