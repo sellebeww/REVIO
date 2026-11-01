@@ -1,19 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Clock, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Lock, 
-  Camera, 
-  User, 
-  ArrowRight, 
-  ChevronRight,
-  Sparkles,
-  ShieldAlert,
-  Plus
-} from 'lucide-react';
-import { Project, ProductionStage } from '../../types/revio';
+import { Clock, CheckCircle2, Lock, Camera, ArrowRight, ShieldAlert } from 'lucide-react';
+import { Project } from '../../types/revio';
 import { playLockClick, playSuccessChime } from '../../lib/soundEffects';
 import Modal from '../ui/Modal';
 

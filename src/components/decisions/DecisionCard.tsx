@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  AlertTriangle, 
-  Clock, 
-  HelpCircle, 
-  Calendar, 
-  CheckCircle2, 
-  FileEdit, 
-  ChevronDown, 
-  ChevronUp, 
-  ShieldCheck, 
-  Layers, 
-  Wrench,
-  Package
-} from 'lucide-react';
+import { AlertTriangle, Clock, CheckCircle2, FileEdit, ChevronDown, ChevronUp, ShieldCheck, Wrench, Package } from 'lucide-react';
 import { Decision, ProductionStage, WorkLog, MaterialLog } from '../../types/revio';
 import FlexibilityBar from '../motion/FlexibilityBar';
 import LivingLock from '../motion/LivingLock';
@@ -308,7 +295,6 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
             ) : (
               <HoldToLock
                 onLocked={() => onLock(decision.id)}
-                decisionTitle={decision.title}
                 isAlreadyLocked={isLocked}
               />
             )}

@@ -1,20 +1,8 @@
 import React from 'react';
 import { printDocument } from '../../lib/printDocument';
-import { 
-  ShieldCheck, 
-  X, 
-  Printer, 
-  FileCheck2, 
-  Clock, 
-  Calendar, 
-  AlertTriangle, 
-  FileText,
-  Camera,
-  CheckCircle2,
-  Scale
-} from 'lucide-react';
-import { Project, Decision, ChangeOrder } from '../../types/revio';
-import RevioLogo from '../brand/RevioLogo';
+import { ShieldCheck, X, Printer, FileCheck2, Clock, FileText, CheckCircle2, Scale } from 'lucide-react';
+import { Project } from '../../types/revio';
+
 import Modal from '../ui/Modal';
 
 interface EvidencePackageModalProps {

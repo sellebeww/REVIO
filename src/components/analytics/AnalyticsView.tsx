@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  TrendingDown, 
-  TrendingUp, 
-  ShieldCheck, 
-  Download, 
-  AlertCircle, 
-  BarChart3, 
-  Layers, 
-  FileSpreadsheet,
-  CheckCircle2
-} from 'lucide-react';
+import { TrendingDown, ShieldCheck, Download, AlertCircle, FileSpreadsheet, CheckCircle2 } from 'lucide-react';
 import { HistoricalBenchmark } from '../../types/revio';
 import { HISTORICAL_BENCHMARKS } from '../../data/mockSeedData';
 

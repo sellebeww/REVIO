@@ -1,23 +1,6 @@
-import React, { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
-import { 
-  Building2, 
-  User, 
-  ShieldCheck, 
-  BarChart3, 
-  Layers, 
-  FolderKanban, 
-  Eye, 
-  FileText, 
-  Sliders, 
-  History, 
-  Sparkles,
-  ChevronDown,
-  Volume2,
-  VolumeX,
-  Scale,
-  Kanban
-} from 'lucide-react';
+import { Sliders, History, Volume2, VolumeX, Scale, Kanban } from 'lucide-react';
 import { SEED_PROJECTS, SEED_VENDORS, INITIAL_AUDIT_LOGS } from './data/mockSeedData';
 import { Project, VendorProfile, ChangeOrder, WorkLog, MaterialLog, AuditLogItem } from './types/revio';
 import RevioLogo from './components/brand/RevioLogo';

@@ -105,7 +105,7 @@ src/
 ├── lib/               # Token animasi, suara, cetak dokumen
 └── types/             # Tipe TypeScript
 docs/
-├── audit/             # Catatan audit dan keputusan
+├── prompt-master.md   # Spesifikasi produk awal
 └── screenshots/       # Gambar untuk README
 ```
 

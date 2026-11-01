@@ -16,7 +16,6 @@ export const LivingLock: React.FC<LivingLockProps> = ({
 }) => {
   const isLocked = status === 'terkunci';
   const isWarning = status === 'mendekati_kunci';
-  const isDeferred = status === 'ditunda';
 
   const iconSizes = {
     sm: 16,

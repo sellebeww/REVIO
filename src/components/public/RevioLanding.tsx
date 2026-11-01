@@ -541,7 +541,7 @@ export default function RevioLanding({ onOpenView }: Props) {
           <p className="text-sm font-bold">{demoDecision.title}</p>
           <p className="text-xs text-[#5E6678] mt-1">{demoDecision.whyExpensive}</p>
           <div className="mt-5 flex justify-center">
-            <HoldToLock decisionTitle={demoDecision.title} isAlreadyLocked={locked} onLocked={() => setLocked(true)} />
+            <HoldToLock isAlreadyLocked={locked} onLocked={() => setLocked(true)} />
           </div>
           {locked && (
             <div className="mt-4 rounded-xl bg-[#E3F6EA] p-3 text-xs">

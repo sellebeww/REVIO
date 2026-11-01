@@ -1,22 +1,7 @@
 import React, { useState } from 'react';
-import { 
-  ShieldCheck, 
-  MapPin, 
-  Clock, 
-  Phone, 
-  Mail, 
-  CheckCircle, 
-  Star, 
-  ArrowRight, 
-  Layers,
-  Wrench,
-  Sparkles,
-  MessageSquare,
-  Award,
-  ChevronRight
-} from 'lucide-react';
+import { ShieldCheck, MapPin, Clock, Phone, Mail, MessageSquare, ChevronRight } from 'lucide-react';
 import { VendorProfile, VendorPortfolioItem } from '../../types/revio';
-import RevioLogo from '../brand/RevioLogo';
+
 import Modal from '../ui/Modal';
 
 interface VendorPublicProfileProps {

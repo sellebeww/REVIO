@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Unlock, Eye, Sun, AlertTriangle } from 'lucide-react';
+import { Lock, Unlock } from 'lucide-react';
 
 interface RevisionWindowVisualizerProps {
   initialProgress?: number; // 0 to 100 (stage progress)

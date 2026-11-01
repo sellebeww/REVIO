@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Clock, 
-  ShieldCheck, 
-  FileText, 
-  CheckCircle2, 
-  MessageSquare, 
-  ChevronRight, 
-  AlertCircle,
-  Layers,
-  Sparkles,
-  Star,
-  ExternalLink
-} from 'lucide-react';
+
+import { Clock, ShieldCheck, FileText, CheckCircle2, MessageSquare, Layers, Star } from 'lucide-react';
 import { Project, Decision, ChangeOrder } from '../../types/revio';
 import DecisionCard from '../decisions/DecisionCard';
 import SelfDrawingTimeline from '../motion/SelfDrawingTimeline';

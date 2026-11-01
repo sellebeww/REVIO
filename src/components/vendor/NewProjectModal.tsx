@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, FolderPlus, Check } from 'lucide-react';
+import { X, FolderPlus, Check } from 'lucide-react';
 import { Project } from '../../types/revio';
 import Modal from '../ui/Modal';
 

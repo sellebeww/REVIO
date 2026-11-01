@@ -6,7 +6,6 @@ import confetti from 'canvas-confetti';
 interface HoldToLockProps {
   onLocked: () => void;
   disabled?: boolean;
-  decisionTitle?: string;
   isAlreadyLocked?: boolean;
   className?: string;
 }
@@ -14,7 +13,6 @@ interface HoldToLockProps {
 export const HoldToLock: React.FC<HoldToLockProps> = ({
   onLocked,
   disabled = false,
-  decisionTitle,
   isAlreadyLocked = false,
   className = '',
 }) => {
@@ -96,12 +94,6 @@ export const HoldToLock: React.FC<HoldToLockProps> = ({
     );
   }
 
-  // Radius for SVG progress ring
-  const size = 36;
-  const strokeWidth = 3;
-  const radius = (size - strokeWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
     <div className={`flex flex-col items-start gap-1 select-none ${className}`}>

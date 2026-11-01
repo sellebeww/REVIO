@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Calculator, Clock, AlertTriangle, ShieldCheck, ArrowRight } from 'lucide-react';
+
+import { Calculator, Clock, AlertTriangle, ArrowRight } from 'lucide-react';
 import { Decision, ProductionStage } from '../../types/revio';
 import FlexibilityBar from './FlexibilityBar';
 

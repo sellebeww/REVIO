@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Calculator, 
-  ShieldCheck, 
-  AlertTriangle, 
-  Sparkles, 
-  Layers, 
-  RotateCcw,
-  Sliders,
-  DollarSign,
-  Wrench,
-  Package,
-  Calendar
-} from 'lucide-react';
+import { ShieldCheck, AlertTriangle, Sparkles, RotateCcw, Wrench, Package, Calendar } from 'lucide-react';
 import { playSliderTick } from '../../lib/soundEffects';
 
 interface Preset {

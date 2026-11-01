@@ -18,20 +18,16 @@ export const FlexibilityBar: React.FC<FlexibilityBarProps> = ({
 
   // Determine color palette based on flexibility score
   let barGradient = 'from-emerald-500 to-teal-500';
-  let badgeBg = 'bg-emerald-50 text-emerald-800 border-emerald-200';
   let statusText = 'Fleksibilitas Tinggi';
 
   if (clampedScore === 0) {
     barGradient = 'from-slate-400 to-slate-500';
-    badgeBg = 'bg-slate-100 text-slate-700 border-slate-200';
     statusText = 'Terkunci di Produksi';
   } else if (clampedScore < 40) {
     barGradient = 'from-amber-500 to-rose-500';
-    badgeBg = 'bg-amber-50 text-amber-800 border-amber-200';
     statusText = 'Mendekati Kunci';
   } else if (clampedScore < 70) {
     barGradient = 'from-teal-500 to-amber-500';
-    badgeBg = 'bg-teal-50 text-teal-800 border-teal-200';
     statusText = 'Fleksibel Bersyarat';
   }
 

@@ -21,7 +21,6 @@ export const setSoundEnabled = (enabled: boolean) => {
   soundEnabled = enabled;
 };
 
-export const isSoundEnabled = () => soundEnabled;
 
 // 1. Suara Snap Mengunci Gembok (Crisp Mechanical Snap)
 export const playLockClick = () => {
@@ -49,33 +48,6 @@ export const playLockClick = () => {
   }
 };
 
-// 2. Suara Pantulan Titik Amber (Soft Spring Bounce)
-export const playAmberBounce = () => {
-  if (!soundEnabled) return;
-  try {
-    const ctx = getAudioContext();
-    if (!ctx) return;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(380, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(620, ctx.currentTime + 0.09);
-
-    gain.gain.setValueAtTime(0.12, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(ctx.currentTime + 0.09);
-  } catch (e) {
-    // Ignore audio autoplay restrictions
-  }
-};
-
-// 3. Suara Chime Sukses (Harmonic Chord saat Kunci Berhasil)
 export const playSuccessChime = () => {
   if (!soundEnabled) return;
   try {

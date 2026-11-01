@@ -1,5 +1,5 @@
 import React from 'react';
-import { Printer, CheckCircle, FileText, Download, ShieldCheck } from 'lucide-react';
+import { Printer, CheckCircle, Download, ShieldCheck } from 'lucide-react';
 import { ChangeOrder, Project } from '../../types/revio';
 import RevioLogo from '../brand/RevioLogo';
 import { printDocument } from '../../lib/printDocument';

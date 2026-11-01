@@ -1,22 +1,7 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Plus, 
-  AlertTriangle, 
-  Clock, 
-  ShieldCheck, 
-  Layers, 
-  FolderKanban, 
-  CheckCircle, 
-  Wrench, 
-  Package, 
-  ChevronRight,
-  TrendingUp,
-  FileText,
-  Camera,
-  ExternalLink
-} from 'lucide-react';
-import { Project, ProductionStage, WorkLog, MaterialLog, VendorProfile } from '../../types/revio';
+
+import { Plus, AlertTriangle, ShieldCheck, CheckCircle, ChevronRight } from 'lucide-react';
+import { Project, WorkLog, MaterialLog, VendorProfile } from '../../types/revio';
 import FlexibilityBar from '../motion/FlexibilityBar';
 import LivingLock from '../motion/LivingLock';
 import Modal from '../ui/Modal';
@@ -214,7 +199,6 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
         <div className="space-y-4">
           {projects.map((project) => {
             const currentDec = project.decisions[0];
-            const isNearLock = currentDec?.status === 'mendekati_kunci';
 
             return (
               <div

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, FileText, AlertTriangle, Check, ShieldCheck, ArrowRight } from 'lucide-react';
+import { X, FileText, AlertTriangle, Check, ShieldCheck } from 'lucide-react';
 import { Decision, ChangeOrder, WorkLog, MaterialLog } from '../../types/revio';
 import Modal from '../ui/Modal';
 

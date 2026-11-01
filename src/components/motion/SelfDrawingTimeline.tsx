@@ -22,7 +22,6 @@ export const SelfDrawingTimeline: React.FC<SelfDrawingTimelineProps> = ({
         {stages.map((stage, idx) => {
           const isCompleted = stage.status === 'completed';
           const isInProgress = stage.status === 'in_progress';
-          const isPending = stage.status === 'pending';
           const isSelected = selectedStageId === stage.id;
           const hasLockPoint = stage.lockPointForTitles && stage.lockPointForTitles.length > 0;
 
