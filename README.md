@@ -48,6 +48,7 @@ Halaman publik vendor berisi layanan, spesifikasi bahan, galeri portofolio, kont
 - **Change Order & Paket Bukti**: Berita Acara Perubahan Kerja yang bisa dicetak atau diunduh, memakai logo Revio dan vendor.
 - **Log Audit**: stempel waktu setiap perubahan tahap, persetujuan change order, dan penguncian keputusan.
 - **Animasi khas Revio**: Hold-to-Lock dengan konfeti, Pita Fleksibilitas, Gembok Hidup, dan garis waktu yang menggambar diri. Menghormati pengaturan *reduced motion*.
+- **Responsif & aksesibel**: tata letak dicek di desktop, tablet, dan ponsel tanpa overflow horizontal; kontrol punya label, status `aria-pressed`, dan target sentuh yang cukup besar.
 
 ## Menjalankan
 
@@ -70,7 +71,7 @@ Tidak perlu konfigurasi tambahan: Vercel mendeteksi Vite otomatis.
 2. Biarkan Framework Preset **Vite** (build `npm run build`, output `dist`).
 3. Deploy.
 
-Navigasi memakai state di dalam aplikasi, tanpa route URL, jadi tidak perlu aturan rewrite.
+Navigasi memakai hash URL (mis. `/#/customer_space`), jadi tombol Back/Forward browser, refresh, dan tautan langsung ke halaman demo berfungsi tanpa aturan rewrite.
 
 ## Struktur
 

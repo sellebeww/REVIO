@@ -227,7 +227,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => setLogModalProjectId(project.id)}
-                      className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-1"
+                      className="px-3 py-2.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-1"
                     >
                       <Plus size={13} />
                       <span>Catat Jam/Bahan</span>
@@ -236,7 +236,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => onAdvanceStage(project.id, 'Tahap dimajukan oleh mandor bengkel.')}
-                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-teal-50 text-[#0E9F8E] hover:bg-teal-100 transition-colors flex items-center gap-1"
+                      className="px-3 py-2.5 text-xs font-semibold rounded-lg bg-teal-50 text-[#0A7A6D] hover:bg-teal-100 transition-colors flex items-center gap-1"
                     >
                       <CheckCircle size={13} />
                       <span>Majukan Tahap</span>
@@ -245,7 +245,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     <button
                       type="button"
                       onClick={() => onSelectProject(project.id)}
-                      className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gradient-to-b from-[#12508F] to-[#0B3A66] text-white shadow-md shadow-[#0B3A66]/25 hover:brightness-110 transition-colors flex items-center gap-1"
+                      className="px-3 py-2.5 text-xs font-semibold rounded-lg bg-gradient-to-b from-[#12508F] to-[#0B3A66] text-white shadow-md shadow-[#0B3A66]/25 hover:brightness-110 transition-colors flex items-center gap-1"
                     >
                       <span>Buka Ruang</span>
                       <ChevronRight size={13} />

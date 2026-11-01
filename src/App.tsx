@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { Sliders, History, Volume2, VolumeX, Scale, Kanban } from 'lucide-react';
 import { SEED_PROJECTS, SEED_VENDORS, INITIAL_AUDIT_LOGS } from './data/mockSeedData';
@@ -24,7 +24,13 @@ type View =
   | 'marketing' | 'customer_space' | 'vendor_dashboard' | 'vendor_public_profile'
   | 'analytics' | 'formula_explorer' | 'workshop_live';
 
-const NAV_ITEMS: { view: View; label: string; Icon?: typeof Kanban }[] = [
+const VIEWS: View[] = ['marketing', 'customer_space', 'vendor_dashboard', 'vendor_public_profile', 'analytics', 'formula_explorer', 'workshop_live'];
+const viewFromHash = (): View => {
+  const v = location.hash.replace('#/', '') as View;
+  return VIEWS.includes(v) ? v : 'marketing';
+};
+
+const NAV_ITEMS:{ view: View; label: string; Icon?: typeof Kanban }[] = [
   { view: 'customer_space', label: 'Ruang Pelanggan' },
   { view: 'vendor_dashboard', label: 'Dasbor Vendor' },
   { view: 'workshop_live', label: 'Papan Bengkel Live', Icon: Kanban },
@@ -39,7 +45,21 @@ export default function App() {
   const [auditLogs, setAuditLogs] = useState<AuditLogItem[]>(INITIAL_AUDIT_LOGS);
 
   // Active view routing
-  const [currentView, setCurrentView] = useState<View>('marketing');
+  const [currentView, setCurrentView] = useState<View>(viewFromHash);
+
+  // Hash routing: Back/Forward browser, refresh, dan tautan langsung ke halaman demo.
+  // Hash non-rute (#fitur dst. di landing) diabaikan.
+  useEffect(() => {
+    const target = currentView === 'marketing' ? location.pathname + location.search : `#/${currentView}`;
+    const stale = currentView === 'marketing' ? location.hash.startsWith('#/') : location.hash !== target;
+    if (stale) history.pushState(null, '', target);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [currentView]);
+  useEffect(() => {
+    const onPop = () => setCurrentView(viewFromHash());
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   const [selectedProjectId, setSelectedProjectId] = useState<string>('proj-1');
   const [selectedVendorSlug, setSelectedVendorSlug] = useState<string>('bengkel-kayu-nusantara');
@@ -390,6 +410,19 @@ export default function App() {
     setIsEditingVendorProfile(false);
   };
 
+  const projectSelect = (
+    <select
+      aria-label="Pilih proyek"
+      value={selectedProjectId}
+      onChange={(e) => setSelectedProjectId(e.target.value)}
+      className="w-full min-[1360px]:w-44 min-w-0 text-xs font-semibold text-slate-800 cursor-pointer truncate"
+    >
+      {projects.map((p) => (
+        <option key={p.id} value={p.id}>{p.title}</option>
+      ))}
+    </select>
+  );
+
   return (
     <MotionConfig reducedMotion={reducedMotion ? 'always' : 'user'}>
     <div className={`min-h-screen app-backdrop text-[#12203A] flex flex-col ${reducedMotion ? 'motion-reduce' : ''}`}>
@@ -401,7 +434,7 @@ export default function App() {
       */}
       {currentView !== 'marketing' && (
       <header className="sticky top-0 z-40 bg-white/70 backdrop-blur-xl backdrop-saturate-150 border-b border-white/70 shadow-[0_8px_30px_-20px_rgb(11_58_102/0.35)] px-4 sm:px-8 py-3.5 transition-colors">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
+        <div className="max-w-[88rem] mx-auto flex items-center justify-between gap-6">
           {/* Zone 1: Brand Wordmark */}
           <button
             type="button"
@@ -414,7 +447,7 @@ export default function App() {
 
           {/* Zone 2: Navigation Links */}
           {(
-            <nav aria-label="Navigasi utama" className="hidden md:flex items-center gap-1 text-xs font-semibold text-[#5E6678]">
+            <nav aria-label="Navigasi utama" className="hidden min-[1360px]:flex items-center gap-1 text-xs font-semibold text-[#5E6678]">
               {NAV_ITEMS.map(({ view, label, Icon }) => {
                 const active = currentView === view;
                 return (
@@ -425,7 +458,7 @@ export default function App() {
                       if (view === 'vendor_public_profile') setSelectedVendorSlug('bengkel-kayu-nusantara');
                       setCurrentView(view);
                     }}
-                    className={`relative isolate px-3 py-2 rounded-lg whitespace-nowrap flex items-center gap-1 transition-colors ${
+                    className={`relative isolate px-2.5 py-2 rounded-lg whitespace-nowrap flex items-center gap-1 transition-colors ${
                       active ? 'text-[#0E9F8E] font-bold' : 'hover:text-[#12203A] hover:bg-slate-100/70'
                     }`}
                   >
@@ -450,7 +483,9 @@ export default function App() {
             <button
               onClick={toggleSound}
               title={soundActive ? 'Suara Taktil Aktif' : 'Suara Taktil Nonaktif'}
-              className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+              aria-label="Suara taktil"
+              aria-pressed={soundActive}
+              className="size-10 grid place-items-center rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
             >
               {soundActive ? <Volume2 size={16} className="text-[#0E9F8E]" /> : <VolumeX size={16} />}
             </button>
@@ -465,39 +500,27 @@ export default function App() {
                   }}
                 />
 
-                {/* Project selector in demo mode */}
-                <div className="relative">
-                  <select
-                    value={selectedProjectId}
-                    onChange={(e) => setSelectedProjectId(e.target.value)}
-                    className="bg-slate-100 hover:bg-slate-200 border-none text-xs font-semibold text-slate-800 rounded-lg px-2 py-1.5 focus:ring-1 focus:ring-[#0E9F8E] focus:outline-none cursor-pointer max-w-[140px] truncate"
-                  >
-                    {projects.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.id}: {p.title.split(' ')[0]} {p.title.split(' ')[1]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <div className="hidden min-[1360px]:block">{projectSelect}</div>
 
                 {/* Return to website */}
                 <button
                   onClick={() => setCurrentView('marketing')}
-                  className="px-3 py-1.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-semibold whitespace-nowrap transition-colors"
+                  aria-label="Kembali ke web publik"
+                  className="h-10 px-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-xs font-semibold whitespace-nowrap transition-colors"
                 >
-                  ← Web Publik
+                  <span aria-hidden="true">←</span><span className="hidden sm:inline"> Web Publik</span>
                 </button>
               </div>
             )}
           </div>
         </div>
         {(
-          <div className="md:hidden max-w-7xl mx-auto mt-2.5">
+          <div className="min-[1360px]:hidden max-w-[88rem] mx-auto mt-2.5 flex gap-2">
             <select
               aria-label="Pindah halaman"
               value={currentView}
               onChange={(e) => setCurrentView(e.target.value as typeof currentView)}
-              className="w-full bg-slate-100 rounded-lg px-3 py-2 text-xs font-semibold text-slate-800"
+              className="flex-1 min-w-0 text-xs font-semibold text-slate-800 cursor-pointer"
             >
               <option value="customer_space">Ruang Pelanggan</option>
               <option value="vendor_dashboard">Dasbor Vendor</option>
@@ -506,13 +529,14 @@ export default function App() {
               <option value="analytics">Validasi Dampak</option>
               <option value="vendor_public_profile">Profil Bengkel</option>
             </select>
+            <div className="flex-1 min-w-0 flex">{projectSelect}</div>
           </div>
         )}
       </header>
       )}
 
       {/* Main Content Area with AnimatePresence Transitions */}
-      <main id="konten" tabIndex={-1} className={`flex-1 w-full mx-auto overflow-x-clip outline-none ${currentView === "marketing" ? "" : "max-w-7xl px-4 sm:px-8 py-6"}`}>
+      <main id="konten" tabIndex={-1} className={`flex-1 w-full mx-auto overflow-x-clip outline-none ${currentView === "marketing" ? "" : "max-w-[88rem] px-4 sm:px-8 py-6"}`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView === 'vendor_public_profile' ? `${currentView}-${selectedVendorSlug}` : currentView}
@@ -633,7 +657,7 @@ export default function App() {
                   <div className="flex items-center gap-2 text-xs text-slate-400">
                     <span>Pelaku: <strong>{log.actor}</strong> ({log.actorRole})</span>
                     <span>·</span>
-                    <span className="uppercase font-mono">{log.type}</span>
+                    <span className="uppercase font-mono">{log.type.replace('_', ' ')}</span>
                   </div>
                 </div>
               ))}
@@ -669,7 +693,7 @@ export default function App() {
       {/* Quiet, Accessible Footer */}
       {currentView !== 'marketing' && (
       <footer className="border-t border-[#D9E5F1] bg-white py-8 px-4 sm:px-8 text-xs text-[#5E6678] mt-auto">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-[88rem] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <RevioLogo size="xs" layout="horizontal" showTagline={false} />
             <span className="text-slate-400">·</span>
@@ -679,7 +703,7 @@ export default function App() {
           <div className="flex items-center gap-4 flex-wrap">
             <button
               onClick={() => setShowEvidenceModal(true)}
-              className="hover:text-slate-900 transition-colors flex items-center gap-1 font-semibold text-[#0E9F8E]"
+              className="hover:text-slate-900 transition-colors flex items-center gap-1 font-semibold text-[#0A7A6D] py-2"
             >
               <Scale size={13} />
               <span>Berkas Bukti Sengketa ({currentProject.id.toUpperCase()})</span>
@@ -687,7 +711,7 @@ export default function App() {
 
             <button
               onClick={() => setShowAuditModal(true)}
-              className="hover:text-slate-900 transition-colors flex items-center gap-1 font-medium"
+              className="hover:text-slate-900 transition-colors flex items-center gap-1 font-medium py-2"
             >
               <History size={13} />
               <span>Log Audit ({auditLogs.length})</span>
@@ -695,7 +719,8 @@ export default function App() {
 
             <button
               onClick={() => setReducedMotion(!reducedMotion)}
-              className="hover:text-slate-900 transition-colors"
+              aria-pressed={reducedMotion}
+              className="hover:text-slate-900 transition-colors py-2"
             >
               {reducedMotion ? 'Gerak Normal' : 'Kurangi Animasi'}
             </button>

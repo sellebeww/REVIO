@@ -27,7 +27,7 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
       {onBackToDirectory && (
         <button
           onClick={onBackToDirectory}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors"
+          className="inline-flex items-center gap-1.5 py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors"
         >
           <span>← Kembali ke Direktori Vendor Terverifikasi</span>
         </button>

@@ -183,7 +183,7 @@ export default function RevioLanding({ onOpenView }: Props) {
   return (
     <div className="overflow-x-clip text-[#12203A]">
       {/* Header */}
-      <header className="relative max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 sm:px-8 pt-5">
+      <header className="relative max-w-[88rem] mx-auto flex items-center justify-between gap-4 px-4 sm:px-10 lg:px-14 pt-5">
         <button type="button" aria-label="Revio, kembali ke atas" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <RevioLogo size="sm" layout="horizontal" />
         </button>
@@ -232,7 +232,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </header>
 
       {/* Hero */}
-      <section className="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-10 grid md:grid-cols-2 gap-6 items-center">
+      <section className="relative max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 pt-6 pb-10 grid md:grid-cols-2 gap-6 items-center">
         <img
           src={`${A}/hero-workshop.jpg`}
           alt=""
@@ -291,7 +291,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </section>
 
       {/* Masalah & Solusi */}
-      <section id="cara-kerja" className="max-w-6xl mx-auto px-4 sm:px-8 grid md:grid-cols-2 gap-4">
+      <section id="cara-kerja" className="max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 grid md:grid-cols-2 gap-4">
         <div className={`${glass} rounded-3xl p-5 flex items-end justify-between gap-3 overflow-hidden`}>
           <div className="pb-1">
             <Pill>Masalah yang Sering Terjadi</Pill>
@@ -327,7 +327,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </section>
 
       {/* Fitur */}
-      <section id="fitur" className="max-w-6xl mx-auto px-4 sm:px-8 pt-12 text-center">
+      <section id="fitur" className="max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 pt-12 text-center">
         <Pill>Fitur Utama</Pill>
         <h2 className="mt-2 text-2xl font-extrabold">Kontrol Penuh di Setiap Keputusan</h2>
         <p className="text-xs mt-1">Pahami risiko, hitung biaya, dan kelola revisi dengan mudah.</p>
@@ -346,7 +346,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </section>
 
       {/* Tindakan + Dokumen + Analitik */}
-      <section id="demo" className="max-w-6xl mx-auto px-4 sm:px-8 pt-10 grid lg:grid-cols-[1fr_1.15fr_1fr] gap-4 items-start">
+      <section id="demo" className="max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 pt-10 grid lg:grid-cols-[1fr_1.15fr_1fr] gap-4 items-start">
         <div>
           <Pill>3 Tindakan Utama</Pill>
           <h2 className="mt-3 text-2xl font-extrabold leading-tight">Atur Keputusan,<br />Sesuai Kebutuhan</h2>
@@ -433,7 +433,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </section>
 
       {/* Untuk siapa */}
-      <section id="untuk-siapa" className="max-w-6xl mx-auto px-4 sm:px-8 pt-10 grid lg:grid-cols-[1.4fr_1fr] gap-4">
+      <section id="untuk-siapa" className="max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 pt-10 grid lg:grid-cols-[1.4fr_1fr] gap-4">
         <div className={`${glass} rounded-3xl p-5`}>
           <Pill>Untuk Siapa?</Pill>
           <h2 className="mt-2 text-xl font-extrabold">Solusi untuk Semua Pihak</h2>
@@ -463,7 +463,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </section>
 
       {/* Harga */}
-      <section id="harga" className="max-w-6xl mx-auto px-4 sm:px-8 pt-12 text-center">
+      <section id="harga" className="max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 pt-12 text-center">
         <Pill>Harga</Pill>
         <h2 className="mt-2 text-2xl font-extrabold">Pilih Paket yang Sesuai</h2>
         <p className="text-xs mt-1 text-[#5E6678]">Harga di bawah hanya contoh ilustrasi untuk demo, bukan penawaran resmi.</p>
@@ -509,7 +509,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </section>
 
       {/* CTA */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-8 pt-10">
+      <section className="max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 pt-10">
         <div className="rounded-[2rem] bg-gradient-to-r from-[#0A2A4D] via-[#0B3F6B] to-[#0E9F6E] bg-[length:200%_100%] animate-gradient shadow-[0_24px_60px_-24px_rgba(11,58,102,0.6)] px-6 sm:px-10 py-7 flex flex-wrap items-center gap-6">
           <RevioLogo size="md" variant="white" layout="horizontal" />
           <span className="hidden sm:block h-12 w-px bg-white/40" />
@@ -524,7 +524,7 @@ export default function RevioLanding({ onOpenView }: Props) {
       </section>
 
       {/* Footer */}
-      <footer className="max-w-6xl mx-auto px-4 sm:px-8 py-6 flex flex-wrap items-center justify-between gap-4 text-xs">
+      <footer className="max-w-[88rem] mx-auto px-4 sm:px-10 lg:px-14 py-6 flex flex-wrap items-center justify-between gap-4 text-xs">
         <RevioLogo size="sm" layout="horizontal" />
         <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 font-semibold">
           <a href="#cara-kerja" className="hover:text-[#0E9F8E]">Tentang</a>

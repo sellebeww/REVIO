@@ -136,7 +136,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
                 aria-label="Ganti menjadi"
                 value={selectedOptionId}
                 onChange={(e) => setSelectedOptionId(e.target.value)}
-                className="w-full mt-1 bg-white border border-teal-300 rounded-lg p-1.5 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0E9F8E]"
+                className="w-full mt-1 text-xs font-semibold text-slate-800 cursor-pointer"
               >
                 {decision.options.map((opt) => (
                   <option key={opt.id} value={opt.id}>
