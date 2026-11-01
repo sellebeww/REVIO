@@ -2,6 +2,17 @@
   <img src="docs/banner.png" alt="Revio: platform transparansi hak revisi dan biaya produksi pesanan kustom" width="100%">
 </p>
 
+<p align="center">
+  Platform transparansi <em>hak revisi</em> dan biaya produksi untuk pesanan kustom (furnitur, percetakan, dekorasi panggung, konveksi): pelanggan tahu kapan sebuah keputusan harus dikunci dan berapa biayanya kalau diubah, bukan sekadar menerima tagihan tambahan di akhir.
+</p>
+
+<p align="center">
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white&labelColor=2D3139">
+  <img alt="TypeScript 7" src="https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white&labelColor=2D3139">
+  <img alt="Vite 8" src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white&labelColor=2D3139">
+  <img alt="Tailwind CSS 4" src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white&labelColor=2D3139">
+</p>
+
 ![Beranda Revio](docs/screenshots/01-landing.png)
 
 ## Masalahnya
