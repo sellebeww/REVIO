@@ -1,19 +1,5 @@
 <p align="center">
-  <img src="public/brand/revio-logo-full.svg" alt="Revio" width="260">
-</p>
-
-<h1 align="center">Revio</h1>
-
-<p align="center">
-  Platform transparansi <b>hak revisi</b> dan <b>biaya produksi</b> untuk pesanan kustom<br>
-  (furnitur, percetakan khusus, dekorasi panggung, konveksi).
-</p>
-
-<p align="center">
-  <img alt="React 19" src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white">
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white">
-  <img alt="Vite" src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white">
-  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white">
+  <img src="docs/banner.png" alt="Revio: platform transparansi hak revisi dan biaya produksi pesanan kustom" width="100%">
 </p>
 
 ![Beranda Revio](docs/screenshots/01-landing.png)

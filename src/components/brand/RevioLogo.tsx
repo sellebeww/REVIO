@@ -89,7 +89,7 @@ export const RevioLogo: React.FC<RevioLogoProps> = ({
         <img decoding="async"
           src="/brand/revio-mark-transparent.png"
           alt="Revio Mark"
-          className={`${dimensions.iconH} w-auto object-contain bg-transparent mix-blend-multiply drop-shadow-xs hover:scale-105 transition-transform duration-200`}
+          className={`${dimensions.iconH} w-auto object-contain hover:scale-105 transition-transform duration-200 ${isWhite ? "rounded-xl bg-white p-1.5" : "bg-transparent mix-blend-multiply drop-shadow-xs"}`}
           loading="eager"
           referrerPolicy="no-referrer"
         />

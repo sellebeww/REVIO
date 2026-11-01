@@ -8,8 +8,8 @@
     --brand-teal-light: #E6F7F5;
     --brand-amber: #FFB020;
     --brand-amber-light: #FFF7E6;
-    --brand-cream: #FBF9F5;
-    --brand-border: #E7E2D9;
+    --brand-cream: #F3F8FD;
+    --brand-border: #D9E5F1;
     --brand-secondary: #5E6678;
 
     --status-flexible: #16A34A;
@@ -198,4 +198,22 @@ main .grid > :nth-child(n+6) { animation-delay: 300ms; }
     overflow: visible !important;
   }
   [data-printing] * { overflow: visible !important; max-height: none !important; }
+}
+
+/* Latar dan kartu aplikasi: satu bahasa visual dengan landing (gradien biru-mint, kaca lembut) */
+.app-backdrop {
+  background:
+    radial-gradient(60rem 36rem at 100% -10%, rgb(14 159 142 / 0.14), transparent 60%),
+    radial-gradient(52rem 32rem at -10% 0%, rgb(37 99 235 / 0.10), transparent 60%),
+    linear-gradient(180deg, #EEF5FF 0%, #F7FBFF 45%, #F2FBF8 100%);
+  background-attachment: fixed;
+}
+
+main :is(.rounded-xl, .rounded-2xl, .rounded-3xl).bg-white {
+  border-color: rgb(255 255 255 / 0.9);
+  background-color: rgb(255 255 255 / 0.82);
+  box-shadow: 0 1px 2px rgb(11 58 102 / 0.05), 0 18px 40px -22px rgb(11 58 102 / 0.28);
+}
+main :is(.rounded-xl, .rounded-2xl, .rounded-3xl).bg-white:where(.border) {
+  border-width: 1px;
 }

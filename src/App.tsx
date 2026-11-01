@@ -392,7 +392,7 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion={reducedMotion ? 'always' : 'user'}>
-    <div className={`min-h-screen bg-[#FBF9F5] text-[#12203A] flex flex-col ${reducedMotion ? 'motion-reduce' : ''}`}>
+    <div className={`min-h-screen app-backdrop text-[#12203A] flex flex-col ${reducedMotion ? 'motion-reduce' : ''}`}>
       <a href="#konten" className="skip-link">Lewati ke konten</a>
       {/* Top Bar following Strict 3-Zone Contract:
           Zone 1: Single text element wordmark / brand mark
@@ -400,7 +400,7 @@ export default function App() {
           Zone 3: 1 primary CTA action or compact role switcher
       */}
       {currentView !== 'marketing' && (
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E7E2D9] px-4 sm:px-8 py-3.5 transition-colors">
+      <header className="sticky top-0 z-40 bg-white/70 backdrop-blur-xl backdrop-saturate-150 border-b border-white/70 shadow-[0_8px_30px_-20px_rgb(11_58_102/0.35)] px-4 sm:px-8 py-3.5 transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
           {/* Zone 1: Brand Wordmark */}
           <button
@@ -512,7 +512,7 @@ export default function App() {
       )}
 
       {/* Main Content Area with AnimatePresence Transitions */}
-      <main id="konten" tabIndex={-1} className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 overflow-hidden outline-none">
+      <main id="konten" tabIndex={-1} className={`flex-1 w-full mx-auto overflow-x-clip outline-none ${currentView === "marketing" ? "" : "max-w-7xl px-4 sm:px-8 py-6"}`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView === 'vendor_public_profile' ? `${currentView}-${selectedVendorSlug}` : currentView}
@@ -668,7 +668,7 @@ export default function App() {
 
       {/* Quiet, Accessible Footer */}
       {currentView !== 'marketing' && (
-      <footer className="border-t border-[#E7E2D9] bg-white py-8 px-4 sm:px-8 text-xs text-[#5E6678] mt-auto">
+      <footer className="border-t border-[#D9E5F1] bg-white py-8 px-4 sm:px-8 text-xs text-[#5E6678] mt-auto">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <RevioLogo size="xs" layout="horizontal" showTagline={false} />

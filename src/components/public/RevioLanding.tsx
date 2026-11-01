@@ -162,7 +162,7 @@ export default function RevioLanding({ onOpenView }: Props) {
   );
 
   return (
-    <div className="-mx-4 sm:-mx-8 -my-6 bg-gradient-to-b from-[#EEF5FF] via-white to-[#F2FBF8] text-[#12203A]">
+    <div className="overflow-x-clip text-[#12203A]">
       {/* Header */}
       <header className="relative max-w-6xl mx-auto flex items-center justify-between gap-4 px-4 sm:px-8 pt-5">
         <button type="button" aria-label="Revio, kembali ke atas" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -213,15 +213,15 @@ export default function RevioLanding({ onOpenView }: Props) {
       </header>
 
       {/* Hero */}
-      <section className="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-10 grid md:grid-cols-2 gap-6 items-center overflow-hidden">
+      <section className="relative max-w-6xl mx-auto px-4 sm:px-8 pt-6 pb-10 grid md:grid-cols-2 gap-6 items-center">
         <img
           src={`${A}/workshop-bg.png`}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute right-0 top-0 h-full w-3/5 object-cover opacity-40 [mask-image:linear-gradient(to_left,black,transparent)]"
+          className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 h-full object-cover object-right opacity-40 [mask-image:linear-gradient(to_left,black,transparent_65%)]"
         />
         <div className="relative z-10">
-          <RevioLogo size="2xl" variant="full" layout="horizontal" className="-ml-2" />
+          <p className="font-display text-6xl sm:text-7xl font-extrabold tracking-tight leading-none text-[#0B3A66]" aria-hidden="true"><span className="bg-gradient-to-br from-[#0B3A66] via-[#0E9F8E] to-[#16A34A] bg-clip-text text-transparent">R</span>evio</p>
           <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold leading-[1.05]">
             Hak Revisi Jelas,
             <br />
