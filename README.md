@@ -97,6 +97,10 @@ docs/
 
 Catatan keputusan arsitektur ada di [DECISIONS.md](DECISIONS.md).
 
+## Kredit
+
+Foto bengkel dan tukang kayu di landing berasal dari [Unsplash](https://unsplash.com) (Unsplash License). Ilustrasi hero dan ilustrasi masalah dibuat sebagai SVG di repo ini.
+
 ## Author & License
 
 Created by Vassel Goleyu. Copyright (c) 2026 Vassel Goleyu. All rights reserved. Lihat [LICENSE](LICENSE).
