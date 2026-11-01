@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Lock, Unlock, Eye, Sun, AlertTriangle } from 'lucide-react';
 
 interface RevisionWindowVisualizerProps {
@@ -22,7 +22,7 @@ export const RevisionWindowVisualizer: React.FC<RevisionWindowVisualizerProps> =
     <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
         <div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#0E9F8E] bg-teal-950 px-2.5 py-0.5 rounded border border-teal-800">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#0E9F8E] bg-teal-950 px-2.5 py-0.5 rounded border border-teal-800">
             Animasi Signature #3: Jendela Revisi Menutup
           </span>
           <h3 className="font-display font-bold text-lg text-white mt-1">
@@ -90,7 +90,7 @@ export const RevisionWindowVisualizer: React.FC<RevisionWindowVisualizerProps> =
               className="inline-flex flex-col items-center justify-center p-3 rounded-2xl bg-slate-900/90 border border-slate-700 text-rose-400 shadow-xl"
             >
               <Lock size={28} />
-              <span className="text-[11px] font-bold mt-1 text-slate-300">
+              <span className="text-xs font-bold mt-1 text-slate-300">
                 Pintu Produksi Terkunci
               </span>
             </motion.div>
@@ -126,7 +126,7 @@ export const RevisionWindowVisualizer: React.FC<RevisionWindowVisualizerProps> =
             className="w-full accent-[#0E9F8E] cursor-pointer"
           />
 
-          <div className="flex justify-between text-[11px] text-slate-500">
+          <div className="flex justify-between text-xs text-slate-500">
             <span>Awal (Desain / Pola: 100% Celah Bebas)</span>
             <span>Titik Kunci (Pemotongan / Semprot Melamik)</span>
             <span>Akhir (Terkunci Rapat)</span>

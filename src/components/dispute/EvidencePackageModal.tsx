@@ -1,4 +1,5 @@
 import React from 'react';
+import { printDocument } from '../../lib/printDocument';
 import { 
   ShieldCheck, 
   X, 
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Project, Decision, ChangeOrder } from '../../types/revio';
 import RevioLogo from '../brand/RevioLogo';
+import Modal from '../ui/Modal';
 
 interface EvidencePackageModalProps {
   project: Project;
@@ -36,13 +38,11 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
     }).format(num);
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const handlePrint = (e: React.MouseEvent<HTMLElement>) => printDocument(`Revio-Bukti-${project.id}`, e.currentTarget);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-      <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-6 max-h-[90vh] flex flex-col overflow-hidden">
+    <Modal onClose={onClose} label="Berkas bukti sengketa">
+      <div data-print-area className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-6 max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-start justify-between pb-4 border-b border-slate-200">
           <div className="flex items-center gap-3">
@@ -51,10 +51,10 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#0E9F8E]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0E9F8E]">
                   Paket Bukti Otomatis Revio (Evidence Dossier)
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-100 text-slate-700 font-bold">
+                <span className="px-2 py-0.5 rounded text-xs font-mono bg-slate-100 text-slate-700 font-bold">
                   UUID: {project.id.toUpperCase()}-EVD
                 </span>
               </div>
@@ -76,12 +76,12 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
               <ShieldCheck size={20} className="text-emerald-600 shrink-0" />
               <div>
                 <h4 className="font-bold text-emerald-950">Integritas Log Terjamin Tidak Dapat Diubah</h4>
-                <p className="text-[11px] text-emerald-800">
+                <p className="text-xs text-emerald-800">
                   Semua rekaman pekerjaan, foto kemajuan, dan penguncian dicatat otomatis dengan stempel waktu permanen.
                 </p>
               </div>
             </div>
-            <span className="text-[10px] font-mono text-emerald-900 font-bold bg-white px-2.5 py-1 rounded-md border border-emerald-300">
+            <span className="text-xs font-mono text-emerald-900 font-bold bg-white px-2.5 py-1 rounded-md border border-emerald-300">
               SHA-256 VERIFIED
             </span>
           </div>
@@ -89,14 +89,14 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
           {/* Project & Parties Summary */}
           <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
             <div>
-              <span className="text-[10px] uppercase font-bold text-slate-400">Pihak Vendor Manufaktur</span>
+              <span className="text-xs uppercase font-bold text-slate-400">Pihak Vendor Manufaktur</span>
               <p className="font-bold text-slate-900 text-sm mt-0.5">{project.vendorName}</p>
-              <p className="text-[11px] text-slate-500">{project.vendorSlug} · Kontak Vendor</p>
+              <p className="text-xs text-slate-500">{project.vendorSlug} · Kontak Vendor</p>
             </div>
             <div>
-              <span className="text-[10px] uppercase font-bold text-slate-400">Pihak Pelanggan / Pemesan</span>
+              <span className="text-xs uppercase font-bold text-slate-400">Pihak Pelanggan / Pemesan</span>
               <p className="font-bold text-slate-900 text-sm mt-0.5">{project.customerName}</p>
-              <p className="text-[11px] text-slate-500">{project.customerPhone} · {project.customerEmail}</p>
+              <p className="text-xs text-slate-500">{project.customerPhone} · {project.customerEmail}</p>
             </div>
           </div>
 
@@ -111,19 +111,19 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
                 <div key={dec.id} className="p-3.5 rounded-xl border border-slate-200 bg-white space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-slate-900">{dec.title}</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-100 text-slate-800">
+                    <span className="px-2 py-0.5 rounded text-xs font-bold uppercase bg-slate-100 text-slate-800">
                       {dec.status}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-600">
+                  <p className="text-xs text-slate-600">
                     <strong>Pilihan Aktif:</strong> {dec.options.find((o) => o.id === dec.chosenOption)?.label || dec.chosenOption}
                   </p>
-                  <div className="p-2 rounded-lg bg-slate-50 text-[11px] text-slate-500 flex justify-between">
+                  <div className="p-2 rounded-lg bg-slate-50 text-xs text-slate-500 flex justify-between">
                     <span>Titik Kunci: <strong>{dec.lockStageName}</strong></span>
                     <span>Tenggat: {dec.deadlineAt}</span>
                   </div>
                   {dec.lockedAt && (
-                    <div className="flex items-center gap-1.5 text-emerald-700 text-[11px] font-semibold">
+                    <div className="flex items-center gap-1.5 text-emerald-700 text-xs font-semibold">
                       <CheckCircle2 size={13} />
                       <span>Dikunci resmi oleh {dec.lockedBy || 'Pelanggan'} pada {dec.lockedAt}</span>
                     </div>
@@ -149,10 +149,10 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
                       <span className="font-mono font-bold text-slate-800">{co.id.toUpperCase()}</span>
                       <span className="font-mono font-bold text-[#0E9F8E]">{formatIDR(co.totalCost)}</span>
                     </div>
-                    <p className="text-[11px] text-slate-700">
+                    <p className="text-xs text-slate-700">
                       Perubahan: <strong>{co.fromOption}</strong> → <strong>{co.toOption}</strong>
                     </p>
-                    <div className="text-[10px] text-slate-400 pt-1 flex justify-between">
+                    <div className="text-xs text-slate-400 pt-1 flex justify-between">
                       <span>Disetujui: {co.approvedAt}</span>
                       <span>Oleh: {co.approvedBy}</span>
                     </div>
@@ -170,13 +170,13 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
             </h4>
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
               {project.workLogs.map((w) => (
-                <div key={w.id} className="flex justify-between items-center text-[11px] py-1 border-b border-slate-200/50 last:border-none">
+                <div key={w.id} className="flex justify-between items-center text-xs py-1 border-b border-slate-200/50 last:border-none">
                   <span>{w.loggedAt} · <strong>{w.description}</strong> ({w.hours} Jam)</span>
                   <span className="font-mono font-semibold">{formatIDR(w.hours * w.rate)}</span>
                 </div>
               ))}
               {project.materialLogs.map((m) => (
-                <div key={m.id} className="flex justify-between items-center text-[11px] py-1 border-b border-slate-200/50 last:border-none">
+                <div key={m.id} className="flex justify-between items-center text-xs py-1 border-b border-slate-200/50 last:border-none">
                   <span>{m.loggedAt} · <strong>{m.material}</strong> ({m.quantity} {m.unit})</span>
                   <span className="font-mono font-semibold">{formatIDR(m.quantity * m.unitPrice)}</span>
                 </div>
@@ -202,7 +202,7 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

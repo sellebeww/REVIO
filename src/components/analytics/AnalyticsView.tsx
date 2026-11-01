@@ -130,7 +130,7 @@ export const AnalyticsView: React.FC = () => {
           <div className="font-mono text-2xl font-bold text-emerald-800 tabular-nums">
             {formatIDR(wasteSavedIDR)}
           </div>
-          <p className="text-[11px] text-slate-500">
+          <p className="text-xs text-slate-500">
             Terbebas dari kerugian potongan kayu, plat cetak, & kain yang terbuang sia-sia.
           </p>
         </div>
@@ -145,7 +145,7 @@ export const AnalyticsView: React.FC = () => {
           <div className="font-mono text-2xl font-bold text-[#0E9F8E] tabular-nums">
             -{reworkReductionPct}% ({totalReworkHoursOld - totalReworkHoursNew} Jam Hemat)
           </div>
-          <p className="text-[11px] text-slate-500">
+          <p className="text-xs text-slate-500">
             Tukang tidak lagi membongkar hasil rakitan akibat klien berubah pikiran terlambat.
           </p>
         </div>
@@ -160,7 +160,7 @@ export const AnalyticsView: React.FC = () => {
           <div className="font-mono text-2xl font-bold text-slate-900 tabular-nums">
             {totalDisputesNew} Kasus (Sebelumnya {totalDisputesOld})
           </div>
-          <p className="text-[11px] text-slate-500">
+          <p className="text-xs text-slate-500">
             Paket bukti transparan mengeliminasi perdebatan nominal saat penagihan akhir.
           </p>
         </div>
@@ -231,7 +231,7 @@ export const AnalyticsView: React.FC = () => {
           <AlertCircle size={16} className="text-amber-700" />
           <span>Laporan Pengawasan Transparansi Biaya Platform</span>
         </div>
-        <p className="leading-relaxed text-amber-900 text-[11px]">
+        <p className="leading-relaxed text-amber-900 text-xs">
           Revio mengaudit seluruh tarif per jam dan harga bahan setiap vendor terhadap rata-rata industri regional. Setiap perubahan yang melebihi ambang batas wajar (+15% dari median) secara otomatis memerlukan tinjauan pemilik vendor dan konfirmasi ganda pelanggan.
         </p>
       </div>

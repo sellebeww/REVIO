@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Calculator, Clock, AlertTriangle, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Decision, ProductionStage } from '../../types/revio';
 import FlexibilityBar from './FlexibilityBar';
@@ -78,7 +78,7 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
           className="w-full accent-[#0E9F8E] cursor-pointer"
         />
 
-        <div className="flex justify-between text-[11px] text-slate-400">
+        <div className="flex justify-between text-xs text-slate-400">
           <span>Tahap Aktif</span>
           <span>Tahap Akhir</span>
         </div>
@@ -87,7 +87,7 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
       {/* Simulated Live Impact Display */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200/70">
         <div>
-          <span className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+          <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
             Estimasi Biaya Fleksibilitas
           </span>
           <div className="flex items-baseline gap-1 mt-0.5">
@@ -95,13 +95,13 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
               {formatIDR(totalSimulatedFee)}
             </span>
           </div>
-          <span className="text-[11px] text-slate-500">
+          <span className="text-xs text-slate-500">
             Penahanan jadwal & alokasi bahan cadangan
           </span>
         </div>
 
         <div>
-          <span className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+          <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
             Dampak Mundur Jadwal
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
@@ -110,7 +110,7 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
               +{simulatedScheduleImpactDays} Hari Kalender
             </span>
           </div>
-          <span className="text-[11px] text-slate-500">
+          <span className="text-xs text-slate-500">
             Antrean workshop & slot produksi baru
           </span>
         </div>
@@ -134,7 +134,7 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
           <p className="font-medium text-amber-950">
             Keterbukaan Rumus Revio:
           </p>
-          <p className="text-[11px] text-amber-800 leading-relaxed">
+          <p className="text-xs text-amber-800 leading-relaxed">
             Biaya Fleksibilitas = Biaya slot jadwal ({formatIDR(baseHoldingFee)}) + komitmen penahanan bahan cadangan ({formatIDR(addedBufferCost)}). Tidak ada biaya tersembunyi.
           </p>
         </div>

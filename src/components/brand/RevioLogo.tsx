@@ -19,9 +19,9 @@ export const RevioLogo: React.FC<RevioLogoProps> = ({
 }) => {
   // Balanced dimensions: compact and sleek for navbars, bold for hero
   const dimensions = {
-    xs: { h: 'h-6', iconH: 'h-5', iconSize: 20, text: 'text-sm font-bold', badge: 'text-[9px]' },
-    sm: { h: 'h-8', iconH: 'h-7', iconSize: 28, text: 'text-lg font-bold', badge: 'text-[10px]' },
-    md: { h: 'h-10', iconH: 'h-9', iconSize: 36, text: 'text-xl font-bold', badge: 'text-[11px]' },
+    xs: { h: 'h-6', iconH: 'h-5', iconSize: 20, text: 'text-sm font-bold', badge: 'text-xs' },
+    sm: { h: 'h-8', iconH: 'h-7', iconSize: 28, text: 'text-lg font-bold', badge: 'text-xs' },
+    md: { h: 'h-10', iconH: 'h-9', iconSize: 36, text: 'text-xl font-bold', badge: 'text-xs' },
     lg: { h: 'h-16', iconH: 'h-14', iconSize: 56, text: 'text-3xl font-extrabold', badge: 'text-xs' },
     xl: { h: 'h-28 sm:h-36', iconH: 'h-22 sm:h-28', iconSize: 96, text: 'text-4xl sm:text-5xl font-extrabold', badge: 'text-sm' },
     '2xl': { h: 'h-40 sm:h-48', iconH: 'h-32 sm:h-40', iconSize: 130, text: 'text-5xl sm:text-6xl font-black', badge: 'text-base' },
@@ -36,7 +36,7 @@ export const RevioLogo: React.FC<RevioLogoProps> = ({
     return (
       <div className={`inline-flex items-center justify-center bg-transparent select-none ${className}`}>
         {useImage && !isWhite ? (
-          <img
+          <img decoding="async"
             src="/brand/revio-mark-transparent.png"
             alt="Revio Mark"
             className={`${dimensions.iconH} w-auto object-contain bg-transparent mix-blend-multiply drop-shadow-xs hover:scale-105 transition-transform duration-200`}
@@ -86,7 +86,7 @@ export const RevioLogo: React.FC<RevioLogoProps> = ({
   if (layout === 'horizontal') {
     return (
       <div className={`inline-flex items-center gap-3 bg-transparent select-none ${className}`}>
-        <img
+        <img decoding="async"
           src="/brand/revio-mark-transparent.png"
           alt="Revio Mark"
           className={`${dimensions.iconH} w-auto object-contain bg-transparent mix-blend-multiply drop-shadow-xs hover:scale-105 transition-transform duration-200`}
@@ -113,7 +113,7 @@ export const RevioLogo: React.FC<RevioLogoProps> = ({
   return (
     <div className={`inline-flex flex-col items-center justify-center bg-transparent select-none ${className}`}>
       {useImage && !isWhite ? (
-        <img
+        <img decoding="async"
           src="/brand/revio-logo-transparent.png"
           alt="Revio"
           className={`${dimensions.h} w-auto object-contain bg-transparent mix-blend-multiply drop-shadow-xs hover:scale-[1.02] transition-transform duration-200`}

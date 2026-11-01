@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 
 interface FlexibilityBarProps {
   score: number; // 0 to 100
@@ -47,13 +47,13 @@ export const FlexibilityBar: React.FC<FlexibilityBarProps> = ({
         <div className="flex items-center justify-between text-xs mb-1.5 font-medium">
           <div className="flex items-center gap-1.5 text-slate-700">
             <span>Pita Fleksibilitas:</span>
-            <span className="text-slate-500 text-[11px] font-normal">{statusText}</span>
+            <span className="text-slate-500 text-xs font-normal">{statusText}</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="font-mono font-bold text-slate-900 tabular-nums">
               {Math.round(clampedScore)}%
             </span>
-            <span className="text-[10px] text-slate-400">skor</span>
+            <span className="text-xs text-slate-400">skor</span>
           </div>
         </div>
       )}

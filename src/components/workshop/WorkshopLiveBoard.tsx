@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, 
   CheckCircle2, 
@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Project, ProductionStage } from '../../types/revio';
 import { playLockClick, playSuccessChime } from '../../lib/soundEffects';
+import Modal from '../ui/Modal';
 
 interface WorkshopLiveBoardProps {
   project: Project;
@@ -61,16 +62,16 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#0E9F8E] bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#0E9F8E] bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">
               Papan Produksi Bengkel (Workshop Live Board)
             </span>
             {isFreshnessWarning ? (
-              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-rose-700 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200 animate-pulse">
+              <span className="inline-flex items-center gap-1 text-xs font-bold text-rose-700 bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200 animate-pulse">
                 <ShieldAlert size={13} />
                 Peringatan: Tahap Belum Diperbarui &gt;24 Jam!
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+              <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
                 <CheckCircle2 size={13} className="text-emerald-600" />
                 Data Tahap Segar & Terkini
               </span>
@@ -89,7 +90,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
           <div className="p-3 rounded-2xl bg-slate-900 text-white flex items-center gap-3">
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
             <div>
-              <span className="text-[10px] text-slate-400 block font-semibold uppercase">Waktu Tahap Aktif</span>
+              <span className="text-xs text-slate-400 block font-semibold uppercase">Waktu Tahap Aktif</span>
               <span className="font-mono text-base font-bold text-teal-300 tabular-nums">
                 {formatTimer(elapsedSeconds)}
               </span>
@@ -125,16 +126,16 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
                   className="bg-white p-3.5 rounded-xl border border-slate-200/80 text-xs space-y-2 shadow-2xs"
                 >
                   <div className="flex justify-between items-center">
-                    <span className="font-mono text-[10px] font-bold text-slate-400">
+                    <span className="font-mono text-xs font-bold text-slate-400">
                       Tahap #{stg.order}
                     </span>
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
                       Selesai
                     </span>
                   </div>
                   <h4 className="font-bold text-slate-900">{stg.name}</h4>
-                  {stg.notes && <p className="text-[11px] text-slate-500 leading-tight">{stg.notes}</p>}
-                  <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[10px] text-slate-400">
+                  {stg.notes && <p className="text-xs text-slate-500 leading-tight">{stg.notes}</p>}
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-xs text-slate-400">
                     <span>Oleh: {stg.updatedBy || 'Mandor'}</span>
                     <span>{stg.lastUpdatedAt}</span>
                   </div>
@@ -150,17 +151,17 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
               <Clock size={14} className="text-amber-600 animate-spin" />
               Sedang Berjalan di Bengkel
             </span>
-            <span className="text-[10px] bg-amber-400/20 text-amber-800 font-bold px-2 py-0.5 rounded">
+            <span className="text-xs bg-amber-400/20 text-amber-800 font-bold px-2 py-0.5 rounded">
               Aktif
             </span>
           </div>
 
           <div className="bg-white p-4 rounded-xl border border-amber-200 text-xs space-y-3 shadow-xs">
             <div className="flex justify-between items-center">
-              <span className="font-mono text-[10px] font-bold text-amber-700">
+              <span className="font-mono text-xs font-bold text-amber-700">
                 Tahap #{currentStage.order}
               </span>
-              <span className="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+              <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                 Dalam Pengerjaan
               </span>
             </div>
@@ -170,7 +171,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
             </h4>
 
             {currentStage.lockPointForTitles && (
-              <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-950 text-[11px] space-y-1">
+              <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-950 text-xs space-y-1">
                 <span className="font-bold flex items-center gap-1 text-amber-800">
                   <Lock size={12} />
                   Titik Kunci Aktif
@@ -181,9 +182,9 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
 
             {currentStage.photos && currentStage.photos.length > 0 && (
               <div className="space-y-1">
-                <span className="text-[10px] font-semibold text-slate-400 uppercase">Foto Bukti Terakhir</span>
+                <span className="text-xs font-semibold text-slate-400 uppercase">Foto Bukti Terakhir</span>
                 <div className="relative aspect-video rounded-lg overflow-hidden border border-slate-200 group cursor-pointer" onClick={() => setActivePhotoModal(currentStage.photos![0])}>
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={currentStage.photos[0]}
                     alt="Foto Progres"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
@@ -197,7 +198,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
               </div>
             )}
 
-            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
               <span>Mandor: <strong>{currentStage.updatedBy || 'Tukang Produksi'}</strong></span>
               <span>Update: {currentStage.lastUpdatedAt}</span>
             </div>
@@ -221,16 +222,16 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
                   className="bg-white/80 p-3.5 rounded-xl border border-slate-200 text-xs space-y-1.5 opacity-90"
                 >
                   <div className="flex justify-between items-center">
-                    <span className="font-mono text-[10px] text-slate-400">
+                    <span className="font-mono text-xs text-slate-400">
                       Tahap #{stg.order}
                     </span>
-                    <span className="text-[10px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                    <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
                       Antre
                     </span>
                   </div>
                   <h4 className="font-semibold text-slate-800">{stg.name}</h4>
                   {stg.lockPointForTitles && (
-                    <span className="inline-flex items-center gap-1 text-[10px] text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">
+                    <span className="inline-flex items-center gap-1 text-xs text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">
                       <Lock size={10} />
                       Kunci: {stg.lockPointForTitles[0]}
                     </span>
@@ -243,7 +244,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
 
       {/* Advance Stage Modal Prompt */}
       {showAdvancePrompt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+        <Modal onClose={() => setShowAdvancePrompt(false)} label="Konfirmasi penyelesaian tahap">
           <div className="bg-white rounded-2xl border border-slate-200 max-w-md w-full p-6 shadow-xl space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-slate-100">
               <h4 className="font-display font-bold text-sm text-slate-900">
@@ -287,15 +288,15 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
               </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       {/* Photo Lightbox */}
       {activePhotoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-xs">
+        <Modal onClose={() => setActivePhotoModal(null)} label="Foto bukti">
           <div className="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200">
             <div className="relative aspect-video bg-black">
-              <img
+              <img loading="lazy" decoding="async"
                 src={activePhotoModal}
                 alt="Bukti Foto"
                 className="w-full h-full object-cover"
@@ -316,7 +317,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
               <span className="font-mono text-slate-400">UUID: {project.id}-IMG</span>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );

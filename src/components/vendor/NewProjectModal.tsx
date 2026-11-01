@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Sparkles, FolderPlus, Check } from 'lucide-react';
 import { Project } from '../../types/revio';
+import Modal from '../ui/Modal';
 
 interface NewProjectModalProps {
   isOpen: boolean;
@@ -13,8 +14,6 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
   onClose,
   onCreateProject,
 }) => {
-  if (!isOpen) return null;
-
   const [category, setCategory] = useState<'furnitur' | 'percetakan' | 'dekorasi'>('furnitur');
   const [title, setTitle] = useState('');
   const [customerName, setCustomerName] = useState('');
@@ -120,8 +119,10 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
     onClose();
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <Modal onClose={onClose} label="Proyek baru">
       <div className="bg-white rounded-2xl border border-slate-200 max-w-lg w-full p-6 shadow-xl space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
@@ -242,7 +243,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
               value={whyExpensive}
               onChange={(e) => setWhyExpensive(e.target.value)}
               placeholder="Jelaskan dalam bahasa awam mengapa mahal jika diubah melewati titik kunci..."
-              className="w-full border border-amber-200 rounded-lg p-2 bg-white text-slate-900 text-[11px]"
+              className="w-full border border-amber-200 rounded-lg p-2 bg-white text-slate-900 text-xs"
               required
             />
           </div>
@@ -265,7 +266,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   );
 };
 

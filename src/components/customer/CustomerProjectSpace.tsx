@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { 
   Clock, 
   ShieldCheck, 
@@ -108,18 +108,18 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
         {/* Progress & Freshness Strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-100">
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-            <span className="text-[10px] uppercase font-bold text-slate-400">Tahap Berjalan</span>
+            <span className="text-xs uppercase font-bold text-slate-400">Tahap Berjalan</span>
             <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">
               {project.currentStageName}
             </p>
-            <div className="flex items-center gap-1 text-[11px] text-slate-500 mt-1">
+            <div className="flex items-center gap-1 text-xs text-slate-500 mt-1">
               <Clock size={12} className="text-amber-500" />
               <span>Diperbarui {project.lastStageUpdatedHoursAgo} jam lalu</span>
             </div>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-            <span className="text-[10px] uppercase font-bold text-slate-400">Progres Keseluruhan</span>
+            <span className="text-xs uppercase font-bold text-slate-400">Progres Keseluruhan</span>
             <div className="flex items-center gap-2 mt-0.5">
               <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                 <div
@@ -129,17 +129,17 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
               </div>
               <span className="text-xs font-bold font-mono text-slate-800">{progressPct}%</span>
             </div>
-            <span className="text-[10px] text-slate-400 mt-1 block">
+            <span className="text-xs text-slate-400 mt-1 block">
               {completedStagesCount} dari {project.stages.length} tahap selesai
             </span>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-            <span className="text-[10px] uppercase font-bold text-slate-400">Nilai Kontrak Proyek</span>
+            <span className="text-xs uppercase font-bold text-slate-400">Nilai Kontrak Proyek</span>
             <p className="text-xs font-mono font-bold text-slate-900 mt-0.5 tabular-nums">
               {formatIDR(project.valueAmount)}
             </p>
-            <span className="text-[10px] text-emerald-700 font-medium">
+            <span className="text-xs text-emerald-700 font-medium">
               DP Terbayar: {formatIDR(project.paidAmount)}
             </span>
           </div>
@@ -277,14 +277,14 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
                       <span className="font-mono text-xs font-bold text-slate-800 uppercase">
                         {co.id}
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-800">
+                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-800">
                         {co.status.toUpperCase()}
                       </span>
                     </div>
                     <p className="text-xs font-bold text-slate-900">
                       {co.decisionTitle}: {co.fromOption} → {co.toOption}
                     </p>
-                    <p className="text-[11px] text-slate-500">{co.notes}</p>
+                    <p className="text-xs text-slate-500">{co.notes}</p>
                   </div>
 
                   <div className="flex items-center gap-4">
@@ -292,7 +292,7 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
                       <span className="font-mono text-sm font-bold text-slate-900 block tabular-nums">
                         {formatIDR(co.totalCost)}
                       </span>
-                      <span className="text-[10px] text-slate-500">
+                      <span className="text-xs text-slate-500">
                         Jadwal +{co.scheduleImpactDays} hari
                       </span>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { 
   Calculator, 
   ShieldCheck, 
@@ -110,7 +110,7 @@ export const VisualFormulaExplorer: React.FC = () => {
     <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#0E9F8E] bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#0E9F8E] bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-200">
             Kalkulator Rumus & Biaya Adil
           </span>
           <h2 className="font-display font-extrabold text-xl text-slate-900 mt-1">
@@ -142,7 +142,7 @@ export const VisualFormulaExplorer: React.FC = () => {
 
       {/* Visual Dynamic Formula Ribbon */}
       <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-[#12203A] text-white space-y-3 shadow-md">
-        <div className="text-[11px] text-teal-300 font-mono font-semibold flex items-center gap-1.5">
+        <div className="text-xs text-teal-300 font-mono font-semibold flex items-center gap-1.5">
           <Sparkles size={13} className="text-amber-400" />
           <span>Formula Matematis Terverifikasi:</span>
         </div>
@@ -188,7 +188,7 @@ export const VisualFormulaExplorer: React.FC = () => {
               title="Biaya Penjadwalan"
             />
           </div>
-          <div className="flex justify-between text-[10px] text-slate-400 px-1">
+          <div className="flex justify-between text-xs text-slate-400 px-1">
             <span className="text-teal-300">● Jam Tukang ({Math.round((workCost / totalChangeCost) * 100)}%)</span>
             <span className="text-rose-300">● Bahan Bersih ({Math.round((netMaterialCost / totalChangeCost) * 100)}%)</span>
             <span className="text-amber-300">● Slot Jadwal ({Math.round((rescheduleFee / totalChangeCost) * 100)}%)</span>
@@ -220,7 +220,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-[#0E9F8E] cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-slate-400">
+          <div className="flex justify-between text-xs text-slate-400">
             <span>0 Jam (Ringan)</span>
             <span>Tarif: {formatIDR(rate)}/jam</span>
             <span>40 Jam (Bongkar Total)</span>
@@ -250,7 +250,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-[#0E9F8E] cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-slate-400">
+          <div className="flex justify-between text-xs text-slate-400">
             <span>Rp 0</span>
             <span>Kayu / Kertas / Kain / Granit</span>
             <span>Rp 8.000.000</span>
@@ -280,7 +280,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-emerald-600 cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-slate-400">
+          <div className="flex justify-between text-xs text-slate-400">
             <span>0% (Terbuang Mutlak)</span>
             <span>Potongan kayu kecil / sisa kain</span>
             <span>100% (Dapat Dipakai Kembali)</span>
@@ -310,7 +310,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-amber-500 cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-slate-400">
+          <div className="flex justify-between text-xs text-slate-400">
             <span>Rp 0 (Jadwal Fleksibel)</span>
             <span>Kompensasi antrean bengkel</span>
             <span>Rp 1.000.000</span>
@@ -332,7 +332,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             <span className="text-xs font-bold text-slate-900">
               Dampak Terhadap Nilai Kontrak Proyek: {impactPct}%
             </span>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-xs text-slate-500">
               {isHighImpact
                 ? 'Peringatan: Biaya perubahan di atas 15% proyek, memicu audit otomatis dan persetujuan ganda pemilik bengkel.'
                 : 'Aman: Biaya berada dalam rentang wajar dan bersumber dari catatan nyata.'}
@@ -341,7 +341,7 @@ export const VisualFormulaExplorer: React.FC = () => {
         </div>
 
         <div className="text-left sm:text-right shrink-0">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Akhir Biaya Revisi</span>
+          <span className="text-xs uppercase font-bold text-slate-400 block">Total Akhir Biaya Revisi</span>
           <span className="font-mono text-2xl font-extrabold text-[#0E9F8E] tabular-nums">
             {formatIDR(totalChangeCost)}
           </span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Lock, Unlock, AlertCircle } from 'lucide-react';
 import { DecisionStatus } from '../../types/revio';
 

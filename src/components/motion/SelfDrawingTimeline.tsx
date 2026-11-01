@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Check, Clock, AlertCircle, Camera, Lock } from 'lucide-react';
 import { ProductionStage } from '../../types/revio';
 
@@ -71,13 +71,13 @@ export const SelfDrawingTimeline: React.FC<SelfDrawingTimelineProps> = ({
 
                 <div className="flex items-center gap-2 text-xs">
                   {hasLockPoint && (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200 font-medium text-[11px]">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200 font-medium text-xs">
                       <Lock size={11} className="text-amber-600" />
                       Titik Kunci
                     </span>
                   )}
                   <span
-                    className={`px-2 py-0.5 rounded-md font-medium text-[11px] ${
+                    className={`px-2 py-0.5 rounded-md font-medium text-xs ${
                       isCompleted
                         ? 'bg-emerald-50 text-emerald-800'
                         : isInProgress
@@ -101,14 +101,14 @@ export const SelfDrawingTimeline: React.FC<SelfDrawingTimelineProps> = ({
               {hasLockPoint && (
                 <div className="mt-2.5 p-2 rounded-lg bg-amber-50/70 border border-amber-200/50 flex items-center gap-2 text-xs text-amber-900">
                   <AlertCircle size={14} className="text-amber-600 shrink-0" />
-                  <span className="text-[11px]">
+                  <span className="text-xs">
                     <strong>Titik Kunci untuk:</strong> {stage.lockPointForTitles?.join(', ')}
                   </span>
                 </div>
               )}
 
               {/* Photos & meta */}
-              <div className="mt-3 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-2 pt-2 border-t border-slate-100">
+              <div className="mt-3 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2 pt-2 border-t border-slate-100">
                 <div className="flex items-center gap-3">
                   <span>Pembaruan: {stage.lastUpdatedAt}</span>
                   {stage.updatedBy && <span>Oleh: {stage.updatedBy}</span>}

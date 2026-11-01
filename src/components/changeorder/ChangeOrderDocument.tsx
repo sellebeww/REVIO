@@ -2,6 +2,7 @@ import React from 'react';
 import { Printer, CheckCircle, FileText, Download, ShieldCheck } from 'lucide-react';
 import { ChangeOrder, Project } from '../../types/revio';
 import RevioLogo from '../brand/RevioLogo';
+import { printDocument } from '../../lib/printDocument';
 
 interface ChangeOrderDocumentProps {
   changeOrder: ChangeOrder;
@@ -22,17 +23,17 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
     }).format(num);
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const fileName = `Revio-ChangeOrder-${changeOrder.id}`;
+  // Tanpa library PDF: dialog cetak browser menyediakan "Simpan sebagai PDF".
+  const handlePrint = (e: React.MouseEvent<HTMLElement>) => printDocument(fileName, e.currentTarget);
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 space-y-6 max-w-2xl mx-auto shadow-sm print:border-none print:shadow-none">
+    <div data-print-area className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 space-y-6 max-w-2xl mx-auto shadow-sm print:border-none print:shadow-none">
       {/* Header bar with Revio & Vendor */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
           <RevioLogo size="sm" layout="horizontal" showTagline />
-          <p className="text-[11px] text-slate-500 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Dokumen Berita Acara Perubahan Kerja (Change Order)
           </p>
         </div>
@@ -40,7 +41,7 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
           <span className="font-mono text-xs font-bold text-slate-900 bg-slate-100 px-2 py-1 rounded">
             NO: {changeOrder.id.toUpperCase()}
           </span>
-          <div className="text-[11px] text-slate-500 mt-1">
+          <div className="text-xs text-slate-500 mt-1">
             Vendor: <strong>{project.vendorName}</strong>
           </div>
         </div>
@@ -49,12 +50,12 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
       {/* Project & Client summary */}
       <div className="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200/60">
         <div>
-          <span className="text-[10px] uppercase font-bold text-slate-400">Proyek</span>
+          <span className="text-xs uppercase font-bold text-slate-400">Proyek</span>
           <p className="font-semibold text-slate-900">{project.title}</p>
           <p className="text-slate-500">Nilai Kontrak: {formatIDR(project.valueAmount)}</p>
         </div>
         <div>
-          <span className="text-[10px] uppercase font-bold text-slate-400">Pelanggan</span>
+          <span className="text-xs uppercase font-bold text-slate-400">Pelanggan</span>
           <p className="font-semibold text-slate-900">{project.customerName}</p>
           <p className="text-slate-500">{project.customerPhone}</p>
         </div>
@@ -67,11 +68,11 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
         </h4>
         <div className="p-3.5 rounded-xl border border-slate-200 grid grid-cols-2 gap-3 text-xs">
           <div>
-            <span className="text-[10px] text-slate-400 font-medium">Sebelum (Semula):</span>
+            <span className="text-xs text-slate-400 font-medium">Sebelum (Semula):</span>
             <p className="font-semibold text-slate-700 line-through">{changeOrder.fromOption}</p>
           </div>
           <div>
-            <span className="text-[10px] text-[#0E9F8E] font-medium">Menjadi (Disetujui):</span>
+            <span className="text-xs text-[#0E9F8E] font-medium">Menjadi (Disetujui):</span>
             <p className="font-bold text-slate-900">{changeOrder.toOption}</p>
           </div>
         </div>
@@ -124,7 +125,7 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
                 {formatIDR(changeOrder.totalCost)}
               </td>
             </tr>
-            <tr className="bg-slate-50 text-[11px] text-slate-600">
+            <tr className="bg-slate-50 text-xs text-slate-600">
               <td className="p-2.5">Penyesuaian Jadwal Selesai:</td>
               <td className="p-2.5 text-right font-medium">
                 Bertambah +{changeOrder.scheduleImpactDays} Hari Kerja
@@ -137,18 +138,18 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
       {/* Digital Signature & Verification */}
       <div className="pt-4 border-t border-slate-200 grid grid-cols-2 gap-4 text-xs">
         <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-          <span className="text-[10px] text-slate-400 font-medium">Pihak Pembuat</span>
+          <span className="text-xs text-slate-400 font-medium">Pihak Pembuat</span>
           <p className="font-semibold text-slate-800">{project.vendorName}</p>
-          <div className="flex items-center gap-1 text-[11px] text-emerald-700 mt-1">
+          <div className="flex items-center gap-1 text-xs text-emerald-700 mt-1">
             <CheckCircle size={13} />
             <span>Terverifikasi Sistem</span>
           </div>
         </div>
 
         <div className="p-3 rounded-xl bg-teal-50 border border-teal-200">
-          <span className="text-[10px] text-teal-700 font-medium">Pihak Pelanggan</span>
+          <span className="text-xs text-teal-700 font-medium">Pihak Pelanggan</span>
           <p className="font-semibold text-slate-900">{changeOrder.approvedBy || project.customerName}</p>
-          <div className="flex items-center gap-1 text-[11px] text-[#0E9F8E] mt-1">
+          <div className="flex items-center gap-1 text-xs text-[#0E9F8E] mt-1">
             <ShieldCheck size={13} />
             <span>Disetujui: {changeOrder.approvedAt || 'Tervalidasi'}</span>
           </div>
@@ -166,6 +167,14 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
           </button>
         )}
         <div className="flex items-center gap-2 ml-auto">
+          <button
+            onClick={handlePrint}
+            title="Di dialog cetak pilih tujuan: Simpan sebagai PDF"
+            className="px-4 py-2 text-xs font-semibold rounded-xl bg-[#0B3A66] text-white hover:bg-[#12508F] flex items-center gap-1.5 transition-colors"
+          >
+            <Download size={14} />
+            <span>Unduh PDF</span>
+          </button>
           <button
             onClick={handlePrint}
             className="px-4 py-2 text-xs font-semibold rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 transition-colors"

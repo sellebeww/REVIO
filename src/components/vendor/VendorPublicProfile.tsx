@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { VendorProfile, VendorPortfolioItem } from '../../types/revio';
 import RevioLogo from '../brand/RevioLogo';
+import Modal from '../ui/Modal';
 
 interface VendorPublicProfileProps {
   vendor: VendorProfile;
@@ -78,19 +79,19 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
           {/* Quick Metrics Strip */}
           <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs border-t border-slate-100">
             <div>
-              <span className="text-[10px] text-slate-400 font-semibold uppercase">Berdiri Sejak</span>
+              <span className="text-xs text-slate-400 font-semibold uppercase">Berdiri Sejak</span>
               <p className="font-bold text-slate-900 mt-0.5">{vendor.foundedYear}</p>
             </div>
             <div>
-              <span className="text-[10px] text-slate-400 font-semibold uppercase">Kunci Tepat Waktu</span>
+              <span className="text-xs text-slate-400 font-semibold uppercase">Kunci Tepat Waktu</span>
               <p className="font-mono font-bold text-slate-900 mt-0.5">{vendor.onTimeLockRate}%</p>
             </div>
             <div>
-              <span className="text-[10px] text-slate-400 font-semibold uppercase">Bebas Sengketa</span>
+              <span className="text-xs text-slate-400 font-semibold uppercase">Bebas Sengketa</span>
               <p className="font-mono font-bold text-slate-900 mt-0.5">{vendor.lowDisputeRate}%</p>
             </div>
             <div>
-              <span className="text-[10px] text-slate-400 font-semibold uppercase">Rata-rata Waktu</span>
+              <span className="text-xs text-slate-400 font-semibold uppercase">Rata-rata Waktu</span>
               <p className="font-bold text-slate-900 mt-0.5">{vendor.leadDaysAvg} Hari Kerja</p>
             </div>
           </div>
@@ -165,7 +166,7 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
           </div>
 
           <div className="pt-3 border-t border-slate-100">
-            <span className="text-[10px] text-slate-400 uppercase font-bold">Jangkauan Layanan</span>
+            <span className="text-xs text-slate-400 uppercase font-bold">Jangkauan Layanan</span>
             <p className="font-medium text-slate-800 mt-0.5">{vendor.coverageArea}</p>
           </div>
         </div>
@@ -189,11 +190,11 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
                 {srv.description}
               </p>
               <div className="pt-3 border-t border-slate-100 space-y-1 text-xs">
-                <span className="text-[10px] uppercase font-bold text-slate-400">
+                <span className="text-xs uppercase font-bold text-slate-400">
                   Bahan Utama
                 </span>
                 <p className="font-medium text-slate-800">{srv.materials}</p>
-                <span className="text-[11px] text-slate-500 block pt-1">
+                <span className="text-xs text-slate-500 block pt-1">
                   Estimasi pengerjaan: {srv.avgDays} hari kerja
                 </span>
               </div>
@@ -215,13 +216,13 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
               className="group bg-white rounded-2xl border border-slate-200 overflow-hidden cursor-pointer hover:shadow-md transition-all flex flex-col"
             >
               <div className="relative aspect-4/3 bg-slate-100 overflow-hidden">
-                <img
+                <img loading="lazy" decoding="async"
                   src={item.imageUrl}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   referrerPolicy="no-referrer"
                 />
-                <span className="absolute bottom-2 left-2 text-[10px] font-bold bg-slate-900/80 text-white px-2 py-0.5 rounded backdrop-blur-xs">
+                <span className="absolute bottom-2 left-2 text-xs font-bold bg-slate-900/80 text-white px-2 py-0.5 rounded backdrop-blur-xs">
                   {item.category}
                 </span>
               </div>
@@ -230,11 +231,11 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
                   <h4 className="font-display font-bold text-xs text-slate-900 group-hover:text-[#0E9F8E] transition-colors line-clamp-1">
                     {item.title}
                   </h4>
-                  <p className="text-[11px] text-slate-500 line-clamp-2 mt-0.5">
+                  <p className="text-xs text-slate-500 line-clamp-2 mt-0.5">
                     {item.description}
                   </p>
                 </div>
-                <div className="text-[10px] text-slate-400 pt-2 border-t border-slate-100">
+                <div className="text-xs text-slate-400 pt-2 border-t border-slate-100">
                   {item.durationDays} hari pengerjaan
                 </div>
               </div>
@@ -245,10 +246,10 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
 
       {/* Portfolio Lightbox Modal */}
       {selectedPortfolio && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs">
+        <Modal onClose={() => setSelectedPortfolio(null)} label="Detail portofolio">
           <div className="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200">
             <div className="relative aspect-16/9 bg-slate-900">
-              <img
+              <img loading="lazy" decoding="async"
                 src={selectedPortfolio.imageUrl}
                 alt={selectedPortfolio.title}
                 className="w-full h-full object-cover"
@@ -276,7 +277,7 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );

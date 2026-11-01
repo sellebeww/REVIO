@@ -27,6 +27,7 @@ import LivingLock from '../motion/LivingLock';
 import HoldToLock from '../motion/HoldToLock';
 import CountUpNumber from '../motion/CountUpNumber';
 import RevisionWindowVisualizer from '../motion/RevisionWindowVisualizer';
+import Modal from '../ui/Modal';
 
 interface RevioCompanyProfileProps {
   vendors: VendorProfile[];
@@ -190,11 +191,11 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
                 </div>
 
                 <div className="text-left sm:text-right p-3 rounded-xl bg-slate-50 border border-slate-200/80 shrink-0">
-                  <span className="text-[10px] text-slate-400 block font-semibold uppercase">Biaya Perubahan Saat Ini</span>
+                  <span className="text-xs text-slate-400 block font-semibold uppercase">Biaya Perubahan Saat Ini</span>
                   <span className="font-mono text-lg font-bold text-slate-900">
                     {demoLocked ? 'Rp 0 (Terkunci Permanen)' : 'Rp 450.000'}
                   </span>
-                  <span className="text-[10px] text-slate-500 block">
+                  <span className="text-xs text-slate-500 block">
                     {demoLocked ? 'Tahap berikutnya terbuka' : 'Berdasarkan jam amplas nyata'}
                   </span>
                 </div>
@@ -204,7 +205,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
               <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3">
                 <FlexibilityBar score={demoLocked ? 0 : sliderScore} size="md" />
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-600 gap-2 pt-1">
-                  <span className="text-[11px] text-slate-500">
+                  <span className="text-xs text-slate-500">
                     Geser untuk mensimulasikan kemajuan tahap produksi:
                   </span>
                   <div className="flex items-center gap-2">
@@ -230,7 +231,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
                   <span className="text-xs font-semibold text-slate-800 block">
                     {demoLocked ? 'Keputusan Telah Terkunci' : 'Coba Interaksi "Tahan untuk Mengunci"'}
                   </span>
-                  <span className="text-[11px] text-slate-500">
+                  <span className="text-xs text-slate-500">
                     {demoLocked
                       ? 'Pilihan warna terkunci aman tanpa risiko revisi sepihak.'
                       : 'Tekan dan tahan tombol selama 1 detik penuh untuk mengonfirmasi.'}
@@ -267,7 +268,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
             <div className="font-mono text-2xl sm:text-3xl font-bold text-emerald-400 tabular-nums">
               Rp <CountUpNumber end={420} suffix=" Juta+" />
             </div>
-            <p className="text-[11px] text-slate-400">Dari pemotongan tanpa konfirmasi</p>
+            <p className="text-xs text-slate-400">Dari pemotongan tanpa konfirmasi</p>
           </div>
 
           <div className="space-y-1">
@@ -275,7 +276,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
             <div className="font-mono text-2xl sm:text-3xl font-bold text-teal-300 tabular-nums">
               -<CountUpNumber end={88} suffix="% Jam Kerja" />
             </div>
-            <p className="text-[11px] text-slate-400">Tukang fokus membuat produk baru</p>
+            <p className="text-xs text-slate-400">Tukang fokus membuat produk baru</p>
           </div>
 
           <div className="space-y-1">
@@ -283,7 +284,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
             <div className="font-mono text-2xl sm:text-3xl font-bold text-amber-300 tabular-nums">
               <CountUpNumber end={0} suffix=" Kasus" />
             </div>
-            <p className="text-[11px] text-slate-400">Bukti jam & bahan terverifikasi</p>
+            <p className="text-xs text-slate-400">Bukti jam & bahan terverifikasi</p>
           </div>
 
           <div className="space-y-1">
@@ -291,7 +292,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
             <div className="font-mono text-2xl sm:text-3xl font-bold text-white tabular-nums">
               <CountUpNumber end={4.9} decimals={1} suffix=" / 5.0" />
             </div>
-            <p className="text-[11px] text-slate-400">Survei pascaproyek seluruh klien</p>
+            <p className="text-xs text-slate-400">Survei pascaproyek seluruh klien</p>
           </div>
         </div>
       </section>
@@ -339,7 +340,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl border border-slate-200 p-5 space-y-3 relative hover:border-[#0E9F8E] transition-colors"
+              className="card-lift bg-white rounded-2xl border border-slate-200 p-5 space-y-3 relative hover:border-[#0E9F8E] transition-colors"
             >
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xl font-bold text-slate-300">
@@ -409,7 +410,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
           </div>
 
           <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 text-xs">
-            <span className="text-[10px] uppercase font-bold text-slate-400">
+            <span className="text-xs uppercase font-bold text-slate-400">
               Contoh Proyek Terdaftar di Revio
             </span>
             <div className="space-y-2">
@@ -451,14 +452,14 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
             <div
               key={v.id}
               onClick={() => onOpenVendorProfile(v.slug)}
-              className="bg-white rounded-3xl border border-slate-200 p-6 space-y-4 hover:border-[#0E9F8E] hover:shadow-lg transition-all cursor-pointer flex flex-col justify-between"
+              className="card-lift bg-white rounded-3xl border border-slate-200 p-6 space-y-4 hover:border-[#0E9F8E] hover:shadow-lg transition-all cursor-pointer flex flex-col justify-between"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-[#0E9F8E] bg-teal-50 px-2.5 py-1 rounded-lg">
+                  <span className="text-xs font-bold text-[#0E9F8E] bg-teal-50 px-2.5 py-1 rounded-lg">
                     {v.category}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     <ShieldCheck size={13} className="text-emerald-600" />
                     {v.certifiedBadgeLevel.toUpperCase()}
                   </span>
@@ -519,7 +520,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
               }`}
             >
               <span>Tahunan</span>
-              <span className="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-1.5 py-0.2 rounded">
+              <span className="text-xs text-emerald-700 font-bold bg-emerald-100 px-1.5 py-0.2 rounded">
                 Hemat 20%
               </span>
             </button>
@@ -528,7 +529,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Plan 1 */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 space-y-6 flex flex-col justify-between">
+          <div className="card-lift bg-white rounded-3xl border border-slate-200 p-6 space-y-6 flex flex-col justify-between">
             <div className="space-y-4">
               <span className="text-xs font-bold text-slate-400 uppercase">Paket Mulai</span>
               <h3 className="font-display font-bold text-xl text-slate-900">Mulai</h3>
@@ -562,8 +563,8 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
           </div>
 
           {/* Plan 2: Flagship Tumbuh */}
-          <div className="bg-slate-900 text-white rounded-3xl border-2 border-[#0E9F8E] p-6 space-y-6 flex flex-col justify-between relative shadow-xl">
-            <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0E9F8E] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          <div className="card-lift bg-slate-900 text-white rounded-3xl border-2 border-[#0E9F8E] p-6 space-y-6 flex flex-col justify-between relative shadow-xl">
+            <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#0E9F8E] text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
               Paling Populer
             </span>
             <div className="space-y-4">
@@ -604,7 +605,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
           </div>
 
           {/* Plan 3 */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 space-y-6 flex flex-col justify-between">
+          <div className="card-lift bg-white rounded-3xl border border-slate-200 p-6 space-y-6 flex flex-col justify-between">
             <div className="space-y-4">
               <span className="text-xs font-bold text-slate-400 uppercase">Paket Pro</span>
               <h3 className="font-display font-bold text-xl text-slate-900">Pro & Multi-Cabang</h3>
@@ -670,7 +671,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
 
       {/* Demo Modal */}
       {showDemoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+        <Modal onClose={() => setShowDemoModal(false)} label="Jadwalkan demo">
           <div className="bg-white rounded-2xl border border-slate-200 max-w-md w-full p-6 shadow-xl space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-slate-100">
               <h4 className="font-display font-bold text-sm text-slate-900">
@@ -720,7 +721,7 @@ export const RevioCompanyProfile: React.FC<RevioCompanyProfileProps> = ({
               </form>
             )}
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );

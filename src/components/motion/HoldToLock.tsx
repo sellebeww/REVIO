@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Lock, Check } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -30,8 +30,13 @@ export const HoldToLock: React.FC<HoldToLockProps> = ({
     setIsSuccess(isAlreadyLocked);
   }, [isAlreadyLocked]);
 
-  const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
-    if (disabled || isSuccess) return;
+  // Batalkan animasi bila komponen ditutup di tengah tahan (mis. dialog ditutup).
+  useEffect(() => () => {
+    if (requestRef.current) cancelAnimationFrame(requestRef.current);
+  }, []);
+
+  const handleStart = () => {
+    if (disabled || isSuccess || startTimeRef.current) return;
     setIsHolding(true);
     startTimeRef.current = performance.now();
 
@@ -108,6 +113,13 @@ export const HoldToLock: React.FC<HoldToLockProps> = ({
         onMouseLeave={handleEnd}
         onTouchStart={handleStart}
         onTouchEnd={handleEnd}
+        onKeyDown={(e) => {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          e.preventDefault();
+          if (!e.repeat) handleStart();
+        }}
+        onKeyUp={(e) => (e.key === 'Enter' || e.key === ' ') && handleEnd()}
+        onBlur={handleEnd}
         whileTap={{ scale: disabled ? 1 : 0.98 }}
         className={`relative inline-flex items-center gap-3 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-sm ${
           disabled
@@ -149,7 +161,7 @@ export const HoldToLock: React.FC<HoldToLockProps> = ({
           <span>{isHolding ? 'Tahan 1 Detik...' : 'Tahan untuk Kunci'}</span>
         </div>
       </motion.button>
-      <span className="text-[11px] text-slate-500 pl-1">
+      <span className="text-xs text-slate-500 pl-1">
         Tekan & tahan 1 detik untuk mengunci pilihan secara permanen
       </span>
     </div>

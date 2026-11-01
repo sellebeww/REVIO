@@ -1,87 +1,116 @@
-# Revio — Platform Transparansi Hak Revisi & Biaya Produksi Pesanan
+<p align="center">
+  <img src="public/brand/revio-logo-full.svg" alt="Revio" width="260">
+</p>
 
-Revio adalah platform yang menghubungkan hak revisi pelanggan dengan tahapan produksi nyata bengkel manufaktur kustom (furnitur, percetakan khusus, dekorasi panggung, konveksi). Revio memastikan pelanggan memahami kapan sebuah keputusan harus dikunci dan berapa biayanya jika ditunda secara transparan.
+<h1 align="center">Revio</h1>
 
----
+<p align="center">
+  Platform transparansi <b>hak revisi</b> dan <b>biaya produksi</b> untuk pesanan kustom<br>
+  (furnitur, percetakan khusus, dekorasi panggung, konveksi).
+</p>
 
-## 🚀 Fitur Utama
+<p align="center">
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white">
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white">
+  <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white">
+</p>
 
-1. **Logo & Identitas Merek Revio**
-   - Menggunakan logo resmi Revio dengan ikon huruf R geometris, pita lengkung hijau zamrud terlipat (*folded ribbon*), serta sepasang panah refresh yang melambangkan siklus revisi yang terkendali.
-   - Dilengkapi file SVG resmi di `/public/brand/` untuk resolusi tajam di berbagai ukuran.
+![Beranda Revio](docs/screenshots/01-landing.png)
 
-2. **Peta Keputusan (Decision Map)**
-   - Status visual: *Fleksibel*, *Mendekati Kunci*, *Terkunci*, dan *Ditunda*.
-   - Rincian transparan: *"Mengapa mahal jika diubah melewati tahap ini?"*
-   - Tiga tindakan jelas untuk pelanggan: **Kunci Sekarang (Hold-to-Lock)**, **Tunda (Simulasi Biaya)**, atau **Ajukan Perubahan (Change Order)**.
+## Masalahnya
 
-3. **Sistem Animasi Signature Revio**
-   - **Tahan untuk Mengunci (Hold-to-Lock)**: Cincin progres melingkar 1 detik untuk mencegah penguncian tidak sengaja, diiringi efek konfeti saat terkunci.
-   - **Pita Fleksibilitas**: Bar visual yang menyusut dan bermutasi warna (hijau → kuning → abu-abu) seiring kemajuan tahap.
-   - **Gembok Hidup**: Animasi status gembok terbuka, berdenyut waspada, dan terkunci kokoh.
-   - **Kalkulator Biaya Fleksibilitas Interaktif**: Slider geser tunda dengan kalkulasi biaya dan dampak hari kalender secara langsung.
-   - **Garis Waktu Menggambar Diri**: Menampilkan simpul tahap produksi aktif yang berdenyut lembut dan penanda Titik Kunci.
+Pelanggan mengubah desain di tengah produksi, bahan sudah terpotong, dan biaya tambahan baru muncul belakangan tanpa dasar yang jelas. Revio mengikat setiap keputusan penting ke **titik kunci** tahap produksi, sehingga pelanggan tahu kapan sebuah keputusan harus dikunci dan berapa biayanya kalau diubah atau ditunda, lengkap dengan bukti kerja nyata.
 
-4. **Change Order & Paket Bukti Nyata**
-   - Dokumen Berita Acara Perubahan Kerja dengan rumus transparan:
-     $$\text{Biaya} = (\text{Jam Kerja} \times \text{Tarif}) + \text{Bahan Terpakai} - \text{Deduksi Pakai Ulang} + \text{Biaya Jadwal}$$
-   - Fitur pratinjau cetak dan unduhan formal berlogo Revio dan vendor.
+## Fitur
 
-5. **Profil Perusahaan Vendor Publik (`/v/:slug`) & Editor Langsung**
-   - Halaman publik lengkap: layanan, spesifikasi bahan, galeri portofolio lightbox, kontak WhatsApp, dan **Lencana Kepastian** (Sertifikasi Transparansi Platinum).
-   - Editor profil dengan mode pratinjau berdampingan.
+### Ruang Proyek Pelanggan
+Peta keputusan dengan status *Fleksibel*, *Mendekati Kunci*, *Terkunci*, dan *Ditunda*. Setiap keputusan menjelaskan kenapa perubahan jadi mahal setelah melewati sebuah tahap, dan menawarkan tiga tindakan: **Kunci Sekarang** (tahan 1 detik untuk mencegah salah klik), **Tunda** (simulasi biaya), atau **Ajukan Perubahan** (change order).
 
-6. **Analitik & Validasi Dampak**
-   - Komparasi kerugian sebelum vs sesudah memakai Revio:
-     - Hemat bahan terbuang: **Rp 420 Juta+**
-     - Reduksi jam bongkar ulang tukang: **-88%**
-     - Kasus sengketa sepihak: **0 Kasus**
-   - Fitur impor data historis proyek lama dan ekspor laporan format CSV.
+![Ruang Pelanggan](docs/screenshots/02-ruang-pelanggan.png)
 
-7. **Log Audit Permanen**
-   - Catatan stempel waktu setiap perubahan status tahap, persetujuan change order, dan penguncian keputusan untuk paket pembuktian sengketa.
+### Dasbor Vendor
+Vendor mengelola proyek, tahap produksi, catatan jam kerja dan bahan, serta persetujuan change order dari satu tempat.
 
----
+![Dasbor Vendor](docs/screenshots/03-dasbor-vendor.png)
 
-## 🛠️ Menjalankan Aplikasi
+### Papan Bengkel Live
+Papan kanban untuk memantau tahap produksi yang sedang berjalan di bengkel.
 
-Aplikasi dibangun dengan Vite, React 19, TypeScript, Tailwind CSS v4, dan Motion.
+![Papan Bengkel Live](docs/screenshots/04-papan-bengkel.png)
+
+### Kalkulator Rumus
+Rumus biaya perubahan dibuat terlihat, bukan kotak hitam:
+
+```
+Biaya = (Jam Kerja × Tarif) + Bahan Terpakai − Deduksi Pakai Ulang + Biaya Jadwal
+```
+
+![Kalkulator Rumus](docs/screenshots/05-kalkulator-rumus.png)
+
+### Validasi Dampak
+Perbandingan sebelum dan sesudah memakai Revio (bahan terbuang, jam bongkar ulang, sengketa), dengan impor data historis dan ekspor CSV.
+
+![Validasi Dampak](docs/screenshots/06-validasi-dampak.png)
+
+### Profil Bengkel Publik
+Halaman publik vendor berisi layanan, spesifikasi bahan, galeri portofolio, kontak WhatsApp, dan Lencana Kepastian, dengan editor profil yang punya pratinjau berdampingan.
+
+![Profil Bengkel](docs/screenshots/07-profil-bengkel.png)
+
+### Lainnya
+- **Change Order & Paket Bukti**: Berita Acara Perubahan Kerja yang bisa dicetak atau diunduh, memakai logo Revio dan vendor.
+- **Log Audit**: stempel waktu setiap perubahan tahap, persetujuan change order, dan penguncian keputusan.
+- **Animasi khas Revio**: Hold-to-Lock dengan konfeti, Pita Fleksibilitas, Gembok Hidup, dan garis waktu yang menggambar diri. Menghormati pengaturan *reduced motion*.
+
+## Menjalankan
+
+Butuh Node.js 20 atau lebih baru.
 
 ```bash
-# Menjalankan development server
-npm run dev
-
-# Kompilasi build produksi
-npm run build
-
-# Pengecekan tipe dan linting
-npm run lint
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # hasil build di dist/
+npm run lint     # pengecekan tipe (tsc --noEmit)
 ```
 
----
+Aplikasi ini murni frontend. Data demo (proyek, vendor, log audit) ada di [src/data/mockSeedData.ts](src/data/mockSeedData.ts), tanpa backend dan tanpa environment variable.
 
-## 📁 Struktur Direktori
+## Deploy ke Vercel
+
+Tidak perlu konfigurasi tambahan: Vercel mendeteksi Vite otomatis.
+
+1. Import repo ini di [vercel.com/new](https://vercel.com/new).
+2. Biarkan Framework Preset **Vite** (build `npm run build`, output `dist`).
+3. Deploy.
+
+Navigasi memakai state di dalam aplikasi, tanpa route URL, jadi tidak perlu aturan rewrite.
+
+## Struktur
 
 ```
-/
-├── public/
-│   ├── assets/aistudio/                 # Logo resmi Revio yang diunggah
-│   └── brand/                           # Vector brand mark SVG (mark, full, white)
-├── src/
-│   ├── components/
-│   │   ├── brand/RevioLogo.tsx          # Komponen logo responsif
-│   │   ├── motion/                      # Komponen animasi signature Revio
-│   │   ├── decisions/DecisionCard.tsx   # Kartu Keputusan Penting
-│   │   ├── customer/                    # Ruang Proyek Pelanggan
-│   │   ├── vendor/                      # Dasbor Vendor, Editor, & Profil /v
-│   │   ├── changeorder/                 # Modal & Dokumen Berita Acara
-│   │   ├── analytics/                   # Analitik & Komparasi Benchmark
-│   │   └── public/                      # Situs Marketing Revio
-│   ├── data/mockSeedData.ts             # 5 Proyek seed komprehensif & 3 vendor
-│   ├── types/revio.ts                   # Definisi tipe TypeScript
-│   ├── App.tsx                          # Router utama & state orchestrator
-│   └── index.css                        # Design token Tailwind v4 & font
-├── DECISIONS.md                         # Catatan pertimbangan arsitektur
-├── metadata.json                        # Metadata resmi AI Studio
-└── package.json
+src/
+├── components/
+│   ├── public/        # Landing page
+│   ├── customer/      # Ruang Proyek Pelanggan
+│   ├── vendor/        # Dasbor, profil publik, editor, proyek baru
+│   ├── workshop/      # Papan Bengkel Live
+│   ├── calculator/    # Kalkulator Rumus
+│   ├── analytics/     # Validasi Dampak
+│   ├── changeorder/   # Modal dan dokumen Berita Acara
+│   ├── dispute/       # Paket bukti sengketa
+│   ├── motion/        # Animasi khas Revio
+│   └── ui/            # Komponen dasar
+├── data/              # Data seed demo
+├── lib/               # Token animasi, suara, cetak dokumen
+└── types/             # Tipe TypeScript
+docs/
+├── audit/             # Catatan audit dan keputusan
+└── screenshots/       # Gambar untuk README
 ```
+
+Catatan keputusan arsitektur ada di [DECISIONS.md](DECISIONS.md).
+
+## Author & License
+
+Created by Vassel Goleyu. Copyright (c) 2026 Vassel Goleyu. All rights reserved. Lihat [LICENSE](LICENSE).

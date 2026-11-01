@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   AlertTriangle, 
   Clock, 
@@ -83,7 +83,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
             <AlertTriangle size={14} />
             <span>Peringatan Titik Kunci: Tahap berikutnya akan menutup jendela revisi gratis!</span>
           </div>
-          <span className="text-[11px] font-mono bg-white/20 px-2 py-0.5 rounded">
+          <span className="text-xs font-mono bg-white/20 px-2 py-0.5 rounded">
             Tenggat: {decision.deadlineAt}
           </span>
         </div>
@@ -95,7 +95,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
             <Clock size={14} />
             <span>Ditunda sampai: {decision.deferredUntilStageName || decision.deferredUntilDate}</span>
           </div>
-          <span className="text-[11px] bg-white/20 px-2 py-0.5 rounded">
+          <span className="text-xs bg-white/20 px-2 py-0.5 rounded">
             Menjaga Fleksibilitas
           </span>
         </div>
@@ -121,7 +121,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
 
           {/* Current Cost to change badge */}
           <div className="flex flex-col sm:items-end p-3 rounded-xl bg-slate-50 border border-slate-200/80 shrink-0">
-            <span className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+            <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
               Biaya Perubahan Saat Ini
             </span>
             <div className="flex items-baseline gap-1 mt-0.5">
@@ -129,7 +129,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                 {formatIDR(decision.currentChangeCost)}
               </span>
             </div>
-            <span className="text-[10px] text-slate-500">
+            <span className="text-xs text-slate-500">
               {decision.currentChangeCost === 0
                 ? 'Gratis / Masih dalam Jendela Revisi'
                 : 'Berdasarkan catatan jam & bahan nyata'}
@@ -161,7 +161,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                     )}
                   </div>
                   {opt.description && (
-                    <p className="text-[11px] text-slate-600 leading-tight">
+                    <p className="text-xs text-slate-600 leading-tight">
                       {opt.description}
                     </p>
                   )}
@@ -182,7 +182,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
             <AlertTriangle size={15} className="text-amber-700 shrink-0" />
             <span>Titik Kunci: {decision.lockStageName}</span>
           </div>
-          <p className="text-amber-900 leading-relaxed text-[11px] pl-5">
+          <p className="text-amber-900 leading-relaxed text-xs pl-5">
             <strong>Mengapa mahal jika diubah melewati tahap ini?</strong> {decision.whyExpensive}
           </p>
         </div>
@@ -221,17 +221,17 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                     </span>
                   </div>
                   {decisionWorkLogs.length === 0 ? (
-                    <p className="text-[11px] text-slate-400 italic">Belum ada jam kerja yang terdampak langsung.</p>
+                    <p className="text-xs text-slate-400 italic">Belum ada jam kerja yang terdampak langsung.</p>
                   ) : (
                     <div className="space-y-1.5">
                       {decisionWorkLogs.map((log) => (
                         <div
                           key={log.id}
-                          className="flex justify-between items-center p-2 rounded-lg bg-slate-50 text-[11px]"
+                          className="flex justify-between items-center p-2 rounded-lg bg-slate-50 text-xs"
                         >
                           <div>
                             <span className="font-medium text-slate-800">{log.description}</span>
-                            <div className="text-slate-400 text-[10px]">
+                            <div className="text-slate-400 text-xs">
                               Oleh {log.loggedBy} · {log.loggedAt}
                             </div>
                           </div>
@@ -251,22 +251,22 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                       <Package size={13} className="text-slate-500" />
                       Bahan Terkait: {formatIDR(totalMaterialCost)}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-normal">
+                    <span className="text-xs text-slate-400 font-normal">
                       Hanya bahan terbuang yang dibebankan
                     </span>
                   </div>
                   {decisionMaterialLogs.length === 0 ? (
-                    <p className="text-[11px] text-slate-400 italic">Belum ada bahan spesifik yang disiapkan.</p>
+                    <p className="text-xs text-slate-400 italic">Belum ada bahan spesifik yang disiapkan.</p>
                   ) : (
                     <div className="space-y-1.5">
                       {decisionMaterialLogs.map((mat) => (
                         <div
                           key={mat.id}
-                          className="flex justify-between items-center p-2 rounded-lg bg-slate-50 text-[11px]"
+                          className="flex justify-between items-center p-2 rounded-lg bg-slate-50 text-xs"
                         >
                           <div>
                             <span className="font-medium text-slate-800">{mat.material}</span>
-                            <div className="text-slate-400 text-[10px]">
+                            <div className="text-slate-400 text-xs">
                               {mat.quantity} {mat.unit} @ {formatIDR(mat.unitPrice)} · Daur Ulang: {mat.reusablePct}%
                             </div>
                           </div>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { Suspense, lazy, useState } from 'react';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { 
   Building2, 
   User, 
@@ -21,20 +21,34 @@ import {
 import { SEED_PROJECTS, SEED_VENDORS, INITIAL_AUDIT_LOGS } from './data/mockSeedData';
 import { Project, VendorProfile, ChangeOrder, WorkLog, MaterialLog, AuditLogItem } from './types/revio';
 import RevioLogo from './components/brand/RevioLogo';
-import CustomerProjectSpace from './components/customer/CustomerProjectSpace';
-import VendorDashboard from './components/vendor/VendorDashboard';
-import VendorPublicProfile from './components/vendor/VendorPublicProfile';
+import Modal from './components/ui/Modal';
+const CustomerProjectSpace = lazy(() => import('./components/customer/CustomerProjectSpace'));
+const VendorDashboard = lazy(() => import('./components/vendor/VendorDashboard'));
+const VendorPublicProfile = lazy(() => import('./components/vendor/VendorPublicProfile'));
 import VendorProfileEditor from './components/vendor/VendorProfileEditor';
 import NewProjectModal from './components/vendor/NewProjectModal';
-import AnalyticsView from './components/analytics/AnalyticsView';
-import RevioCompanyProfile from './components/public/RevioCompanyProfile';
+const AnalyticsView = lazy(() => import('./components/analytics/AnalyticsView'));
+const RevioLanding = lazy(() => import('./components/public/RevioLanding'));
 import NotificationBell from './components/notifications/NotificationBell';
-import VisualFormulaExplorer from './components/calculator/VisualFormulaExplorer';
-import WorkshopLiveBoard from './components/workshop/WorkshopLiveBoard';
+const VisualFormulaExplorer = lazy(() => import('./components/calculator/VisualFormulaExplorer'));
+const WorkshopLiveBoard = lazy(() => import('./components/workshop/WorkshopLiveBoard'));
 import EvidencePackageModal from './components/dispute/EvidencePackageModal';
 import { playLockClick, playSuccessChime, setSoundEnabled } from './lib/soundEffects';
 
 const newId = (prefix: string) => `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
+
+type View =
+  | 'marketing' | 'customer_space' | 'vendor_dashboard' | 'vendor_public_profile'
+  | 'analytics' | 'formula_explorer' | 'workshop_live';
+
+const NAV_ITEMS: { view: View; label: string; Icon?: typeof Kanban }[] = [
+  { view: 'customer_space', label: 'Ruang Pelanggan' },
+  { view: 'vendor_dashboard', label: 'Dasbor Vendor' },
+  { view: 'workshop_live', label: 'Papan Bengkel Live', Icon: Kanban },
+  { view: 'formula_explorer', label: 'Kalkulator Rumus', Icon: Sliders },
+  { view: 'analytics', label: 'Validasi Dampak' },
+  { view: 'vendor_public_profile', label: 'Profil Bengkel (/v)' },
+];
 
 export default function App() {
   const [projects, setProjects] = useState<Project[]>(SEED_PROJECTS);
@@ -42,9 +56,7 @@ export default function App() {
   const [auditLogs, setAuditLogs] = useState<AuditLogItem[]>(INITIAL_AUDIT_LOGS);
 
   // Active view routing
-  const [currentView, setCurrentView] = useState<
-    'marketing' | 'customer_space' | 'vendor_dashboard' | 'vendor_public_profile' | 'analytics' | 'formula_explorer' | 'workshop_live'
-  >('marketing');
+  const [currentView, setCurrentView] = useState<View>('marketing');
 
   const [selectedProjectId, setSelectedProjectId] = useState<string>('proj-1');
   const [selectedVendorSlug, setSelectedVendorSlug] = useState<string>('bengkel-kayu-nusantara');
@@ -396,12 +408,15 @@ export default function App() {
   };
 
   return (
+    <MotionConfig reducedMotion={reducedMotion ? 'always' : 'user'}>
     <div className={`min-h-screen bg-[#FBF9F5] text-[#12203A] flex flex-col ${reducedMotion ? 'motion-reduce' : ''}`}>
+      <a href="#konten" className="skip-link">Lewati ke konten</a>
       {/* Top Bar following Strict 3-Zone Contract:
           Zone 1: Single text element wordmark / brand mark
           Zone 2: 4-5 single-line clean text links with active underlines
           Zone 3: 1 primary CTA action or compact role switcher
       */}
+      {currentView !== 'marketing' && (
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E7E2D9] px-4 sm:px-8 py-3.5 transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6">
           {/* Zone 1: Brand Wordmark */}
@@ -415,105 +430,34 @@ export default function App() {
           </button>
 
           {/* Zone 2: Navigation Links */}
-          {currentView === 'marketing' ? (
-            <nav className="hidden md:flex items-center gap-7 text-xs font-semibold text-[#5E6678]">
-              <a
-                href="#cara-kerja"
-                className="hover:text-[#12203A] transition-colors whitespace-nowrap"
-              >
-                Cara Kerja
-              </a>
-              <a
-                href="#fitur"
-                className="hover:text-[#12203A] transition-colors whitespace-nowrap"
-              >
-                Fitur & Keputusan
-              </a>
-              <a
-                href="#vendor"
-                className="hover:text-[#12203A] transition-colors whitespace-nowrap"
-              >
-                Vendor Mitra
-              </a>
-              <a
-                href="#harga"
-                className="hover:text-[#12203A] transition-colors whitespace-nowrap"
-              >
-                Paket Harga
-              </a>
-            </nav>
-          ) : (
-            <nav className="hidden md:flex items-center gap-4 text-xs font-semibold text-[#5E6678]">
-              <button
-                onClick={() => setCurrentView('customer_space')}
-                className={`px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
-                  currentView === 'customer_space'
-                    ? 'bg-teal-50 text-[#0E9F8E] font-bold'
-                    : 'hover:text-[#12203A]'
-                }`}
-              >
-                Ruang Pelanggan
-              </button>
-
-              <button
-                onClick={() => setCurrentView('vendor_dashboard')}
-                className={`px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
-                  currentView === 'vendor_dashboard'
-                    ? 'bg-teal-50 text-[#0E9F8E] font-bold'
-                    : 'hover:text-[#12203A]'
-                }`}
-              >
-                Dasbor Vendor
-              </button>
-
-              <button
-                onClick={() => setCurrentView('workshop_live')}
-                className={`px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1 ${
-                  currentView === 'workshop_live'
-                    ? 'bg-teal-50 text-[#0E9F8E] font-bold'
-                    : 'hover:text-[#12203A]'
-                }`}
-              >
-                <Kanban size={13} />
-                <span>Papan Bengkel Live</span>
-              </button>
-
-              <button
-                onClick={() => setCurrentView('formula_explorer')}
-                className={`px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1 ${
-                  currentView === 'formula_explorer'
-                    ? 'bg-teal-50 text-[#0E9F8E] font-bold'
-                    : 'hover:text-[#12203A]'
-                }`}
-              >
-                <Sliders size={13} />
-                <span>Kalkulator Rumus</span>
-              </button>
-
-              <button
-                onClick={() => setCurrentView('analytics')}
-                className={`px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
-                  currentView === 'analytics'
-                    ? 'bg-teal-50 text-[#0E9F8E] font-bold'
-                    : 'hover:text-[#12203A]'
-                }`}
-              >
-                Validasi Dampak
-              </button>
-
-              <button
-                onClick={() => {
-                  setSelectedVendorSlug('bengkel-kayu-nusantara');
-                  setCurrentView('vendor_public_profile');
-                }}
-                className={`px-2.5 py-1.5 rounded-lg transition-colors whitespace-nowrap ${
-                  currentView === 'vendor_public_profile'
-                    ? 'bg-teal-50 text-[#0E9F8E] font-bold'
-                    : 'hover:text-[#12203A]'
-                }`}
-              >
-                Profil Bengkel (/v)
-              </button>
+          {(
+            <nav aria-label="Navigasi utama" className="hidden md:flex items-center gap-1 text-xs font-semibold text-[#5E6678]">
+              {NAV_ITEMS.map(({ view, label, Icon }) => {
+                const active = currentView === view;
+                return (
+                  <button
+                    key={view}
+                    aria-current={active ? 'page' : undefined}
+                    onClick={() => {
+                      if (view === 'vendor_public_profile') setSelectedVendorSlug('bengkel-kayu-nusantara');
+                      setCurrentView(view);
+                    }}
+                    className={`relative isolate px-3 py-2 rounded-lg whitespace-nowrap flex items-center gap-1 transition-colors ${
+                      active ? 'text-[#0E9F8E] font-bold' : 'hover:text-[#12203A] hover:bg-slate-100/70'
+                    }`}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 -z-10 rounded-lg bg-teal-50"
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    {Icon && <Icon size={13} />}
+                    <span>{label}</span>
+                  </button>
+                );
+              })}
             </nav>
           )}
 
@@ -528,15 +472,7 @@ export default function App() {
               {soundActive ? <Volume2 size={16} className="text-[#0E9F8E]" /> : <VolumeX size={16} />}
             </button>
 
-            {currentView === 'marketing' ? (
-              <button
-                onClick={() => setCurrentView('customer_space')}
-                className="px-4 py-2 rounded-xl bg-[#0E9F8E] hover:bg-[#0A7A6D] text-white text-xs font-bold whitespace-nowrap transition-all shadow-xs flex items-center gap-1.5"
-              >
-                <span>Masuk ke Demo</span>
-                <span className="text-white/80">→</span>
-              </button>
-            ) : (
+            {(
               <div className="flex items-center gap-2">
                 {/* Notification Bell in demo mode */}
                 <NotificationBell
@@ -551,7 +487,7 @@ export default function App() {
                   <select
                     value={selectedProjectId}
                     onChange={(e) => setSelectedProjectId(e.target.value)}
-                    className="bg-slate-100 hover:bg-slate-200 border-none text-[11px] font-semibold text-slate-800 rounded-lg px-2 py-1.5 focus:ring-1 focus:ring-[#0E9F8E] focus:outline-none cursor-pointer max-w-[140px] truncate"
+                    className="bg-slate-100 hover:bg-slate-200 border-none text-xs font-semibold text-slate-800 rounded-lg px-2 py-1.5 focus:ring-1 focus:ring-[#0E9F8E] focus:outline-none cursor-pointer max-w-[140px] truncate"
                   >
                     {projects.map((p) => (
                       <option key={p.id} value={p.id}>
@@ -572,7 +508,7 @@ export default function App() {
             )}
           </div>
         </div>
-        {currentView !== 'marketing' && (
+        {(
           <div className="md:hidden max-w-7xl mx-auto mt-2.5">
             <select
               aria-label="Pindah halaman"
@@ -590,9 +526,10 @@ export default function App() {
           </div>
         )}
       </header>
+      )}
 
       {/* Main Content Area with AnimatePresence Transitions */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 overflow-hidden">
+      <main id="konten" tabIndex={-1} className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 overflow-hidden outline-none">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView === 'vendor_public_profile' ? `${currentView}-${selectedVendorSlug}` : currentView}
@@ -605,20 +542,10 @@ export default function App() {
             }}
             className="w-full"
           >
+            <Suspense fallback={<div className="h-64 rounded-3xl bg-slate-100 animate-pulse" aria-busy="true" />}>
             {/* View 1: Marketing / Revio Company Profile */}
             {currentView === 'marketing' && (
-              <RevioCompanyProfile
-                vendors={vendors}
-                onOpenVendorProfile={(slug) => {
-                  setSelectedVendorSlug(slug);
-                  setCurrentView('vendor_public_profile');
-                }}
-                onOpenAppDemo={() => setCurrentView('vendor_dashboard')}
-                onOpenCustomerSpace={(pId) => {
-                  setSelectedProjectId(pId);
-                  setCurrentView('customer_space');
-                }}
-              />
+              <RevioLanding onOpenView={setCurrentView} />
             )}
 
             {/* View 2: Customer Project Space */}
@@ -681,17 +608,16 @@ export default function App() {
 
             {/* View 7: Analytics & Impact Validation */}
             {currentView === 'analytics' && <AnalyticsView />}
+            </Suspense>
           </motion.div>
         </AnimatePresence>
       </main>
 
       {/* Audit Log Modal */}
+      <AnimatePresence>
       {showAuditModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs"
-          onKeyDown={(e) => e.key === 'Escape' && setShowAuditModal(false)}
-        >
-          <div role="dialog" aria-modal="true" aria-labelledby="audit-title" className="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[85vh] flex flex-col">
+        <Modal onClose={() => setShowAuditModal(false)} labelledBy="audit-title">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[85vh] flex flex-col">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
                 <History size={18} className="text-[#0E9F8E]" />
@@ -718,10 +644,10 @@ export default function App() {
                 <div key={log.id} className="pt-2.5 text-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900">{log.action}</span>
-                    <span className="font-mono text-[10px] text-slate-400">{log.timestamp}</span>
+                    <span className="font-mono text-xs text-slate-400">{log.timestamp}</span>
                   </div>
-                  <p className="text-slate-600 text-[11px]">{log.details}</p>
-                  <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                  <p className="text-slate-600 text-xs">{log.details}</p>
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
                     <span>Pelaku: <strong>{log.actor}</strong> ({log.actorRole})</span>
                     <span>·</span>
                     <span className="uppercase font-mono">{log.type}</span>
@@ -739,8 +665,9 @@ export default function App() {
               </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
+      </AnimatePresence>
 
       {/* Forensic Evidence Package Dossier Modal */}
       <EvidencePackageModal
@@ -757,6 +684,7 @@ export default function App() {
       />
 
       {/* Quiet, Accessible Footer */}
+      {currentView !== 'marketing' && (
       <footer className="border-t border-[#E7E2D9] bg-white py-8 px-4 sm:px-8 text-xs text-[#5E6678] mt-auto">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -794,6 +722,8 @@ export default function App() {
           </div>
         </div>
       </footer>
+      )}
     </div>
+    </MotionConfig>
   );
 }

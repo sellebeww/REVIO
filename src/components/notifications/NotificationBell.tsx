@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, AlertTriangle, Clock, CheckCircle2, ChevronRight, X } from 'lucide-react';
 
 interface NotificationItem {
@@ -70,7 +70,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onSelectProj
         </motion.div>
 
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-amber-500 text-white font-bold text-[10px] flex items-center justify-center shadow-xs">
+          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-amber-500 text-white font-bold text-xs flex items-center justify-center shadow-xs">
             {unreadCount}
           </span>
         )}
@@ -89,7 +89,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onSelectProj
               <span className="font-display font-bold text-xs text-slate-900">
                 Pusat Pemberitahuan Revio
               </span>
-              <span className="text-[10px] font-semibold text-slate-400">
+              <span className="text-xs font-semibold text-slate-400">
                 {unreadCount} Belum Dibaca
               </span>
             </div>
@@ -130,10 +130,10 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onSelectProj
                       </button>
                     </div>
 
-                    <p className="text-[11px] text-slate-600 leading-snug">{n.message}</p>
+                    <p className="text-xs text-slate-600 leading-snug">{n.message}</p>
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-[10px] text-slate-400">{n.timestamp}</span>
-                      <span className="text-[10px] text-[#0E9F8E] font-semibold flex items-center gap-0.5">
+                      <span className="text-xs text-slate-400">{n.timestamp}</span>
+                      <span className="text-xs text-[#0E9F8E] font-semibold flex items-center gap-0.5">
                         Lihat Proyek <ChevronRight size={10} />
                       </span>
                     </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { X, FileText, AlertTriangle, Check, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Decision, ChangeOrder, WorkLog, MaterialLog } from '../../types/revio';
+import Modal from '../ui/Modal';
 
 interface ChangeOrderModalProps {
   decision: Decision | null;
@@ -30,12 +31,6 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
   );
   const [customerNotes, setCustomerNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
 
   const selectedOptionObj = decision.options.find((o) => o.id === selectedOptionId);
   const currentOptionObj = decision.options.find((o) => o.id === decision.chosenOption);
@@ -94,14 +89,8 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <Modal onClose={onClose} labelledBy="co-title">
       <motion.div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="co-title"
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.95, opacity: 0 }}
         className="relative w-full max-w-xl bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]"
       >
         {/* Modal Header */}
@@ -131,7 +120,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
           {/* Comparison */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[10px] uppercase font-bold text-slate-400">
+              <span className="text-xs uppercase font-bold text-slate-400">
                 Pilihan Saat Ini
               </span>
               <p className="font-semibold text-slate-800 text-xs mt-1">
@@ -140,7 +129,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
             </div>
 
             <div className="p-3 rounded-xl bg-teal-50 border border-teal-200">
-              <span className="text-[10px] uppercase font-bold text-teal-700">
+              <span className="text-xs uppercase font-bold text-teal-700">
                 Ganti Menjadi
               </span>
               <select
@@ -165,7 +154,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
                 <ShieldCheck size={14} className="text-[#0E9F8E]" />
                 Rincian Biaya Transparan Revio
               </span>
-              <span className="text-[10px] text-slate-500">Standar Adil & Terbuka</span>
+              <span className="text-xs text-slate-500">Standar Adil & Terbuka</span>
             </div>
 
             <div className="space-y-2 text-xs">
@@ -198,12 +187,12 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
             </div>
 
             {!hasEvidence && (
-              <p role="alert" className="p-2.5 rounded-lg bg-slate-100 text-slate-700 text-[11px]">
+              <p role="alert" className="p-2.5 rounded-lg bg-slate-100 text-slate-700 text-xs">
                 Belum ada catatan jam kerja atau bahan untuk keputusan ini, sehingga belum ada dasar biaya perubahan.
                 Change order baru bisa diterbitkan setelah vendor mencatat pekerjaan nyata.
               </p>
             )}
-            <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200/60 text-amber-900 text-[11px] flex items-center gap-2">
+            <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200/60 text-amber-900 text-xs flex items-center gap-2">
               <AlertTriangle size={14} className="shrink-0 text-amber-700" />
               <span>
                 Dampak jadwal: Produksi bertambah <strong>+{scheduleImpactDays} hari kalender</strong> untuk pengerjaan ulang.
@@ -248,7 +237,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
           </button>
         </div>
       </motion.div>
-    </div>
+    </Modal>
   );
 };
 
