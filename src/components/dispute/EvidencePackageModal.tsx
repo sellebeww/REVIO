@@ -4,6 +4,7 @@ import { ShieldCheck, X, Printer, FileCheck2, Clock, FileText, CheckCircle2, Sca
 import { Project } from '../../types/revio';
 
 import Modal from '../ui/Modal';
+import { formatIDR } from '../../lib/money';
 
 interface EvidencePackageModalProps {
   project: Project;
@@ -18,13 +19,6 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const handlePrint = (e: React.MouseEvent<HTMLElement>) => printDocument(`Revio-Bukti-${project.id}`, e.currentTarget);
 
@@ -51,7 +45,7 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
               </h3>
             </div>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700 p-1">
+          <button onClick={onClose} className="text-slate-500 hover:text-slate-700 p-1">
             <X size={20} />
           </button>
         </div>
@@ -77,12 +71,12 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
           {/* Project & Parties Summary */}
           <div className="grid grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200/80">
             <div>
-              <span className="text-xs uppercase font-bold text-slate-400">Pihak Vendor Manufaktur</span>
+              <span className="text-xs uppercase font-bold text-slate-500">Pihak Vendor Manufaktur</span>
               <p className="font-bold text-slate-900 text-sm mt-0.5">{project.vendorName}</p>
               <p className="text-xs text-slate-500">{project.vendorSlug} · Kontak Vendor</p>
             </div>
             <div>
-              <span className="text-xs uppercase font-bold text-slate-400">Pihak Pelanggan / Pemesan</span>
+              <span className="text-xs uppercase font-bold text-slate-500">Pihak Pelanggan / Pemesan</span>
               <p className="font-bold text-slate-900 text-sm mt-0.5">{project.customerName}</p>
               <p className="text-xs text-slate-500">{project.customerPhone} · {project.customerEmail}</p>
             </div>
@@ -128,7 +122,7 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
               <span>Riwayat Berita Acara Perubahan (Change Order)</span>
             </h4>
             {project.changeOrders.length === 0 ? (
-              <p className="text-slate-400 italic">Tidak ada change order pada proyek ini.</p>
+              <p className="text-slate-500 italic">Tidak ada change order pada proyek ini.</p>
             ) : (
               <div className="space-y-2">
                 {project.changeOrders.map((co) => (
@@ -140,7 +134,7 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
                     <p className="text-xs text-slate-700">
                       Perubahan: <strong>{co.fromOption}</strong> → <strong>{co.toOption}</strong>
                     </p>
-                    <div className="text-xs text-slate-400 pt-1 flex justify-between">
+                    <div className="text-xs text-slate-500 pt-1 flex justify-between">
                       <span>Disetujui: {co.approvedAt}</span>
                       <span>Oleh: {co.approvedBy}</span>
                     </div>

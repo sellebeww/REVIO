@@ -138,14 +138,14 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700">
+          <button type="button" onClick={onClose} aria-label="Tutup" className="text-slate-500 hover:text-slate-700">
             <X size={18} />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="font-semibold text-slate-700 block mb-1">Pilih Templat Industri</label>
+            <label htmlFor="np-field-1" className="font-semibold text-slate-700 block mb-1">Pilih Templat Industri</label>
             <div className="grid grid-cols-3 gap-2">
               {[
                 { id: 'furnitur', label: 'Furnitur Kustom' },
@@ -170,7 +170,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
 
           <div className="space-y-1">
             <label className="font-semibold text-slate-700">Judul Proyek</label>
-            <input
+            <input id="np-field-1"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -182,8 +182,8 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Nama Pelanggan</label>
-              <input
+              <label htmlFor="np-field-2" className="font-semibold text-slate-700">Nama Pelanggan</label>
+              <input id="np-field-2"
                 type="text"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
@@ -193,8 +193,8 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
               />
             </div>
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Nomor WhatsApp Pelanggan</label>
-              <input
+              <label htmlFor="np-field-3" className="font-semibold text-slate-700">Nomor WhatsApp Pelanggan</label>
+              <input id="np-field-3"
                 type="text"
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
@@ -207,8 +207,8 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Nilai Kontrak (Rp)</label>
-              <input
+              <label htmlFor="np-field-4" className="font-semibold text-slate-700">Nilai Kontrak (Rp)</label>
+              <input id="np-field-4"
                 type="number"
                 value={valueAmount}
                 onChange={(e) => setValueAmount(e.target.value)}
@@ -217,8 +217,8 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
               />
             </div>
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Uang Muka / DP (Rp)</label>
-              <input
+              <label htmlFor="np-field-5" className="font-semibold text-slate-700">Uang Muka / DP (Rp)</label>
+              <input id="np-field-5"
                 type="number"
                 value={depositAmount}
                 onChange={(e) => setDepositAmount(e.target.value)}
@@ -232,6 +232,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
             <span className="font-bold text-amber-950 block">Keputusan Mahal Pertama (Titik Kunci):</span>
             <input
               type="text"
+              aria-label="Nama keputusan krusial"
               value={decisionTitle}
               onChange={(e) => setDecisionTitle(e.target.value)}
               placeholder="Nama keputusan krusial..."
@@ -240,6 +241,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
             />
             <textarea
               rows={2}
+              aria-label="Alasan keputusan mahal jika diubah"
               value={whyExpensive}
               onChange={(e) => setWhyExpensive(e.target.value)}
               placeholder="Jelaskan dalam bahasa awam mengapa mahal jika diubah melewati titik kunci..."

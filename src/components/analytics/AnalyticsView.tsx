@@ -2,30 +2,17 @@ import React, { useState } from 'react';
 import { TrendingDown, ShieldCheck, Download, AlertCircle, FileSpreadsheet, CheckCircle2 } from 'lucide-react';
 import { HistoricalBenchmark } from '../../types/revio';
 import { HISTORICAL_BENCHMARKS } from '../../data/mockSeedData';
+import { formatIDR } from '../../lib/money';
+import { summarizeImpact } from '../../lib/analytics';
 
 export const AnalyticsView: React.FC = () => {
   const [benchmarks, setBenchmarks] = useState<HistoricalBenchmark[]>(HISTORICAL_BENCHMARKS);
   const [showImportSuccess, setShowImportSuccess] = useState(false);
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   // Cumulative math
-  const totalReworkHoursOld = benchmarks.reduce((acc, b) => acc + b.reworkHoursWithoutRevio, 0);
-  const totalReworkHoursNew = benchmarks.reduce((acc, b) => acc + b.reworkHoursWithRevio, 0);
-  const reworkReductionPct = Math.round(((totalReworkHoursOld - totalReworkHoursNew) / totalReworkHoursOld) * 100);
-
-  const totalWasteOld = benchmarks.reduce((acc, b) => acc + b.wastedMaterialCostWithoutRevio, 0);
-  const totalWasteNew = benchmarks.reduce((acc, b) => acc + b.wastedMaterialCostWithRevio, 0);
-  const wasteSavedIDR = totalWasteOld - totalWasteNew;
-
-  const totalDisputesOld = benchmarks.reduce((acc, b) => acc + b.disputesWithoutRevio, 0);
-  const totalDisputesNew = benchmarks.reduce((acc, b) => acc + b.disputesWithRevio, 0);
+  const { totalReworkHoursOld, totalReworkHoursNew, reworkReductionPct, wasteSavedIDR, totalDisputesOld, totalDisputesNew } =
+    summarizeImpact(benchmarks);
 
   const handleSimulateImport = () => {
     const importedSample: HistoricalBenchmark = {
@@ -169,7 +156,7 @@ export const AnalyticsView: React.FC = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" role="region" aria-label="Tabel perbandingan proyek, dapat digulir" tabIndex={0}>
           <table className="w-full text-xs text-left">
             <thead className="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
               <tr>

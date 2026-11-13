@@ -6,6 +6,7 @@ import DecisionCard from '../decisions/DecisionCard';
 import SelfDrawingTimeline from '../motion/SelfDrawingTimeline';
 import ChangeOrderModal from '../changeorder/ChangeOrderModal';
 import ChangeOrderDocument from '../changeorder/ChangeOrderDocument';
+import { formatIDR } from '../../lib/money';
 
 interface CustomerProjectSpaceProps {
   project: Project;
@@ -32,13 +33,6 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
   const [reviewComment, setReviewComment] = useState('');
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,7 +90,7 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
         {/* Progress & Freshness Strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-100">
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-            <span className="text-xs uppercase font-bold text-slate-400">Tahap Berjalan</span>
+            <span className="text-xs uppercase font-bold text-slate-500">Tahap Berjalan</span>
             <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">
               {project.currentStageName}
             </p>
@@ -107,7 +101,7 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-            <span className="text-xs uppercase font-bold text-slate-400">Progres Keseluruhan</span>
+            <span className="text-xs uppercase font-bold text-slate-500">Progres Keseluruhan</span>
             <div className="flex items-center gap-2 mt-0.5">
               <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                 <div
@@ -117,13 +111,13 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
               </div>
               <span className="text-xs font-bold font-mono text-slate-800">{progressPct}%</span>
             </div>
-            <span className="text-xs text-slate-400 mt-1 block">
+            <span className="text-xs text-slate-500 mt-1 block">
               {completedStagesCount} dari {project.stages.length} tahap selesai
             </span>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-            <span className="text-xs uppercase font-bold text-slate-400">Nilai Kontrak Proyek</span>
+            <span className="text-xs uppercase font-bold text-slate-500">Nilai Kontrak Proyek</span>
             <p className="text-xs font-mono font-bold text-slate-900 mt-0.5 tabular-nums">
               {formatIDR(project.valueAmount)}
             </p>
@@ -243,7 +237,7 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
             />
           ) : project.changeOrders.length === 0 ? (
             <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center space-y-3">
-              <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-500 mx-auto flex items-center justify-center">
                 <FileText size={22} />
               </div>
               <h4 className="font-display font-bold text-slate-800 text-sm">
@@ -367,10 +361,11 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">
+                <label htmlFor="review-comment" className="font-semibold text-slate-700 block mb-1">
                   Testimoni & Pengalaman Anda
                 </label>
                 <textarea
+                  id="review-comment"
                   rows={3}
                   value={reviewComment}
                   onChange={(e) => setReviewComment(e.target.value)}

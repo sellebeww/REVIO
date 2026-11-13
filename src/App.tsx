@@ -16,6 +16,8 @@ import NotificationBell from './components/notifications/NotificationBell';
 const VisualFormulaExplorer = lazy(() => import('./components/calculator/VisualFormulaExplorer'));
 const WorkshopLiveBoard = lazy(() => import('./components/workshop/WorkshopLiveBoard'));
 import EvidencePackageModal from './components/dispute/EvidencePackageModal';
+import { lockDecision, deferDecision, lockByChangeOrder, applyWorkLog, applyMaterialLog } from './lib/decisions';
+import { formatIDR } from './lib/money';
 import { playLockClick, playSuccessChime, setSoundEnabled } from './lib/soundEffects';
 
 const newId = (prefix: string) => `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
@@ -117,13 +119,11 @@ export default function App() {
           ...proj,
           decisions: proj.decisions.map((dec) => {
             if (dec.id !== decisionId) return dec;
-            return {
-              ...dec,
-              status: 'terkunci',
-              flexibilityScore: 0,
-              lockedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-              lockedBy: `${proj.customerName} (Hold-to-Lock)`,
-            };
+            return lockDecision(
+              dec,
+              new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              `${proj.customerName} (Hold-to-Lock)`,
+            );
           }),
         };
       })
@@ -152,15 +152,7 @@ export default function App() {
           ...proj,
           decisions: proj.decisions.map((dec) => {
             if (dec.id !== decisionId) return dec;
-            return {
-              ...dec,
-              status: 'ditunda',
-              flexibilityScore: Math.max(10, dec.flexibilityScore - 20),
-              currentChangeCost: dec.currentChangeCost + fee,
-              deferredUntilStageId: stageId,
-              deferredUntilStageName: targetStage?.name || 'Tahap Berikutnya',
-              deferredUntilDate: new Date(Date.now() + days * 86400000).toISOString().split('T')[0],
-            };
+            return deferDecision(dec, stageId, targetStage?.name, fee, days, Date.now());
           }),
         };
       })
@@ -170,7 +162,7 @@ export default function App() {
       'Keputusan Ditunda',
       currentProject.customerName,
       'Pelanggan',
-      `Menunda keputusan hingga tahap "${targetStage?.name}" dengan komitmen biaya fleksibilitas ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(fee)}`,
+      `Menunda keputusan hingga tahap "${targetStage?.name}" dengan komitmen biaya fleksibilitas ${formatIDR(fee)}`,
       'cost'
     );
   };
@@ -208,11 +200,7 @@ export default function App() {
           changeOrders: [completeOrder, ...proj.changeOrders],
           decisions: proj.decisions.map((dec) => {
             if (dec.id !== completeOrder.decisionId) return dec;
-            return {
-              ...dec,
-              status: 'terkunci',
-              lockedBy: `Change Order #${completeOrder.id}`,
-            };
+            return lockByChangeOrder(dec, completeOrder.id);
           }),
         };
       })
@@ -222,7 +210,7 @@ export default function App() {
       'Change Order Disetujui',
       currentProject.customerName,
       'Pelanggan',
-      `Persetujuan perubahan "${completeOrder.fromOption}" menjadi "${completeOrder.toOption}" senilai ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(completeOrder.totalCost)}`,
+      `Persetujuan perubahan "${completeOrder.fromOption}" menjadi "${completeOrder.toOption}" senilai ${formatIDR(completeOrder.totalCost)}`,
       'change_order'
     );
   };
@@ -304,11 +292,7 @@ export default function App() {
           // Recalculate decision current change cost dynamically!
           decisions: p.decisions.map((dec) => {
             if (dec.id !== newLogItem.decisionId) return dec;
-            return {
-              ...dec,
-              currentChangeCost: dec.currentChangeCost + newLogItem.hours * newLogItem.rate,
-              flexibilityScore: Math.max(5, dec.flexibilityScore - 8),
-            };
+            return applyWorkLog(dec, newLogItem);
           }),
         };
       })
@@ -342,17 +326,12 @@ export default function App() {
     setProjects((prev) =>
       prev.map((p) => {
         if (p.id !== projectId) return p;
-        const wastedPortion = (newMatItem.quantity * newMatItem.unitPrice * (100 - newMatItem.reusablePct)) / 100;
         return {
           ...p,
           materialLogs: [newMatItem, ...p.materialLogs],
           decisions: p.decisions.map((dec) => {
             if (dec.id !== newMatItem.decisionId) return dec;
-            return {
-              ...dec,
-              currentChangeCost: Math.round(dec.currentChangeCost + wastedPortion),
-              flexibilityScore: Math.max(0, dec.flexibilityScore - 12),
-            };
+            return applyMaterialLog(dec, newMatItem);
           }),
         };
       })
@@ -636,7 +615,7 @@ export default function App() {
                 onClick={() => setShowAuditModal(false)}
                 aria-label="Tutup log audit"
                 autoFocus
-                className="text-slate-400 hover:text-slate-700 text-sm font-bold"
+                className="text-slate-500 hover:text-slate-700 text-sm font-bold"
               >
                 ✕
               </button>
@@ -651,10 +630,10 @@ export default function App() {
                 <div key={log.id} className="pt-2.5 text-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900">{log.action}</span>
-                    <span className="font-mono text-xs text-slate-400">{log.timestamp}</span>
+                    <span className="font-mono text-xs text-slate-500">{log.timestamp}</span>
                   </div>
                   <p className="text-slate-600 text-xs">{log.details}</p>
-                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <div className="flex items-center gap-2 text-xs text-slate-500">
                     <span>Pelaku: <strong>{log.actor}</strong> ({log.actorRole})</span>
                     <span>·</span>
                     <span className="uppercase font-mono">{log.type.replace('_', ' ')}</span>
@@ -696,7 +675,7 @@ export default function App() {
         <div className="max-w-[88rem] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <RevioLogo size="xs" layout="horizontal" showTagline={false} />
-            <span className="text-slate-400">·</span>
+            <span className="text-slate-500">·</span>
             <span>Hak Revisi & Biaya Produksi Pesanan © 2026 Revio Indonesia.</span>
           </div>
 

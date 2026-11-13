@@ -8,3 +8,5 @@ coverage/
 !.env.example
 .aistudio/
 audit-reports/
+test-results/
+playwright-report/

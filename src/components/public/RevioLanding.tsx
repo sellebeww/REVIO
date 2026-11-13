@@ -15,6 +15,7 @@ import { SEED_PROJECTS } from '../../data/mockSeedData';
 import { printDocument } from '../../lib/printDocument';
 import HeroArt from './landing/HeroArt';
 import ProblemArt from './landing/ProblemArt';
+import { formatIDR } from '../../lib/money';
 
 export type DemoView =
   | 'customer_space' | 'vendor_dashboard' | 'workshop_live' | 'analytics'
@@ -163,7 +164,7 @@ export default function RevioLanding({ onOpenView }: Props) {
     return () => { document.removeEventListener('mousedown', onDown); document.removeEventListener('keydown', onKey); };
   }, [audOpen]);
 
-  const idr = (n: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+  const idr = formatIDR;
   const printDoc = (el: Element, msg?: string) => { printDocument('Revio-ChangeOrder-Custom-Furniture-1234', el); if (msg) say(msg); };
 
   const RoleList = () => (

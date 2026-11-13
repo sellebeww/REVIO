@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, AlertTriangle, Sparkles, RotateCcw, Wrench, Package, Calendar } from 'lucide-react';
 import { playSliderTick } from '../../lib/soundEffects';
+import { formatIDR } from '../../lib/money';
+import { computeFormulaBreakdown } from '../../lib/changeCost';
 
 interface Preset {
   name: string;
@@ -77,22 +79,9 @@ export const VisualFormulaExplorer: React.FC = () => {
   };
 
   // Math components
-  const workCost = hours * rate;
-  const salvageValue = Math.round((materialCost * reusePct) / 100);
-  const netMaterialCost = materialCost - salvageValue;
-  const totalChangeCost = workCost + netMaterialCost + rescheduleFee;
+  const { workCost, salvageValue, netMaterialCost, totalChangeCost, impactPct, isHighImpact } =
+    computeFormulaBreakdown({ hours, rate, materialCost, reusePct, rescheduleFee, projectValue });
 
-  // Percentage of project value
-  const impactPct = ((totalChangeCost / projectValue) * 100).toFixed(1);
-  const isHighImpact = Number(impactPct) > 15;
-
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
@@ -111,7 +100,7 @@ export const VisualFormulaExplorer: React.FC = () => {
 
         {/* Preset Selector */}
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-xs font-semibold text-slate-400 mr-1">Studi Kasus:</span>
+          <span className="text-xs font-semibold text-slate-500 mr-1">Studi Kasus:</span>
           {PRESETS.map((p, idx) => (
             <button
               key={idx}
@@ -139,19 +128,19 @@ export const VisualFormulaExplorer: React.FC = () => {
           <span className="px-2.5 py-1 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-500/30">
             Jam ({hours}j) × Tarif ({formatIDR(rate)})
           </span>
-          <span className="text-slate-400 font-bold">+</span>
+          <span className="text-slate-500 font-bold">+</span>
           <span className="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30">
             Bahan ({formatIDR(materialCost)})
           </span>
-          <span className="text-slate-400 font-bold">-</span>
+          <span className="text-slate-500 font-bold">-</span>
           <span className="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
             Daur Ulang ({reusePct}% = {formatIDR(salvageValue)})
           </span>
-          <span className="text-slate-400 font-bold">+</span>
+          <span className="text-slate-500 font-bold">+</span>
           <span className="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30">
             Slot Jadwal ({formatIDR(rescheduleFee)})
           </span>
-          <span className="text-slate-400 font-bold">=</span>
+          <span className="text-slate-500 font-bold">=</span>
           <span className="px-3 py-1 rounded-lg bg-[#0E9F8E] text-white font-bold text-sm shadow-xs">
             {formatIDR(totalChangeCost)}
           </span>
@@ -176,7 +165,7 @@ export const VisualFormulaExplorer: React.FC = () => {
               title="Biaya Penjadwalan"
             />
           </div>
-          <div className="flex justify-between text-xs text-slate-400 px-1">
+          <div className="flex justify-between text-xs text-slate-500 px-1">
             <span className="text-teal-300">● Jam Tukang ({Math.round((workCost / totalChangeCost) * 100)}%)</span>
             <span className="text-rose-300">● Bahan Bersih ({Math.round((netMaterialCost / totalChangeCost) * 100)}%)</span>
             <span className="text-amber-300">● Slot Jadwal ({Math.round((rescheduleFee / totalChangeCost) * 100)}%)</span>
@@ -209,7 +198,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-[#0E9F8E] cursor-pointer"
           />
-          <div className="flex justify-between text-xs text-slate-400">
+          <div className="flex justify-between text-xs text-slate-500">
             <span>0 Jam (Ringan)</span>
             <span>Tarif: {formatIDR(rate)}/jam</span>
             <span>40 Jam (Bongkar Total)</span>
@@ -240,7 +229,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-[#0E9F8E] cursor-pointer"
           />
-          <div className="flex justify-between text-xs text-slate-400">
+          <div className="flex justify-between text-xs text-slate-500">
             <span>Rp 0</span>
             <span>Kayu / Kertas / Kain / Granit</span>
             <span>Rp 8.000.000</span>
@@ -271,7 +260,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-emerald-600 cursor-pointer"
           />
-          <div className="flex justify-between text-xs text-slate-400">
+          <div className="flex justify-between text-xs text-slate-500">
             <span>0% (Terbuang Mutlak)</span>
             <span>Potongan kayu kecil / sisa kain</span>
             <span>100% (Dapat Dipakai Kembali)</span>
@@ -302,7 +291,7 @@ export const VisualFormulaExplorer: React.FC = () => {
             }}
             className="w-full accent-amber-500 cursor-pointer"
           />
-          <div className="flex justify-between text-xs text-slate-400">
+          <div className="flex justify-between text-xs text-slate-500">
             <span>Rp 0 (Jadwal Fleksibel)</span>
             <span>Kompensasi antrean bengkel</span>
             <span>Rp 1.000.000</span>
@@ -333,7 +322,7 @@ export const VisualFormulaExplorer: React.FC = () => {
         </div>
 
         <div className="text-left sm:text-right shrink-0">
-          <span className="text-xs uppercase font-bold text-slate-400 block">Total Akhir Biaya Revisi</span>
+          <span className="text-xs uppercase font-bold text-slate-500 block">Total Akhir Biaya Revisi</span>
           <span className="font-mono text-2xl font-extrabold text-[#0E9F8E] tabular-nums">
             {formatIDR(totalChangeCost)}
           </span>

@@ -63,16 +63,47 @@ Halaman publik vendor berisi layanan, spesifikasi bahan, galeri portofolio, kont
 
 ## Menjalankan
 
-Butuh Node.js 20 atau lebih baru.
+Butuh Node.js 22 (versi yang dipakai CI).
 
 ```bash
-npm install
+npm ci           # pasang dependensi persis sesuai lockfile
 npm run dev      # http://localhost:3000
 npm run build    # hasil build di dist/
-npm run lint     # pengecekan tipe (tsc --noEmit)
+npm run preview  # menyajikan hasil build
 ```
 
 Aplikasi ini murni frontend. Data demo (proyek, vendor, log audit) ada di [src/data/mockSeedData.ts](src/data/mockSeedData.ts), tanpa backend dan tanpa environment variable.
+
+### Skrip
+
+| Skrip | Fungsi |
+| --- | --- |
+| `npm run dev` | Server pengembangan di port 3000 |
+| `npm run build` | Build produksi ke `dist/` |
+| `npm run preview` | Menyajikan `dist/` |
+| `npm run typecheck` | Pengecekan tipe (`tsc --noEmit`, mode `strict`) |
+| `npm run lint` | Alias `typecheck`; belum ada linter terpisah |
+| `npm test` | Tes unit (Vitest, zona waktu dikunci ke UTC) |
+| `npm run test:e2e` | Tes e2e Playwright (membangun lalu menyajikan app sendiri) |
+| `npm run test:all` | Typecheck, tes unit, lalu e2e |
+
+## Tes
+
+**Unit** (`tests/unit/`): logika murni di [src/lib](src/lib): rincian biaya change order, kalkulator rumus, simulasi tunda, transisi kunci/tunda/catatan kerja/catatan bahan, jendela revisi, ringkasan dampak, dan format Rupiah. Locale `id-ID` ditulis eksplisit, tanggal memakai waktu tetap yang diberikan sebagai argumen, tanpa jam nyata.
+
+**E2E** (`tests/e2e/`, Chromium): tata letak 360px (tanpa gulir horizontal dan tanpa kontrol terpotong), pemindaian aksesibilitas axe (WCAG 2 A/AA) di semua halaman dan dialog pada 360px dan 1280px, fokus keyboard, dan alur smoke termasuk tahan-untuk-kunci dengan jam yang dikendalikan. Jaringan luar diblokir di tes agar hasil tidak bergantung pada koneksi.
+
+Pertama kali menjalankan e2e, pasang browser: `npx playwright install chromium`. Bila Chromium sudah ada di mesin, arahkan dengan `PW_CHROMIUM_PATH=/jalur/ke/chromium npm run test:e2e`.
+
+CI GitHub Actions ([.github/workflows/ci.yml](.github/workflows/ci.yml)) menjalankan `npm ci`, typecheck, tes unit, build, dan e2e di Node 22.
+
+## Batasan
+
+- Prototipe frontend: tidak ada backend, autentikasi, atau penyimpanan. Seluruh state hilang saat muat ulang.
+- Status keputusan (`Fleksibel`, `Mendekati Kunci`, `Terkunci`, `Ditunda`) digerakkan aksi pemakai dan data seed, belum dihitung otomatis dari tenggat atau tahap produksi.
+- Tarif, biaya penyangga tunda, dan angka demo adalah data contoh, bukan tarif atau aturan hukum.
+- Warna merek teal `#0E9F8E` belum memenuhi kontras 4,5:1 untuk teks kecil.
+- Temuan lengkap dan keputusan yang menunggu pemilik ada di [docs/AUDIT.md](docs/AUDIT.md).
 
 ## Deploy ke Vercel
 
@@ -100,9 +131,14 @@ src/
 │   ├── motion/        # Animasi khas Revio
 │   └── ui/            # Komponen dasar
 ├── data/              # Data seed demo
-├── lib/               # Token animasi, suara, cetak dokumen
+├── lib/               # Logika murni (biaya, keputusan, analitik, Rupiah), suara, cetak dokumen
 └── types/             # Tipe TypeScript
+tests/
+├── unit/              # Vitest untuk src/lib
+└── e2e/               # Playwright (tata letak, aksesibilitas, smoke)
+.github/workflows/     # CI
 docs/
+├── AUDIT.md           # Audit kualitas dan temuan
 ├── prompt-master.md   # Spesifikasi produk awal
 └── screenshots/       # Gambar untuk README
 ```

@@ -48,7 +48,7 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
               <span>Lencana Kepastian {vendor.certifiedBadgeLevel.toUpperCase()}</span>
             </div>
             <span className="text-xs text-slate-500 flex items-center gap-1">
-              <MapPin size={13} className="text-slate-400" />
+              <MapPin size={13} className="text-slate-500" />
               {vendor.city}
             </span>
           </div>
@@ -64,19 +64,19 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
           {/* Quick Metrics Strip */}
           <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs border-t border-slate-100">
             <div>
-              <span className="text-xs text-slate-400 font-semibold uppercase">Berdiri Sejak</span>
+              <span className="text-xs text-slate-500 font-semibold uppercase">Berdiri Sejak</span>
               <p className="font-bold text-slate-900 mt-0.5">{vendor.foundedYear}</p>
             </div>
             <div>
-              <span className="text-xs text-slate-400 font-semibold uppercase">Kunci Tepat Waktu</span>
+              <span className="text-xs text-slate-500 font-semibold uppercase">Kunci Tepat Waktu</span>
               <p className="font-mono font-bold text-slate-900 mt-0.5">{vendor.onTimeLockRate}%</p>
             </div>
             <div>
-              <span className="text-xs text-slate-400 font-semibold uppercase">Bebas Sengketa</span>
+              <span className="text-xs text-slate-500 font-semibold uppercase">Bebas Sengketa</span>
               <p className="font-mono font-bold text-slate-900 mt-0.5">{vendor.lowDisputeRate}%</p>
             </div>
             <div>
-              <span className="text-xs text-slate-400 font-semibold uppercase">Rata-rata Waktu</span>
+              <span className="text-xs text-slate-500 font-semibold uppercase">Rata-rata Waktu</span>
               <p className="font-bold text-slate-900 mt-0.5">{vendor.leadDaysAvg} Hari Kerja</p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
           </div>
 
           <div className="pt-3 border-t border-slate-100">
-            <span className="text-xs text-slate-400 uppercase font-bold">Jangkauan Layanan</span>
+            <span className="text-xs text-slate-500 uppercase font-bold">Jangkauan Layanan</span>
             <p className="font-medium text-slate-800 mt-0.5">{vendor.coverageArea}</p>
           </div>
         </div>
@@ -175,7 +175,7 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
                 {srv.description}
               </p>
               <div className="pt-3 border-t border-slate-100 space-y-1 text-xs">
-                <span className="text-xs uppercase font-bold text-slate-400">
+                <span className="text-xs uppercase font-bold text-slate-500">
                   Bahan Utama
                 </span>
                 <p className="font-medium text-slate-800">{srv.materials}</p>
@@ -220,7 +220,7 @@ export const VendorPublicProfile: React.FC<VendorPublicProfileProps> = ({
                     {item.description}
                   </p>
                 </div>
-                <div className="text-xs text-slate-400 pt-2 border-t border-slate-100">
+                <div className="text-xs text-slate-500 pt-2 border-t border-slate-100">
                   {item.durationDays} hari pengerjaan
                 </div>
               </div>

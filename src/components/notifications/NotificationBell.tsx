@@ -60,7 +60,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onSelectProj
         onClick={() => setIsOpen(!isOpen)}
         whileTap={{ scale: 0.95 }}
         className="relative p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
-        aria-label="Notifikasi"
+        aria-label={unreadCount > 0 ? `Notifikasi, ${unreadCount} belum dibaca` : 'Notifikasi'}
       >
         <motion.div
           animate={unreadCount > 0 ? { rotate: [0, -14, 14, -8, 8, 0] } : {}}
@@ -89,14 +89,14 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onSelectProj
               <span className="font-display font-bold text-xs text-slate-900">
                 Pusat Pemberitahuan Revio
               </span>
-              <span className="text-xs font-semibold text-slate-400">
+              <span className="text-xs font-semibold text-slate-500">
                 {unreadCount} Belum Dibaca
               </span>
             </div>
 
             <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 text-xs">
               {notifications.length === 0 ? (
-                <div className="p-6 text-center text-slate-400 text-xs">
+                <div className="p-6 text-center text-slate-500 text-xs">
                   Semua notifikasi telah dibaca.
                 </div>
               ) : (
@@ -132,7 +132,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onSelectProj
 
                     <p className="text-xs text-slate-600 leading-snug">{n.message}</p>
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-xs text-slate-400">{n.timestamp}</span>
+                      <span className="text-xs text-slate-500">{n.timestamp}</span>
                       <span className="text-xs text-[#0E9F8E] font-semibold flex items-center gap-0.5">
                         Lihat Proyek <ChevronRight size={10} />
                       </span>

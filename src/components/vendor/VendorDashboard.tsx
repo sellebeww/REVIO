@@ -5,6 +5,7 @@ import { Project, WorkLog, MaterialLog, VendorProfile } from '../../types/revio'
 import FlexibilityBar from '../motion/FlexibilityBar';
 import LivingLock from '../motion/LivingLock';
 import Modal from '../ui/Modal';
+import { formatIDR } from '../../lib/money';
 
 interface VendorDashboardProps {
   vendor: VendorProfile;
@@ -46,13 +47,6 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
   );
   const totalValue = projects.reduce((acc, p) => acc + p.valueAmount, 0);
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const selectedLogProject = projects.find((p) => p.id === logModalProjectId);
 
@@ -98,7 +92,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                 Dasbor Vendor Terverifikasi
               </span>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
@@ -138,7 +132,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
             <div className="font-display text-2xl font-bold text-slate-900 mt-1">
               {activeProjects.length}
             </div>
-            <span className="text-xs text-emerald-600 font-medium">Semua tahap tercatat</span>
+            <span className="text-xs text-emerald-700 font-medium">Semua tahap tercatat</span>
           </div>
 
           <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/60">
@@ -256,19 +250,19 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                 {/* Progress, Stage, and Decision Status */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200/60 text-xs">
                   <div>
-                    <span className="text-xs uppercase font-bold text-slate-400">
+                    <span className="text-xs uppercase font-bold text-slate-500">
                       Tahap Produksi Saat Ini
                     </span>
                     <p className="font-semibold text-slate-800 mt-0.5 truncate">
                       {project.currentStageName}
                     </p>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-slate-500">
                       Update {project.lastStageUpdatedHoursAgo} jam lalu
                     </span>
                   </div>
 
                   <div>
-                    <span className="text-xs uppercase font-bold text-slate-400">
+                    <span className="text-xs uppercase font-bold text-slate-500">
                       Keputusan Kunci Terkait
                     </span>
                     <div className="flex items-center gap-1.5 mt-0.5">
@@ -283,7 +277,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                   </div>
 
                   <div>
-                    <span className="text-xs uppercase font-bold text-slate-400">
+                    <span className="text-xs uppercase font-bold text-slate-500">
                       Sisa Fleksibilitas
                     </span>
                     <div className="mt-1">
@@ -365,7 +359,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
               </div>
               <button
                 onClick={() => setLogModalProjectId(null)}
-                className="text-slate-400 hover:text-slate-700 text-xs font-bold"
+                className="text-slate-500 hover:text-slate-700 text-xs font-bold"
               >
                 ✕
               </button>
@@ -376,7 +370,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                 type="button"
                 onClick={() => setLogType('work')}
                 className={`flex-1 py-2 text-center border-b-2 ${
-                  logType === 'work' ? 'border-[#0E9F8E] text-[#0E9F8E]' : 'border-transparent text-slate-500'
+                  logType === 'work' ? 'border-[#0E9F8E] text-[#0E9F8E]' : 'border-transparent text-slate-600'
                 }`}
               >
                 Jam Kerja Tukang
@@ -385,7 +379,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                 type="button"
                 onClick={() => setLogType('material')}
                 className={`flex-1 py-2 text-center border-b-2 ${
-                  logType === 'material' ? 'border-[#0E9F8E] text-[#0E9F8E]' : 'border-transparent text-slate-500'
+                  logType === 'material' ? 'border-[#0E9F8E] text-[#0E9F8E]' : 'border-transparent text-slate-600'
                 }`}
               >
                 Bahan Terpakai
@@ -396,10 +390,10 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
               {logType === 'work' ? (
                 <>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">
+                    <label htmlFor="log-field-1" className="font-semibold text-slate-700 block mb-1">
                       Deskripsi Pekerjaan Terdampak
                     </label>
-                    <input
+                    <input id="log-field-1"
                       type="text"
                       value={workDesc}
                       onChange={(e) => setWorkDesc(e.target.value)}
@@ -409,10 +403,10 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     />
                   </div>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">
+                    <label htmlFor="log-field-2" className="font-semibold text-slate-700 block mb-1">
                       Jumlah Jam Kerja Nyata
                     </label>
-                    <input
+                    <input id="log-field-2"
                       type="number"
                       min="0.5"
                       step="0.5"
@@ -426,10 +420,10 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
               ) : (
                 <>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">
+                    <label htmlFor="log-field-3" className="font-semibold text-slate-700 block mb-1">
                       Nama Material Terpakai
                     </label>
-                    <input
+                    <input id="log-field-3"
                       type="text"
                       value={materialName}
                       onChange={(e) => setMaterialName(e.target.value)}
@@ -440,8 +434,8 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="font-semibold text-slate-700 block mb-1">Jumlah</label>
-                      <input
+                      <label htmlFor="log-field-4" className="font-semibold text-slate-700 block mb-1">Jumlah</label>
+                      <input id="log-field-4"
                         type="number"
                         min="0.01"
                         step="any"
@@ -452,8 +446,8 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                       />
                     </div>
                     <div>
-                      <label className="font-semibold text-slate-700 block mb-1">Harga Satuan (Rp)</label>
-                      <input
+                      <label htmlFor="log-field-5" className="font-semibold text-slate-700 block mb-1">Harga Satuan (Rp)</label>
+                      <input id="log-field-5"
                         type="number"
                         min="1"
                         step="1"
@@ -465,10 +459,10 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                     </div>
                   </div>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">
+                    <label htmlFor="log-field-6" className="font-semibold text-slate-700 block mb-1">
                       Estimasi Nilai Daur Ulang (%)
                     </label>
-                    <input
+                    <input id="log-field-6"
                       type="number"
                       min="0"
                       max="100"
@@ -485,7 +479,7 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
                 <button
                   type="button"
                   onClick={() => setLogModalProjectId(null)}
-                  className="px-3 py-1.5 rounded-lg text-slate-500 hover:bg-slate-100"
+                  className="px-3 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100"
                 >
                   Batal
                 </button>
