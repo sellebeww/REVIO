@@ -15,7 +15,11 @@ const sum = (list: HistoricalBenchmark[], pick: (b: HistoricalBenchmark) => numb
 export function summarizeImpact(benchmarks: HistoricalBenchmark[]): ImpactSummary {
   const totalReworkHoursOld = sum(benchmarks, (b) => b.reworkHoursWithoutRevio);
   const totalReworkHoursNew = sum(benchmarks, (b) => b.reworkHoursWithRevio);
-  const reworkReductionPct = Math.round(((totalReworkHoursOld - totalReworkHoursNew) / totalReworkHoursOld) * 100);
+  // Tanpa jam bongkar ulang sebelumnya (atau daftar kosong) persentase tak terdefinisi: 0, bukan NaN.
+  const reworkReductionPct =
+    totalReworkHoursOld > 0
+      ? Math.round(((totalReworkHoursOld - totalReworkHoursNew) / totalReworkHoursOld) * 100)
+      : 0;
   const wasteSavedIDR =
     sum(benchmarks, (b) => b.wastedMaterialCostWithoutRevio) - sum(benchmarks, (b) => b.wastedMaterialCostWithRevio);
   return {

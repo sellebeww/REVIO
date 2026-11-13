@@ -79,7 +79,9 @@ export function computeFormulaBreakdown(i: FormulaInput): FormulaBreakdown {
   const netMaterialCost = i.materialCost - salvageValue;
   const totalChangeCost = workCost + netMaterialCost + i.rescheduleFee;
 
-  const impactPct = ((totalChangeCost / i.projectValue) * 100).toFixed(1);
+  // Nilai proyek 0 (atau tidak valid) membuat persentase tak terdefinisi: tampilkan 0,0
+  // alih-alih "Infinity"/"NaN".
+  const impactPct = (i.projectValue > 0 ? (totalChangeCost / i.projectValue) * 100 : 0).toFixed(1);
   const isHighImpact = Number(impactPct) > 15;
 
   return { workCost, salvageValue, netMaterialCost, totalChangeCost, impactPct, isHighImpact };
