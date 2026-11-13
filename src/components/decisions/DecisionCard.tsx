@@ -6,6 +6,7 @@ import FlexibilityBar from '../motion/FlexibilityBar';
 import LivingLock from '../motion/LivingLock';
 import HoldToLock from '../motion/HoldToLock';
 import DeferralCalculator from '../motion/DeferralCalculator';
+import { formatIDR } from '../../lib/money';
 
 interface DecisionCardProps {
   decision: Decision;
@@ -31,13 +32,6 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
   const [showCalculator, setShowCalculator] = useState(false);
   const [showEvidence, setShowEvidence] = useState(false);
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const isLocked = decision.status === 'terkunci';
   const isNearLock = decision.status === 'mendekati_kunci';

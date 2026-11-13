@@ -3,6 +3,7 @@ import { Printer, CheckCircle, Download, ShieldCheck } from 'lucide-react';
 import { ChangeOrder, Project } from '../../types/revio';
 import RevioLogo from '../brand/RevioLogo';
 import { printDocument } from '../../lib/printDocument';
+import { formatIDR } from '../../lib/money';
 
 interface ChangeOrderDocumentProps {
   changeOrder: ChangeOrder;
@@ -15,13 +16,6 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
   project,
   onClose,
 }) => {
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const fileName = `Revio-ChangeOrder-${changeOrder.id}`;
   // Tanpa library PDF: dialog cetak browser menyediakan "Simpan sebagai PDF".

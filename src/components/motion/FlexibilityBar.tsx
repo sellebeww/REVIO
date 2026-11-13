@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { flexibilityLevel } from '../../lib/decisions';
 
 interface FlexibilityBarProps {
   score: number; // 0 to 100
@@ -17,19 +18,13 @@ export const FlexibilityBar: React.FC<FlexibilityBarProps> = ({
   const clampedScore = Math.max(0, Math.min(100, score));
 
   // Determine color palette based on flexibility score
-  let barGradient = 'from-emerald-500 to-teal-500';
-  let statusText = 'Fleksibilitas Tinggi';
-
-  if (clampedScore === 0) {
-    barGradient = 'from-slate-400 to-slate-500';
-    statusText = 'Terkunci di Produksi';
-  } else if (clampedScore < 40) {
-    barGradient = 'from-amber-500 to-rose-500';
-    statusText = 'Mendekati Kunci';
-  } else if (clampedScore < 70) {
-    barGradient = 'from-teal-500 to-amber-500';
-    statusText = 'Fleksibel Bersyarat';
-  }
+  const LEVELS = {
+    terkunci: { barGradient: 'from-slate-400 to-slate-500', statusText: 'Terkunci di Produksi' },
+    mendekati_kunci: { barGradient: 'from-amber-500 to-rose-500', statusText: 'Mendekati Kunci' },
+    bersyarat: { barGradient: 'from-teal-500 to-amber-500', statusText: 'Fleksibel Bersyarat' },
+    tinggi: { barGradient: 'from-emerald-500 to-teal-500', statusText: 'Fleksibilitas Tinggi' },
+  } as const;
+  const { barGradient, statusText } = LEVELS[flexibilityLevel(clampedScore)];
 
   const heightClasses = {
     sm: 'h-1.5',

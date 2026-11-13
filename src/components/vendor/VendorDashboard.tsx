@@ -5,6 +5,7 @@ import { Project, WorkLog, MaterialLog, VendorProfile } from '../../types/revio'
 import FlexibilityBar from '../motion/FlexibilityBar';
 import LivingLock from '../motion/LivingLock';
 import Modal from '../ui/Modal';
+import { formatIDR } from '../../lib/money';
 
 interface VendorDashboardProps {
   vendor: VendorProfile;
@@ -46,13 +47,6 @@ export const VendorDashboard: React.FC<VendorDashboardProps> = ({
   );
   const totalValue = projects.reduce((acc, p) => acc + p.valueAmount, 0);
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const selectedLogProject = projects.find((p) => p.id === logModalProjectId);
 

@@ -6,6 +6,7 @@ import DecisionCard from '../decisions/DecisionCard';
 import SelfDrawingTimeline from '../motion/SelfDrawingTimeline';
 import ChangeOrderModal from '../changeorder/ChangeOrderModal';
 import ChangeOrderDocument from '../changeorder/ChangeOrderDocument';
+import { formatIDR } from '../../lib/money';
 
 interface CustomerProjectSpaceProps {
   project: Project;
@@ -32,13 +33,6 @@ export const CustomerProjectSpace: React.FC<CustomerProjectSpaceProps> = ({
   const [reviewComment, setReviewComment] = useState('');
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();

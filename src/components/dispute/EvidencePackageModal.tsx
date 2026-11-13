@@ -4,6 +4,7 @@ import { ShieldCheck, X, Printer, FileCheck2, Clock, FileText, CheckCircle2, Sca
 import { Project } from '../../types/revio';
 
 import Modal from '../ui/Modal';
+import { formatIDR } from '../../lib/money';
 
 interface EvidencePackageModalProps {
   project: Project;
@@ -18,13 +19,6 @@ export const EvidencePackageModal: React.FC<EvidencePackageModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const handlePrint = (e: React.MouseEvent<HTMLElement>) => printDocument(`Revio-Bukti-${project.id}`, e.currentTarget);
 

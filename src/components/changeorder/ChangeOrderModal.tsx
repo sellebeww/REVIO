@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { X, FileText, AlertTriangle, Check, ShieldCheck } from 'lucide-react';
 import { Decision, ChangeOrder, WorkLog, MaterialLog } from '../../types/revio';
 import Modal from '../ui/Modal';
+import { formatIDR } from '../../lib/money';
+import { computeChangeOrderBreakdown } from '../../lib/changeCost';
 
 interface ChangeOrderModalProps {
   decision: Decision | null;
@@ -36,29 +38,20 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
   const currentOptionObj = decision.options.find((o) => o.id === decision.chosenOption);
 
   // Biaya hanya berasal dari catatan kerja/bahan nyata (aturan integritas DECISIONS.md #2).
+  const {
+    hasEvidence,
+    affectedWorkHours,
+    affectedWorkCost,
+    rawMaterialValue,
+    wastedMaterialValue,
+    reuseDeduction,
+    rescheduleFee,
+    totalCost,
+    scheduleImpactDays,
+  } = computeChangeOrderBreakdown(decision, workLogs, materialLogs);
   const relevantWork = workLogs.filter((w) => w.decisionId === decision.id);
   const relevantMaterials = materialLogs.filter((m) => m.decisionId === decision.id);
-  const hasEvidence = relevantWork.length > 0 || relevantMaterials.length > 0;
 
-  const affectedWorkHours = relevantWork.reduce((acc, curr) => acc + curr.hours, 0);
-  const affectedWorkCost = affectedWorkHours * decision.hourlyRate;
-
-  const rawMaterialValue = relevantMaterials.reduce((acc, m) => acc + m.quantity * m.unitPrice, 0);
-  const wastedMaterialValue = Math.round(
-    relevantMaterials.reduce((acc, m) => acc + (m.quantity * m.unitPrice * (100 - m.reusablePct)) / 100, 0)
-  );
-  const reuseDeduction = rawMaterialValue - wastedMaterialValue;
-  const rescheduleFee = hasEvidence ? decision.rescheduleFee : 0;
-  const totalCost = affectedWorkCost + wastedMaterialValue + rescheduleFee;
-  const scheduleImpactDays = Math.ceil(affectedWorkHours / 8);
-
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   const handleConfirm = () => {
     setIsSubmitting(true);

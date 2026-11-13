@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Calculator, Clock, AlertTriangle, ArrowRight } from 'lucide-react';
 import { Decision, ProductionStage } from '../../types/revio';
 import FlexibilityBar from './FlexibilityBar';
+import { formatIDR } from '../../lib/money';
+import { simulateDeferral } from '../../lib/changeCost';
 
 interface DeferralCalculatorProps {
   decision: Decision;
@@ -22,25 +24,16 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
   const targetStage = futureStages[selectedStageIndex] || futureStages[0];
 
   // Calculation parameters
-  const stepsAhead = selectedStageIndex + 1;
-  const simulatedFlexibilityScore = Math.max(
-    5,
-    Math.round(decision.flexibilityScore - stepsAhead * 22)
-  );
+  const {
+    stepsAhead,
+    baseHoldingFee,
+    addedBufferCost,
+    simulatedFlexibilityScore,
+    totalSimulatedFee,
+    simulatedScheduleImpactDays,
+  } =
+    simulateDeferral(decision, selectedStageIndex);
 
-  // Fee calculation: holding buffer materials + reschedule overhead
-  const baseHoldingFee = decision.rescheduleFee;
-  const addedBufferCost = stepsAhead * 250000;
-  const totalSimulatedFee = baseHoldingFee + addedBufferCost;
-  const simulatedScheduleImpactDays = stepsAhead * 3;
-
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-5">

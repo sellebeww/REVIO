@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Unlock } from 'lucide-react';
+import { revisionWindow } from '../../lib/decisions';
 
 interface RevisionWindowVisualizerProps {
   initialProgress?: number; // 0 to 100 (stage progress)
@@ -14,9 +15,7 @@ export const RevisionWindowVisualizer: React.FC<RevisionWindowVisualizerProps> =
   const [stageProgress, setStageProgress] = useState(initialProgress);
 
   // Remaining window aperture: 100% stage progress means 0% window open
-  const apertureWidthPct = Math.max(0, 100 - stageProgress);
-  const isLocked = apertureWidthPct <= 5;
-  const isWarning = apertureWidthPct > 5 && apertureWidthPct < 40;
+  const { aperturePct: apertureWidthPct, isLocked, isWarning } = revisionWindow(stageProgress);
 
   return (
     <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">

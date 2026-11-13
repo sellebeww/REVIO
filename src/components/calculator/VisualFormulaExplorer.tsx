@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, AlertTriangle, Sparkles, RotateCcw, Wrench, Package, Calendar } from 'lucide-react';
 import { playSliderTick } from '../../lib/soundEffects';
+import { formatIDR } from '../../lib/money';
+import { computeFormulaBreakdown } from '../../lib/changeCost';
 
 interface Preset {
   name: string;
@@ -77,22 +79,9 @@ export const VisualFormulaExplorer: React.FC = () => {
   };
 
   // Math components
-  const workCost = hours * rate;
-  const salvageValue = Math.round((materialCost * reusePct) / 100);
-  const netMaterialCost = materialCost - salvageValue;
-  const totalChangeCost = workCost + netMaterialCost + rescheduleFee;
+  const { workCost, salvageValue, netMaterialCost, totalChangeCost, impactPct, isHighImpact } =
+    computeFormulaBreakdown({ hours, rate, materialCost, reusePct, rescheduleFee, projectValue });
 
-  // Percentage of project value
-  const impactPct = ((totalChangeCost / projectValue) * 100).toFixed(1);
-  const isHighImpact = Number(impactPct) > 15;
-
-  const formatIDR = (num: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0,
-    }).format(num);
-  };
 
   return (
     <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">

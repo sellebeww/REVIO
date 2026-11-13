@@ -16,6 +16,8 @@ import NotificationBell from './components/notifications/NotificationBell';
 const VisualFormulaExplorer = lazy(() => import('./components/calculator/VisualFormulaExplorer'));
 const WorkshopLiveBoard = lazy(() => import('./components/workshop/WorkshopLiveBoard'));
 import EvidencePackageModal from './components/dispute/EvidencePackageModal';
+import { lockDecision, deferDecision, lockByChangeOrder, applyWorkLog, applyMaterialLog } from './lib/decisions';
+import { formatIDR } from './lib/money';
 import { playLockClick, playSuccessChime, setSoundEnabled } from './lib/soundEffects';
 
 const newId = (prefix: string) => `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
@@ -117,13 +119,11 @@ export default function App() {
           ...proj,
           decisions: proj.decisions.map((dec) => {
             if (dec.id !== decisionId) return dec;
-            return {
-              ...dec,
-              status: 'terkunci',
-              flexibilityScore: 0,
-              lockedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-              lockedBy: `${proj.customerName} (Hold-to-Lock)`,
-            };
+            return lockDecision(
+              dec,
+              new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              `${proj.customerName} (Hold-to-Lock)`,
+            );
           }),
         };
       })
@@ -152,15 +152,7 @@ export default function App() {
           ...proj,
           decisions: proj.decisions.map((dec) => {
             if (dec.id !== decisionId) return dec;
-            return {
-              ...dec,
-              status: 'ditunda',
-              flexibilityScore: Math.max(10, dec.flexibilityScore - 20),
-              currentChangeCost: dec.currentChangeCost + fee,
-              deferredUntilStageId: stageId,
-              deferredUntilStageName: targetStage?.name || 'Tahap Berikutnya',
-              deferredUntilDate: new Date(Date.now() + days * 86400000).toISOString().split('T')[0],
-            };
+            return deferDecision(dec, stageId, targetStage?.name, fee, days, Date.now());
           }),
         };
       })
@@ -170,7 +162,7 @@ export default function App() {
       'Keputusan Ditunda',
       currentProject.customerName,
       'Pelanggan',
-      `Menunda keputusan hingga tahap "${targetStage?.name}" dengan komitmen biaya fleksibilitas ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(fee)}`,
+      `Menunda keputusan hingga tahap "${targetStage?.name}" dengan komitmen biaya fleksibilitas ${formatIDR(fee)}`,
       'cost'
     );
   };
@@ -208,11 +200,7 @@ export default function App() {
           changeOrders: [completeOrder, ...proj.changeOrders],
           decisions: proj.decisions.map((dec) => {
             if (dec.id !== completeOrder.decisionId) return dec;
-            return {
-              ...dec,
-              status: 'terkunci',
-              lockedBy: `Change Order #${completeOrder.id}`,
-            };
+            return lockByChangeOrder(dec, completeOrder.id);
           }),
         };
       })
@@ -222,7 +210,7 @@ export default function App() {
       'Change Order Disetujui',
       currentProject.customerName,
       'Pelanggan',
-      `Persetujuan perubahan "${completeOrder.fromOption}" menjadi "${completeOrder.toOption}" senilai ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(completeOrder.totalCost)}`,
+      `Persetujuan perubahan "${completeOrder.fromOption}" menjadi "${completeOrder.toOption}" senilai ${formatIDR(completeOrder.totalCost)}`,
       'change_order'
     );
   };
@@ -304,11 +292,7 @@ export default function App() {
           // Recalculate decision current change cost dynamically!
           decisions: p.decisions.map((dec) => {
             if (dec.id !== newLogItem.decisionId) return dec;
-            return {
-              ...dec,
-              currentChangeCost: dec.currentChangeCost + newLogItem.hours * newLogItem.rate,
-              flexibilityScore: Math.max(5, dec.flexibilityScore - 8),
-            };
+            return applyWorkLog(dec, newLogItem);
           }),
         };
       })
@@ -342,17 +326,12 @@ export default function App() {
     setProjects((prev) =>
       prev.map((p) => {
         if (p.id !== projectId) return p;
-        const wastedPortion = (newMatItem.quantity * newMatItem.unitPrice * (100 - newMatItem.reusablePct)) / 100;
         return {
           ...p,
           materialLogs: [newMatItem, ...p.materialLogs],
           decisions: p.decisions.map((dec) => {
             if (dec.id !== newMatItem.decisionId) return dec;
-            return {
-              ...dec,
-              currentChangeCost: Math.round(dec.currentChangeCost + wastedPortion),
-              flexibilityScore: Math.max(0, dec.flexibilityScore - 12),
-            };
+            return applyMaterialLog(dec, newMatItem);
           }),
         };
       })
