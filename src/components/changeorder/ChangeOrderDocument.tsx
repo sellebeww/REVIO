@@ -44,12 +44,12 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
       {/* Project & Client summary */}
       <div className="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200/60">
         <div>
-          <span className="text-xs uppercase font-bold text-slate-400">Proyek</span>
+          <span className="text-xs uppercase font-bold text-slate-500">Proyek</span>
           <p className="font-semibold text-slate-900">{project.title}</p>
           <p className="text-slate-500">Nilai Kontrak: {formatIDR(project.valueAmount)}</p>
         </div>
         <div>
-          <span className="text-xs uppercase font-bold text-slate-400">Pelanggan</span>
+          <span className="text-xs uppercase font-bold text-slate-500">Pelanggan</span>
           <p className="font-semibold text-slate-900">{project.customerName}</p>
           <p className="text-slate-500">{project.customerPhone}</p>
         </div>
@@ -62,7 +62,7 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
         </h4>
         <div className="p-3.5 rounded-xl border border-slate-200 grid grid-cols-2 gap-3 text-xs">
           <div>
-            <span className="text-xs text-slate-400 font-medium">Sebelum (Semula):</span>
+            <span className="text-xs text-slate-500 font-medium">Sebelum (Semula):</span>
             <p className="font-semibold text-slate-700 line-through">{changeOrder.fromOption}</p>
           </div>
           <div>
@@ -132,7 +132,7 @@ export const ChangeOrderDocument: React.FC<ChangeOrderDocumentProps> = ({
       {/* Digital Signature & Verification */}
       <div className="pt-4 border-t border-slate-200 grid grid-cols-2 gap-4 text-xs">
         <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-          <span className="text-xs text-slate-400 font-medium">Pihak Pembuat</span>
+          <span className="text-xs text-slate-500 font-medium">Pihak Pembuat</span>
           <p className="font-semibold text-slate-800">{project.vendorName}</p>
           <div className="flex items-center gap-1 text-xs text-emerald-700 mt-1">
             <CheckCircle size={13} />

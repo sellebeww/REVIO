@@ -102,7 +102,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
           <button
             onClick={onClose}
             aria-label="Tutup formulir"
-            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-200/50 transition-colors"
+            className="p-1.5 text-slate-500 hover:text-slate-700 rounded-lg hover:bg-slate-200/50 transition-colors"
           >
             <X size={18} />
           </button>
@@ -113,7 +113,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
           {/* Comparison */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-xs uppercase font-bold text-slate-400">
+              <span className="text-xs uppercase font-bold text-slate-500">
                 Pilihan Saat Ini
               </span>
               <p className="font-semibold text-slate-800 text-xs mt-1">
@@ -204,7 +204,7 @@ const ChangeOrderForm: React.FC<ChangeOrderModalProps & { decision: Decision }> 
               value={customerNotes}
               onChange={(e) => setCustomerNotes(e.target.value)}
               placeholder="Contoh: Mohon pastikan warna baru disesuaikan dengan lantai kamar tidur..."
-              className="w-full border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0E9F8E]"
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0E9F8E]"
             />
           </div>
         </div>

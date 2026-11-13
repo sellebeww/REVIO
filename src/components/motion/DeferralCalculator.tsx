@@ -64,6 +64,8 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
 
         <input
           type="range"
+          aria-label="Tunda keputusan sampai tahap"
+          aria-valuetext={targetStage?.name}
           min={0}
           max={Math.max(0, futureStages.length - 1)}
           value={selectedStageIndex}
@@ -71,7 +73,7 @@ export const DeferralCalculator: React.FC<DeferralCalculatorProps> = ({
           className="w-full accent-[#0E9F8E] cursor-pointer"
         />
 
-        <div className="flex justify-between text-xs text-slate-400">
+        <div className="flex justify-between text-xs text-slate-500">
           <span>Tahap Aktif</span>
           <span>Tahap Akhir</span>
         </div>

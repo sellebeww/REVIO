@@ -615,7 +615,7 @@ export default function App() {
                 onClick={() => setShowAuditModal(false)}
                 aria-label="Tutup log audit"
                 autoFocus
-                className="text-slate-400 hover:text-slate-700 text-sm font-bold"
+                className="text-slate-500 hover:text-slate-700 text-sm font-bold"
               >
                 ✕
               </button>
@@ -630,10 +630,10 @@ export default function App() {
                 <div key={log.id} className="pt-2.5 text-xs space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-900">{log.action}</span>
-                    <span className="font-mono text-xs text-slate-400">{log.timestamp}</span>
+                    <span className="font-mono text-xs text-slate-500">{log.timestamp}</span>
                   </div>
                   <p className="text-slate-600 text-xs">{log.details}</p>
-                  <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <div className="flex items-center gap-2 text-xs text-slate-500">
                     <span>Pelaku: <strong>{log.actor}</strong> ({log.actorRole})</span>
                     <span>·</span>
                     <span className="uppercase font-mono">{log.type.replace('_', ' ')}</span>
@@ -675,7 +675,7 @@ export default function App() {
         <div className="max-w-[88rem] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <RevioLogo size="xs" layout="horizontal" showTagline={false} />
-            <span className="text-slate-400">·</span>
+            <span className="text-slate-500">·</span>
             <span>Hak Revisi & Biaya Produksi Pesanan © 2026 Revio Indonesia.</span>
           </div>
 

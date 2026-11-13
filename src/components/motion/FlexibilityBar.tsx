@@ -44,7 +44,7 @@ export const FlexibilityBar: React.FC<FlexibilityBarProps> = ({
             <span className="font-mono font-bold text-slate-900 tabular-nums">
               {Math.round(clampedScore)}%
             </span>
-            <span className="text-xs text-slate-400">skor</span>
+            <span className="text-xs text-slate-500">skor</span>
           </div>
         </div>
       )}

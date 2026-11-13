@@ -80,8 +80,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Nama Perusahaan / Bengkel</label>
-              <input
+              <label htmlFor="vpe-field-1" className="font-semibold text-slate-700">Nama Perusahaan / Bengkel</label>
+              <input id="vpe-field-1"
                 type="text"
                 value={vendorData.name}
                 onChange={(e) => setVendorData({ ...vendorData, name: e.target.value })}
@@ -91,8 +91,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Kategori Usaha</label>
-              <input
+              <label htmlFor="vpe-field-2" className="font-semibold text-slate-700">Kategori Usaha</label>
+              <input id="vpe-field-2"
                 type="text"
                 value={vendorData.category}
                 onChange={(e) => setVendorData({ ...vendorData, category: e.target.value })}
@@ -102,8 +102,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1 sm:col-span-2">
-              <label className="font-semibold text-slate-700">Tagline Usaha</label>
-              <input
+              <label htmlFor="vpe-field-3" className="font-semibold text-slate-700">Tagline Usaha</label>
+              <input id="vpe-field-3"
                 type="text"
                 value={vendorData.tagline}
                 onChange={(e) => setVendorData({ ...vendorData, tagline: e.target.value })}
@@ -113,8 +113,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1 sm:col-span-2">
-              <label className="font-semibold text-slate-700">Cerita & Keunggulan Bengkel (About)</label>
-              <textarea
+              <label htmlFor="vpe-field-4" className="font-semibold text-slate-700">Cerita & Keunggulan Bengkel (About)</label>
+              <textarea id="vpe-field-4"
                 rows={4}
                 value={vendorData.about}
                 onChange={(e) => setVendorData({ ...vendorData, about: e.target.value })}
@@ -124,8 +124,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Kota Operasional</label>
-              <input
+              <label htmlFor="vpe-field-5" className="font-semibold text-slate-700">Kota Operasional</label>
+              <input id="vpe-field-5"
                 type="text"
                 value={vendorData.city}
                 onChange={(e) => setVendorData({ ...vendorData, city: e.target.value })}
@@ -135,8 +135,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Nomor WhatsApp Resmi (Format: 628...)</label>
-              <input
+              <label htmlFor="vpe-field-6" className="font-semibold text-slate-700">Nomor WhatsApp Resmi (Format: 628...)</label>
+              <input id="vpe-field-6"
                 type="text"
                 value={vendorData.whatsappPhone}
                 onChange={(e) => setVendorData({ ...vendorData, whatsappPhone: e.target.value })}
@@ -146,8 +146,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Email Bisnis</label>
-              <input
+              <label htmlFor="vpe-field-7" className="font-semibold text-slate-700">Email Bisnis</label>
+              <input id="vpe-field-7"
                 type="email"
                 value={vendorData.email}
                 onChange={(e) => setVendorData({ ...vendorData, email: e.target.value })}
@@ -157,8 +157,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-slate-700">Jam Layanan</label>
-              <input
+              <label htmlFor="vpe-field-8" className="font-semibold text-slate-700">Jam Layanan</label>
+              <input id="vpe-field-8"
                 type="text"
                 value={vendorData.workingHours}
                 onChange={(e) => setVendorData({ ...vendorData, workingHours: e.target.value })}
@@ -168,8 +168,8 @@ export const VendorProfileEditor: React.FC<VendorProfileEditorProps> = ({
             </div>
 
             <div className="space-y-1 sm:col-span-2">
-              <label className="font-semibold text-slate-700">Alamat Lengkap Workshop</label>
-              <input
+              <label htmlFor="vpe-field-9" className="font-semibold text-slate-700">Alamat Lengkap Workshop</label>
+              <input id="vpe-field-9"
                 type="text"
                 value={vendorData.address}
                 onChange={(e) => setVendorData({ ...vendorData, address: e.target.value })}

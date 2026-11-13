@@ -87,7 +87,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Keputusan Penting
               </span>
               <LivingLock status={decision.status} size="sm" showLabel />
@@ -202,7 +202,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                     </span>
                   </div>
                   {decisionWorkLogs.length === 0 ? (
-                    <p className="text-xs text-slate-400 italic">Belum ada jam kerja yang terdampak langsung.</p>
+                    <p className="text-xs text-slate-500 italic">Belum ada jam kerja yang terdampak langsung.</p>
                   ) : (
                     <div className="space-y-1.5">
                       {decisionWorkLogs.map((log) => (
@@ -212,7 +212,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                         >
                           <div>
                             <span className="font-medium text-slate-800">{log.description}</span>
-                            <div className="text-slate-400 text-xs">
+                            <div className="text-slate-500 text-xs">
                               Oleh {log.loggedBy} · {log.loggedAt}
                             </div>
                           </div>
@@ -232,12 +232,12 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                       <Package size={13} className="text-slate-500" />
                       Bahan Terkait: {formatIDR(totalMaterialCost)}
                     </span>
-                    <span className="text-xs text-slate-400 font-normal">
+                    <span className="text-xs text-slate-500 font-normal">
                       Hanya bahan terbuang yang dibebankan
                     </span>
                   </div>
                   {decisionMaterialLogs.length === 0 ? (
-                    <p className="text-xs text-slate-400 italic">Belum ada bahan spesifik yang disiapkan.</p>
+                    <p className="text-xs text-slate-500 italic">Belum ada bahan spesifik yang disiapkan.</p>
                   ) : (
                     <div className="space-y-1.5">
                       {decisionMaterialLogs.map((mat) => (
@@ -247,7 +247,7 @@ export const DecisionCard: React.FC<DecisionCardProps> = ({
                         >
                           <div>
                             <span className="font-medium text-slate-800">{mat.material}</span>
-                            <div className="text-slate-400 text-xs">
+                            <div className="text-slate-500 text-xs">
                               {mat.quantity} {mat.unit} @ {formatIDR(mat.unitPrice)} · Daur Ulang: {mat.reusablePct}%
                             </div>
                           </div>

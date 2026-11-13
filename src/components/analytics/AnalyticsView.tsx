@@ -156,7 +156,7 @@ export const AnalyticsView: React.FC = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" role="region" aria-label="Tabel perbandingan proyek, dapat digulir" tabIndex={0}>
           <table className="w-full text-xs text-left">
             <thead className="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
               <tr>

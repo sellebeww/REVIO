@@ -118,6 +118,7 @@ export const RevisionWindowVisualizer: React.FC<RevisionWindowVisualizerProps> =
 
           <input
             type="range"
+            aria-label="Kemajuan tahap produksi (%)"
             min="0"
             max="100"
             value={stageProgress}

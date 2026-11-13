@@ -45,7 +45,7 @@ export const SelfDrawingTimeline: React.FC<SelfDrawingTimelineProps> = ({
                     ? 'bg-emerald-500 border-white text-white'
                     : isInProgress
                     ? 'bg-amber-400 border-white text-amber-950 ring-4 ring-amber-100 animate-pulse'
-                    : 'bg-white border-slate-300 text-slate-400'
+                    : 'bg-white border-slate-300 text-slate-500'
                 }`}
               >
                 {isCompleted ? (
@@ -107,7 +107,7 @@ export const SelfDrawingTimeline: React.FC<SelfDrawingTimelineProps> = ({
               )}
 
               {/* Photos & meta */}
-              <div className="mt-3 flex flex-wrap items-center justify-between text-xs text-slate-400 gap-2 pt-2 border-t border-slate-100">
+              <div className="mt-3 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2 pt-2 border-t border-slate-100">
                 <div className="flex items-center gap-3">
                   <span>Pembaruan: {stage.lastUpdatedAt}</span>
                   {stage.updatedBy && <span>Oleh: {stage.updatedBy}</span>}

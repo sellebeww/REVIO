@@ -115,7 +115,7 @@ export const HoldToLock: React.FC<HoldToLockProps> = ({
         whileTap={{ scale: disabled ? 1 : 0.98 }}
         className={`relative inline-flex items-center gap-3 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-sm ${
           disabled
-            ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
+            ? 'bg-slate-100 text-slate-500 border border-slate-200 cursor-not-allowed'
             : isHolding
             ? 'bg-[#0A7A6D] text-white shadow-md'
             : 'bg-[#0E9F8E] hover:bg-[#0A7A6D] text-white active:bg-[#086157]'

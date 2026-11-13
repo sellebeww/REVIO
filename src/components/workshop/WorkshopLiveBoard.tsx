@@ -113,7 +113,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
                   className="bg-white p-3.5 rounded-xl border border-slate-200/80 text-xs space-y-2 shadow-2xs"
                 >
                   <div className="flex justify-between items-center">
-                    <span className="font-mono text-xs font-bold text-slate-400">
+                    <span className="font-mono text-xs font-bold text-slate-500">
                       Tahap #{stg.order}
                     </span>
                     <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
@@ -122,7 +122,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
                   </div>
                   <h4 className="font-bold text-slate-900">{stg.name}</h4>
                   {stg.notes && <p className="text-xs text-slate-500 leading-tight">{stg.notes}</p>}
-                  <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-xs text-slate-400">
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-xs text-slate-500">
                     <span>Oleh: {stg.updatedBy || 'Mandor'}</span>
                     <span>{stg.lastUpdatedAt}</span>
                   </div>
@@ -169,7 +169,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
 
             {currentStage.photos && currentStage.photos.length > 0 && (
               <div className="space-y-1">
-                <span className="text-xs font-semibold text-slate-400 uppercase">Foto Bukti Terakhir</span>
+                <span className="text-xs font-semibold text-slate-500 uppercase">Foto Bukti Terakhir</span>
                 <div className="relative aspect-video rounded-lg overflow-hidden border border-slate-200 group cursor-pointer" onClick={() => setActivePhotoModal(currentStage.photos![0])}>
                   <img loading="lazy" decoding="async"
                     src={currentStage.photos[0]}
@@ -209,10 +209,10 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
                   className="bg-white/80 p-3.5 rounded-xl border border-slate-200 text-xs space-y-1.5 opacity-90"
                 >
                   <div className="flex justify-between items-center">
-                    <span className="font-mono text-xs text-slate-400">
+                    <span className="font-mono text-xs text-slate-500">
                       Tahap #{stg.order}
                     </span>
-                    <span className="text-xs text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                    <span className="text-xs text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
                       Antre
                     </span>
                   </div>
@@ -237,7 +237,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
               <h4 className="font-display font-bold text-sm text-slate-900">
                 Konfirmasi Penyelesaian Tahap: {currentStage.name}
               </h4>
-              <button onClick={() => setShowAdvancePrompt(false)} className="text-slate-400 hover:text-slate-700">✕</button>
+              <button onClick={() => setShowAdvancePrompt(false)} className="text-slate-500 hover:text-slate-700">✕</button>
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
@@ -245,10 +245,11 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
             </p>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700">
+              <label htmlFor="advance-note" className="text-xs font-semibold text-slate-700">
                 Catatan Pekerjaan Mandor
               </label>
               <textarea
+                id="advance-note"
                 rows={3}
                 value={advancingNote}
                 onChange={(e) => setAdvancingNote(e.target.value)}
@@ -301,7 +302,7 @@ export const WorkshopLiveBoard: React.FC<WorkshopLiveBoardProps> = ({
                 <Camera size={14} className="text-[#0E9F8E]" />
                 <span>Foto Inspeksi Lapangan Terverifikasi Stempel Waktu Revio</span>
               </div>
-              <span className="font-mono text-slate-400">UUID: {project.id}-IMG</span>
+              <span className="font-mono text-slate-500">UUID: {project.id}-IMG</span>
             </div>
           </div>
         </Modal>
